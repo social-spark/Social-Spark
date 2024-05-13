@@ -1,5 +1,15 @@
+'use client'
+import React from "react";
+import {main} from "@popperjs/core";
+import {Navigation} from "@/app/components/Navigation";
+import {Login} from "@/app/Login";
+
 export default function Home() {
     return (
-        <h1 className={"text-3xl font-bold underline"}>Is this thing on?</h1>
+
+        <main>
+            <Navigation/>
+            <Login/>
+        </main>
     )
 }
