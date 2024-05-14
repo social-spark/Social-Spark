@@ -5,7 +5,7 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 
 
 
-export function Login() {
+export default function Login() {
     return (
         <form className="flex max-w-md flex-col gap-4">
             <div>
