@@ -2,14 +2,22 @@
 "use client";
 
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import {main} from "@popperjs/core";
+import {Nav} from "@/app/components/Nav";
+import React from "react";
 
 
 
 export default function Login() {
     return (
-        <form className="flex max-w-md flex-col gap-4">
-            <div>
-                <div className="mb-2 block">
+        <main>
+            {/*<Navigation/>*/}
+            <Nav/>
+
+
+    <form className="flex-col gap-4 flex py-60 items-center">
+        <div>
+        <div className="mb-2 block">
                     <Label htmlFor="email1" value="Your email" />
                 </div>
                 <TextInput id="email1" type="email" placeholder="name@flowbite.com" required />
@@ -26,5 +34,6 @@ export default function Login() {
             </div>
             <Button type="submit">Submit</Button>
         </form>
+        </main>
     );
 }
