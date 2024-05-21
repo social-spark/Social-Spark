@@ -8,7 +8,7 @@ export function LeftNav() {
     return (
         <Sidebar aria-label="Sidebar with content separator example">
 
-            <Sidebar.Items>
+            <Sidebar.Items className="sticky top-0 h-screen">
                 <Sidebar.ItemGroup className="text-center">
                     <Sidebar.Item href="#"><Image className="size-7 inline-flex tracking-normal" src={friends} alt="friends icon"/>
                         Prompt Friends
