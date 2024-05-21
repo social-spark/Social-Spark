@@ -2,6 +2,7 @@ import {main} from "@popperjs/core";
 import {Nav} from "@/app/components/Nav";
 import {Button, Checkbox, Label, TextInput} from "flowbite-react";
 import React from "react";
+import {LeftNav} from "@/app/components/LeftNav";
 
 
 export default function Login() {
