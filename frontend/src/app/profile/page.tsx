@@ -3,14 +3,14 @@
 import {Navigation} from "@/app/components/Navigation";
 import {Button, Checkbox, Label, TextInput} from "flowbite-react";
 import React from "react";
-import {Post} from "@/app/components/Post";
+import {Posts} from "@/app/components/Posts";
 
 export default function ProfileHeader () {
     return (
         <main>
             <Navigation/>
 
-            <Post/>
+            <Posts/>
 
 
         </main>

@@ -6,7 +6,7 @@ import {Share} from "@/app/components/Share";
 
 export function Post () {
     return (
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
+        <div className="max-w-sm rounded overflow-hidden shadow-lg my-5">
             <Image className="w-full" src={cardTopImage} alt="Sunset in the mountains"/>
                 <div className="px-6 py-4">
                     <div className="font-bold mb-2">user_name</div>
