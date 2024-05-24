@@ -16,7 +16,6 @@ export default function Login() {
             {/*<Navigation/>*/}
             <Nav/>
 
-
     <form className="flex-col gap-4 flex py-60 items-center">
         <div>
         <div className="mb-2 block">
