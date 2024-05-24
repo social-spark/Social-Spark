@@ -5,7 +5,6 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import {main} from "@popperjs/core";
 import {Nav} from "@/app/components/Nav";
 import React from "react";
-import {PromptBox} from "@/app/components/PromptBox";
 
 
 
@@ -16,7 +15,7 @@ export default function Login() {
         <main>
             {/*<Navigation/>*/}
             <Nav/>
-    <PromptBox/>
+
 
     <form className="flex-col gap-4 flex py-60 items-center">
         <div>
