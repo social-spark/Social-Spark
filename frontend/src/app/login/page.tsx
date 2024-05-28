@@ -8,14 +8,13 @@ import React from "react";
 
 
 
-
-
 export default function Login() {
     return (
         <main>
             {/*<Navigation/>*/}
             <Nav/>
 
+            {/*<CreatePost/>*/}
     <form className="flex-col gap-4 flex py-60 items-center">
         <div>
         <div className="mb-2 block">

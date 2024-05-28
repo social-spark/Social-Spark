@@ -5,11 +5,15 @@ import {Button, Checkbox, Label, TextInput} from "flowbite-react";
 import React from "react";
 import {Posts} from "@/app/components/Posts";
 import {LeftNav} from "@/app/components/LeftNav";
+import {PromptBox} from "@/app/components/PromptBox";
+
+
 
 export default function ProfileHeader () {
     return (
         <main>
             <Navigation/>
+            <PromptBox/>
             <LeftNav/>
             <Posts/>
 
