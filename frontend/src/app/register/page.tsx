@@ -2,13 +2,12 @@ import {main} from "@popperjs/core";
 import {Nav} from "@/app/components/Nav";
 import {Button, Checkbox, Label, TextInput} from "flowbite-react";
 import React from "react";
-import {LeftNav} from "@/app/components/LeftNav";
+
 
 
 export default function Login() {
     return (
         <main>
-            {/*<Navigation/>*/}
             <Nav/>
             <form className="flex-col gap-4  py-20 w-1/2 flex items-center bg-auto container  md: mx-auto bg-slate-400 md:mt-16 md:rounded-lg">
                 <div>
