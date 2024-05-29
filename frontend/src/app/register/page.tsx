@@ -1,7 +1,9 @@
 import {main} from "@popperjs/core";
 import {Nav} from "@/app/components/Nav";
 import {Button, Checkbox, Label, TextInput} from "flowbite-react";
+import {Footer} from "flowbite-react";
 import React from "react";
+import {FooterComponent} from "@/app/components/footer";
 
 
 
@@ -31,6 +33,7 @@ export default function Login() {
                 </div>
                 <Button type="submit">Submit</Button>
             </form>
+            <FooterComponent/>
         </main>
     );
 }
