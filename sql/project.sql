@@ -1,4 +1,9 @@
-
+DROP TABLE IF EXISTS notification;
+DROP TABLE IF EXISTS "like";
+DROP TABLE IF EXISTS follow;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS prompt;
+DROP TABLE IF EXISTS profile;
 
 
 CREATE TABLE profile (
@@ -8,9 +13,9 @@ CREATE TABLE profile (
  profile_date_created timestamp with time zone not null,
  profile_email varchar(80) not null unique,
  profile_full_name varchar(20) not null,
- profile_image varchar,
+ profile_image varchar(255),
  profile_hash char(97) not null,
- profile_user_name varchar(15) not null unique,
+ profile_username varchar(15) not null unique,
  Primary Key (profile_id)
 );
 
