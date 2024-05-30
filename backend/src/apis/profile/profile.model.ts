@@ -10,7 +10,7 @@ import {sql} from "../../utils/database.utils";
  * @property {Date} profileDateCreated
  * @property {string} profileEmail
  * @property {string} profileFullName
- * @property {string} profileImageUrl
+ * @property {string} profileImage
  * @property {string} profileHash
  * @property {string} profileUsername
  **/
@@ -77,8 +77,29 @@ export type PrivateProfile = z.infer<typeof PrivateProfileSchema>
 export async function insertProfile (profile: PrivateProfile): Promise<string> {
 
     //
-    const {profileActivationToken,profileBio, profileDateCreated, profileEmail, profileFullName, profileImage, profileHash, profileUsername} = profile
-    await sql`INSERT INTO profile (profile_id, profile_activation_token, profile_bio, profile_date_created, profile_email, profile_full_name, profile_image, profile_hash, profile_username) VALUES (gen_random_uuid(), ${profileActivationToken}, ${profileBio}, now(), ${profileEmail}, ${profileFullName}, ${profileImage}, ${profileHash}, ${profileUsername})`
+    const {profileActivationToken,profileBio, profileEmail, profileFullName, profileImage, profileHash, profileUsername} = profile
+    await sql`INSERT INTO profile (profile_id, profile_activation_token, profile_bio, profile_date_created, profile_email, profile_full_name, profile_image, profile_hash, profile_username) 
+VALUES (gen_random_uuid(), ${profileActivationToken}, ${profileBio}, now(), ${profileEmail}, ${profileFullName}, ${profileImage}, ${profileHash}, ${profileUsername})`
     return 'Profile Successfully Created'
 }
 
+export async function selectPrivateProfileByProfileActivationToken (profileActivationToken: string): Promise<PrivateProfile|null> {
+
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_date_created, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name, profile_username FROM profile 
+    WHERE profile_activation_token = ${profileActivationToken}`
+    console.log(rowList)
+    const result = PrivateProfileSchema.array().max(1).parse(rowList)
+    return result?.length === 1 ? result[0] : null
+}
+
+/*updates a profile in the profile table
+@param profile
+@ returns {Promise<string>} 'Profile successfully updated'*/
+
+export async function updateProfile (profile: PrivateProfile): Promise<string>{
+    const {profileId, profileActivationToken, profileBio, profileEmail, profileFullName, profileHash, profileImage, profileUsername} = profile
+    await sql`UPDATE profile SET profile_activation_token = ${profileActivationToken}, profile_bio = ${profileBio}, profile_email = ${profileEmail}, profile_full_name = ${profileFullName}, profile_hash = ${profileHash}, profile_image = ${profileImage}, profile_username = ${profileUsername}
+    WHERE profile_id = ${profileId}`
+    return 'Profile successfully updated'
+    
+}
