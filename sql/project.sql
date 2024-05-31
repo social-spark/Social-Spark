@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS profile;
 
 
 CREATE TABLE profile (
+<<<<<<< Updated upstream
  profile_id uuid not null,
  profile_activation_token char(32),
  profile_bio varchar(200),
@@ -17,8 +18,19 @@ CREATE TABLE profile (
  profile_hash char(97) not null,
  profile_username varchar(32) not null unique,
  Primary Key (profile_id)
+=======
+profile_id uuid not null,
+profile_activation_token char(32),
+profile_bio varchar(200),
+profile_date_created timestamp with time zone not null,
+profile_email varchar(256) not null unique,
+profile_full_name varchar(40) not null,
+profile_image varchar(255),
+profile_hash char(97) not null,
+profile_username varchar(32) not null unique,
+Primary Key (profile_id)
+>>>>>>> Stashed changes
 );
-
 
 CREATE TABLE prompt(
 prompt_id uuid not null,
@@ -77,3 +89,6 @@ Foreign Key (notification_like_profile_id, notification_like_post_id) references
 Create Index on notification(notification_profile_id);
 Create Index on notification(notification_like_profile_id, notification_like_post_id);
 
+-- ALTER TABLE profile ALTER COLUMN profile_full_name TYPE varchar(40);
+-- ALTER TABLE profile ALTER COLUMN profile_username TYPE varchar(32);
+-- ALTER TABLE profile ALTER COLUMN profile_email TYPE varchar(256);

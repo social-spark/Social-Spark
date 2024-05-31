@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import {sql} from "../../utils/database.utils";
 
+
 /**
  * Profile schema
  * The shape of the private profile that is only used by express. It must never be returned from the controller.
@@ -48,7 +49,7 @@ export const PrivateProfileSchema = z.object({
         invalid_type_error: 'please provide a valid profileFullName'})
         .trim()
         .min(1, { message: 'please provide a valid profile name (min 1 characters)' })
-        .max(32, { message: 'please provide a valid profile name (max 32 characters)' }),
+        .max(40, { message: 'please provide a valid profile name (max 40 characters)' }),
     profileImage: z.string({
         required_error: 'profileImage is required',
         invalid_type_error: 'please provide a valid profileImageUrl'
@@ -68,11 +69,13 @@ export const PrivateProfileSchema = z.object({
     })
         .trim()
         .min(4, { message: 'please provide a valid profileUsername (min 4 characters)' })
-        .max(15, { message: 'please provide a valid profileUsername (max 32 characters)' }),
+        .max(32, { message: 'please provide a valid profileUsername (max 32 characters)' }),
     }
 )
 
 export type PrivateProfile = z.infer<typeof PrivateProfileSchema>
+
+export type PublicProfile = z.infer<typeof PublicProfileSchema>
 
 export async function insertProfile (profile: PrivateProfile): Promise<string> {
 
@@ -103,3 +106,14 @@ export async function updateProfile (profile: PrivateProfile): Promise<string>{
     return 'Profile successfully updated'
     
 }
+
+export async function selectPrivateProfileByProfileEmail (profileEmail: string): Promise<PrivateProfile | null> {
+    // create a prepared statement that selects the profile by profileEmail and execute the statement
+    const rowList =  await sql`SELECT profile_id, profile_bio, profile_activation_token,profile_date_created,profile_username, profile_email, profile_hash, profile_image, profile_full_name FROM profile WHERE profile_email = ${profileEmail}`
+    //enforce that the result is an array of one profile, or null
+    const result = PrivateProfileSchema.array().max(1).parse(rowList)
+    // return the profile or null if no profile was found
+    return result?.length === 1 ? result[0] : null
+}
+
+export const PublicProfileSchema = PrivateProfileSchema.omit({profileHash: true, profileActivationToken: true, profileEmail: true})
