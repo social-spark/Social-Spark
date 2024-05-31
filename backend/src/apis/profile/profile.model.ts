@@ -42,7 +42,7 @@ export const PrivateProfileSchema = z.object({
         invalid_type_error: ' please provide a valid profileEmail'
     })
         .email({ message: 'please provide a valid email' })
-        .max(80, { message: 'profileEmail is to long' }),
+        .max(256, { message: 'profileEmail is to long' }),
     profileFullName: z.string({
         required_error: 'profileFullName is required',
         invalid_type_error: 'please provide a valid profileFullName'})

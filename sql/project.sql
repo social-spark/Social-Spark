@@ -11,11 +11,11 @@ CREATE TABLE profile (
  profile_activation_token char(32),
  profile_bio varchar(200),
  profile_date_created timestamp with time zone not null,
- profile_email varchar(80) not null unique,
- profile_full_name varchar(20) not null,
+ profile_email varchar(256) not null unique,
+ profile_full_name varchar(40) not null,
  profile_image varchar(255),
  profile_hash char(97) not null,
- profile_username varchar(15) not null unique,
+ profile_username varchar(32) not null unique,
  Primary Key (profile_id)
 );
 
