@@ -9,7 +9,7 @@ export default function ProfileHeader () {
             <Navigation/>
 
             <div
-                className="container border-solid border-2 border-black grid grid-cols-2 gap-5 mx-auto sm:max-w-4xl max-w-sm rounded shadow-lg p-10 my-10">
+                className="container border-solid border-2 border-black grid grid-cols-2 gap-5 mx-auto sm:max-w-4xl max-w-sm rounded shadow-lg p-10 mt-5 mb-10">
 
                 <Image className="w-full" src={cardTopImage} alt="Sunset in the mountains"/>
                 <div className="flex items-center justify-center">
@@ -27,26 +27,27 @@ export default function ProfileHeader () {
                 </div>
             </div>
 
-            <div className="flex items-center justify-center my-10">
-                <div className="relative mt-2 rounded-md shadow-sm">
-                    <input type="text" name="price" id="price"
-                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                           placeholder="Username"/>
+            <div className="flex items-center justify-center my-7">
+                <div className="relative mt-2 rounded-md">
+                    <label>Username</label>
+                    <input type="text" name="Username" id="Username"
+                           className="block w-full rounded-md shadow-lg border-0 py-1.5 pr-28 text-gray-900 ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                 </div>
             </div>
 
-            <div className="flex items-center justify-center gap-24">
-                <div className="relative mt-2 rounded-md shadow-sm">
-                    <input type="text" name="price" id="price"
-                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                           placeholder="Full Name"/>
+            <div className="flex items-center justify-center my-7">
+                <div className="relative mt-2 rounded-md">
+                    <label>First Name</label>
+                    <input type="text" name="Full Name" id="Full Name"
+                           className="block w-full rounded-md shadow-lg border-0 py-1.5 pr-28 text-gray-900 ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                 </div>
             </div>
 
-            <div className="flex items-center justify-center my-10">
-                <div className="relative mt-2 rounded-md shadow-sm">
-                    <input type="text" name="price" id="price"
-                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            <div className="flex items-center justify-center my-7">
+                <div className="relative mt-2 rounded-md">
+                    <label>Bio</label>
+                    <input type="text" name="Bio" id="Bio"
+                           className="block w-full rounded-md shadow-lg border-0 sm:pr-60 sm:pb-28 pr-40 pb-14 text-gray-900 ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                            placeholder="Bio"/>
                 </div>
             </div>
