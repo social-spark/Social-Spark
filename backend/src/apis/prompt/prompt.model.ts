@@ -15,6 +15,14 @@ export async function selectPromptByPromptId(promptId: string): Promise<Prompt |
     return result?.length === 1 ? result[0] : null
 }
 
+export async function selectAllPromptsByCategory(promptCategory: string): Promise<Prompt | null> {
+    const result = await sql<Prompt[]>`SELECT prompt_id, prompt_category, prompt_body 
+    FROM prompt WHERE prompt_category = ${promptCategory}`
+    return result?.length === 1 ? result[0] : null
+
+}
+
+
 // export async function selectPromptsByPostId(postId: string): Promise<Prompt[]> {
 //     const result = await sql<Prompt[]>
 //         `SELECT prompt_id,

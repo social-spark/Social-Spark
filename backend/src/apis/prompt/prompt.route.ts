@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import {getAllPromptsController, getPromptsByPromptId} from './prompt.controller'
+import {getAllPromptsByCategory, getAllPromptsController, getPromptsByPromptId} from './prompt.controller'
 import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
 import {check} from "express-validator";
 
@@ -13,6 +13,11 @@ PromptRoute.route('/:promptId')
             [check('promptId', 'Please provide a valid promptId').isUUID()]
         ), getPromptsByPromptId
     )
+
+PromptRoute.route('/category/:category')
+    .get(getAllPromptsByCategory )
+
+
 
 // PromptRoute.route('/postId/:postId')
 //     .get(
