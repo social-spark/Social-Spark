@@ -1,21 +1,24 @@
 import {Router} from "express";
-import {getProfileByProfileId, putProfileController} from "./profile.controller";
+import {
+    getPublicProfileByProfileIdController, getPublicProfileByProfileNameController,
+    getPublicProfilesByProfileNameController,
+    putProfileController
+} from "./profile.controller";
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
-import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
-import {check} from "express-validator";
 
 
+const basePath = '/apis/profile'
 
-export const ProfileRoute: Router = Router ()
-ProfileRoute.route('/')
-    .post(putProfileController)
+const router: Router = Router()
 
-ProfileRoute.route('/:profileId')
-    .get(
-        asyncValidatorController([
-            check ('profileId', 'please provide a valid profileId').isUUID()
-        ])
-        , getProfileByProfileId
-    )
+router.route('/:profileId')
+    .get(getPublicProfileByProfileIdController)
+    .put(isLoggedInController, putProfileController)
 
-    .put(isLoggedInController, asyncValidatorController, putProfileController)
+router.route('/profileNames/:profileFullName')
+    .get(getPublicProfilesByProfileNameController)
+
+router.route('/profileName/:profileFullName')
+    .get(getPublicProfileByProfileNameController)
+
+export const profileRoute = {basePath, router}

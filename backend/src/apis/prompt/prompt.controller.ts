@@ -43,17 +43,3 @@ export async function getAllPromptsByCategory(request: Request, response: Respon
         })
     }
 }
-
-// export async function getPromptsByPostId(request: Request, response: Response): Promise<Response<Status>> {
-//     try {
-//         const {postId} = request.params
-//         const data = await selectPromptsByPostId(postId)
-//         return response.json({status: 200, message: null, data})
-//     } catch (error) {
-//         return response.json({
-//             status: 500,
-//             message: "",
-//             data: null
-//         })
-//     }
-// }

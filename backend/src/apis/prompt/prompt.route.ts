@@ -1,27 +1,19 @@
-import {Router} from 'express'
-import {getAllPromptsByCategory, getAllPromptsController, getPromptsByPromptId} from './prompt.controller'
-import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
-import {check} from "express-validator";
+import { Router } from 'express';
+import {
+    getAllPromptsController,
+    getPromptsByPromptId
+} from './prompt.controller';
 
+const router = Router();
+const basePath = '/apis/prompt'
 
-export const PromptRoute = Router()
-PromptRoute.route('/')
-    .get(getAllPromptsController)
-PromptRoute.route('/:promptId')
-    .get(
-        asyncValidatorController(
-            [check('promptId', 'Please provide a valid promptId').isUUID()]
-        ), getPromptsByPromptId
-    )
+router.route('/')
+    .get(getAllPromptsController);
 
-PromptRoute.route('/category/:category')
-    .get(getAllPromptsByCategory )
-
-
+router.route('/:promptId')
+    .get(getPromptsByPromptId);
 
 // PromptRoute.route('/postId/:postId')
-//     .get(
-//         asyncValidatorController(
-//             [check('postId', 'Please provide a valid postId').isUUID()]
-//         ), getPromptsByPostId
-//     )
+//     .get(getPromptsByPostId);
+
+export const promptRoute = { basePath, router };
