@@ -10,6 +10,8 @@ import { sql } from '../../utils/database.utils'
  * @property profileHash {string} the profile's hash
  * @property profileImage {string|null} the profile's image url
  * @property profileFullName {string} the profile's name
+ * @property profileUsername {string} the profile's username
+ * @property profileDateCreated {string} the profile's date created
  **/
 export const PrivateProfileSchema = z.object({
     profileId: z.string({
@@ -48,11 +50,24 @@ export const PrivateProfileSchema = z.object({
         .url({ message: 'please provide a valid profile image url' })
         .max(255, { message: 'profile image url is to long' })
         .nullable(),
-    profileFullName: z.string()
+    profileFullName: z.string({required_error: 'profile fullname is required',
+    invalid_type_error: 'please provide a valid profile name'})
         .trim()
         .min(1, { message: 'please provide a valid profile name (min 1 characters)' })
-        .max(32, { message: 'please provide a valid profile name (max 32 characters)' })
+        .max(32, { message: 'please provide a valid profile name (max 32 characters)' }),
+
+
+profileUsername: z.string({required_error: 'profile username is required',
+    invalid_type_error: 'please provide a valid username'})
+    .trim()
+    .min(1, { message: 'please provide a valid profile name (min 1 characters)' })
+    .max(32, { message: 'please provide a valid profile name (max 32 characters)' }),
+
+profileDateCreated: z.coerce.date({required_error: 'profile date created is required',
+    invalid_type_error: 'please provide a valid date created name'})
+    .nullable()
 })
+
 export type PrivateProfile = z.infer<typeof PrivateProfileSchema>
 
 
@@ -174,9 +189,9 @@ export async function selectPublicProfilesByProfileName(profileName: string): Pr
 export async function insertProfile (profile: PrivateProfile): Promise<string> {
 
     //
-    const {profileActivationToken,profileBio, profileEmail, profileFullName, profileImage, profileHash} = profile
+    const {profileActivationToken,profileBio, profileEmail, profileFullName, profileImage, profileHash, profileUsername} = profile
     await sql`INSERT INTO profile (profile_id, profile_activation_token, profile_bio, profile_date_created, profile_email, profile_full_name, profile_image, profile_hash, profile_username)
-              VALUES (gen_random_uuid(), ${profileActivationToken}, ${profileBio}, now(), ${profileEmail}, ${profileFullName}, ${profileImage}, ${profileHash}})`
+              VALUES (gen_random_uuid(), ${profileActivationToken}, ${profileBio}, now(), ${profileEmail}, ${profileFullName}, ${profileImage}, ${profileHash}, ${profileUsername})`
     return 'Profile Successfully Created'
 }
 

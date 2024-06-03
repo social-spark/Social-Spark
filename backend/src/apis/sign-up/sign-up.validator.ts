@@ -3,7 +3,7 @@ import {PrivateProfileSchema} from "../profile/profile.model";
 
 
 export const SignUpProfileSchema = PrivateProfileSchema
-.omit({profileId: true, profileActivationToken: true, profileHash: true, profileBio: true, profileImage: true})
+.omit({profileId: true, profileDateCreated: true, profileActivationToken: true, profileHash: true, profileBio: true, profileImage: true})
 .extend({
     profilePasswordConfirm: z.string()
         .min(8, { message: 'please provide a valid password (min 8 characters)' })
