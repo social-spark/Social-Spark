@@ -89,8 +89,8 @@ export type PublicProfile = z.infer<typeof PublicProfileSchema>
  * @returns {Promise<string>} 'Profile successfully updated'
  */
 export async function updateProfile (profile: PrivateProfile): Promise<string> {
-    const { profileId, profileBio, profileActivationToken, profileEmail, profileHash, profileImage, profileFullName, profileDateCreated, profileUsername } = profile
-    await sql`UPDATE profile SET profile_bio = ${profileBio}, profile_activation_token = ${profileActivationToken}, profile_email = ${profileEmail}, profile_hash = ${profileHash}, profile_image = ${profileImage}, profile_full_name = ${profileFullName}, profile_date_created = ${profileDateCreated}, profile_username = ${profileUsername} WHERE profile_id = ${profileId}`
+    const { profileId, profileBio, profileActivationToken, profileEmail, profileHash, profileImage, profileFullName, profileUsername, profileDateCreated} = profile
+    await sql`UPDATE profile SET profile_bio = ${profileBio}, profile_activation_token = ${profileActivationToken}, profile_email = ${profileEmail}, profile_hash = ${profileHash}, profile_image = ${profileImage}, profile_full_name = ${profileFullName}, profile_username = ${profileUsername}, profile_date_created = ${profileDateCreated} WHERE profile_id = ${profileId}`
     return 'Profile successfully updated'
 }
 
@@ -119,7 +119,7 @@ export async function selectPrivateProfileByProfileEmail (profileEmail: string):
 export async function selectPublicProfileByProfileId (profileId: string): Promise<PublicProfile | null> {
 
     // create a prepared statement that selects the profile by profileId and execute the statement
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name FROM profile WHERE profile_id = ${profileId}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created, profile_username FROM profile WHERE profile_id = ${profileId}`
 
     // enforce that the result is an array of one profile, or null
     const result = PublicProfileSchema.array().max(1).parse(rowList)
@@ -137,7 +137,7 @@ export async function selectPublicProfileByProfileId (profileId: string): Promis
 export async function selectPrivateProfileByProfileId(profileId: string): Promise<PrivateProfile | null> {
 
     // create a prepared statement that selects the profile by profileId and execute the statement
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name FROM profile WHERE profile_id = ${profileId}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name, profile_date_created, profile_username FROM profile WHERE profile_id = ${profileId}`
 
 // enforce that the result is an array of one profile, or null
     const result = PrivateProfileSchema.array().max(1).parse(rowList)
@@ -154,7 +154,7 @@ export async function selectPrivateProfileByProfileId(profileId: string): Promis
 export async function selectPublicProfileByProfileName(profileName: string): Promise<PublicProfile | null> {
 
     // create a prepared statement that selects the profile by profileName and execute the statement
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name FROM profile WHERE profile_full_name = ${profileName}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username, profile_email FROM profile WHERE profile_full_name = ${profileName}`
 
     // enforce that the result is an array of one profile, or null
     const result = PublicProfileSchema.array().max(1).parse(rowList)
