@@ -9,9 +9,9 @@ import {FooterComponent} from "@/app/components/Footer";
 
 export default function Login() {
     return (
-        <main>
+        <main className="flex-1 h-screen">
             <Nav/>
-            <form className="flex-col gap-4  py-20 w-1/2 flex items-center bg-auto container  md: mx-auto bg-slate-400 md:mt-16 md:rounded-lg">
+            <form className="flex-col gap-4 py-20 w-1/2 flex items-center bg-auto  md:mx-auto bg-slate-400 md:mt-16 md:rounded-lg">
                 <div>
 
                     <TextInput id="First-Name" type="First Name" placeholder="First Name" required/>
@@ -33,7 +33,13 @@ export default function Login() {
                 </div>
                 <Button type="submit">Submit</Button>
             </form>
-            <FooterComponent/>
+            <footer className="sticky bottom-0">
+             <FooterComponent/>
+                </footer>
         </main>
-    );
+
+
+
+
+);
 }

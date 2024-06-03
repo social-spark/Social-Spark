@@ -5,6 +5,7 @@ import {Button, Checkbox, Label, TextInput} from "flowbite-react";
 import React from "react";
 import {Posts} from "@/app/components/Posts";
 import {LeftNav} from "@/app/components/LeftNav";
+import {FooterComponent} from "@/app/components/Footer";
 
 export default function ProfileHeader () {
     return (
@@ -12,8 +13,6 @@ export default function ProfileHeader () {
             <Navigation/>
             <LeftNav/>
             <Posts/>
-
-
         </main>
     )
 }
