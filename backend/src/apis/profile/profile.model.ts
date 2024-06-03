@@ -36,22 +36,12 @@ export const PrivateProfileSchema = z.object({
         invalid_type_error: ' please provide a valid profileEmail'
     })
         .email({ message: 'please provide a valid email' })
-<<<<<<< HEAD
-        .max(256, { message: 'profileEmail is to long' }),
-    profileFullName: z.string({
-        required_error: 'profileFullName is required',
-        invalid_type_error: 'please provide a valid profileFullName'})
-        .trim()
-        .min(1, { message: 'please provide a valid profile name (min 1 characters)' })
-        .max(40, { message: 'please provide a valid profile name (max 40 characters)' }),
-=======
         .max(128, { message: 'profileEmail is to long' }),
     profileHash: z.string({
         required_error: 'profileHash is required',
         invalid_type_error: 'please provide a valid profileHash'
     })
         .length(97, { message: 'profile hash must be 97 characters' }),
->>>>>>> rest-api
     profileImage: z.string({
         required_error: 'profileImage is required',
         invalid_type_error: 'please provide a valid profileImageUrl'
@@ -61,21 +51,21 @@ export const PrivateProfileSchema = z.object({
         .max(255, { message: 'profile image url is to long' })
         .nullable(),
     profileFullName: z.string({required_error: 'profile fullname is required',
-    invalid_type_error: 'please provide a valid profile name'})
+        invalid_type_error: 'please provide a valid profile name'})
         .trim()
         .min(1, { message: 'please provide a valid profile name (min 1 characters)' })
         .max(32, { message: 'please provide a valid profile name (max 32 characters)' }),
 
 
-profileUsername: z.string({required_error: 'profile username is required',
-    invalid_type_error: 'please provide a valid username'})
-    .trim()
-    .min(1, { message: 'please provide a valid profile name (min 1 characters)' })
-    .max(32, { message: 'please provide a valid profile name (max 32 characters)' }),
+    profileUsername: z.string({required_error: 'profile username is required',
+        invalid_type_error: 'please provide a valid username'})
+        .trim()
+        .min(1, { message: 'please provide a valid profile name (min 1 characters)' })
+        .max(32, { message: 'please provide a valid profile name (max 32 characters)' }),
 
-profileDateCreated: z.coerce.date({required_error: 'profile date created is required',
-    invalid_type_error: 'please provide a valid date created name'})
-    .nullable()
+    profileDateCreated: z.coerce.date({required_error: 'profile date created is required',
+        invalid_type_error: 'please provide a valid date created name'})
+        .nullable()
 })
 
 export type PrivateProfile = z.infer<typeof PrivateProfileSchema>
