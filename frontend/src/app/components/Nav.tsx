@@ -1,5 +1,5 @@
 "use client";
-import iconlogo from "@/app/images/iconlogo.png"
+import promptMeLogo from "@/app/images/promptMeLogo.png"
 import Image from 'next/image'
 
 
@@ -10,7 +10,7 @@ import { Navbar } from "flowbite-react";
 export function Nav() {
     return (
         <Navbar>
-            <Navbar.Brand as={Link} href="#"><Image className="size-10" src={iconlogo} alt="placeholder logo"/></Navbar.Brand>
+            <Navbar.Brand as={Link} href="#"><Image className="size-16" src={promptMeLogo} alt="placeholder logo"/></Navbar.Brand>
             <Navbar.Toggle/>
         </Navbar>
     );
