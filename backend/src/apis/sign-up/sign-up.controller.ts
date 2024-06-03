@@ -16,7 +16,7 @@ export async function signupProfileController (request: Request, response: Respo
         if (!validationResult.success) {
             return zodErrorResponse(response, validationResult.error)
         }
-        const {profileUsername, profileEmail, profilePassword, profileFullName} = validationResult.data
+        const {profileEmail, profilePassword, profileFullName, profileUsername} = validationResult.data
 
         // hash the profilePassword
         const profileHash = await setHash(profilePassword)
@@ -28,11 +28,11 @@ export async function signupProfileController (request: Request, response: Respo
             profileId: '',
             profileActivationToken,
             profileBio: '',
-            profileDateCreated: null,
             profileEmail,
             profileFullName,
             profileImage: null,
             profileHash,
+            profileDateCreated: null,
             profileUsername
         }
 
