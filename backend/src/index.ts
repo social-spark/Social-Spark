@@ -1,5 +1,14 @@
 import { App } from './App'
 import {createClient, RedisClientType} from "redis";
+import {PublicProfile} from "./apis/profile/profile.model";
+
+declare module 'express-session' {
+    export interface SessionData {
+        profile: PublicProfile|undefined
+        signature: string|undefined
+        jwt: string|undefined
+    }
+}
 
 // instantiate new app and pass it a port as an argument to start with (4200)
 
