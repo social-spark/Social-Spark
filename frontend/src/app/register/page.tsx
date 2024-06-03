@@ -33,7 +33,7 @@ export default function Login() {
                 </div>
                 <Button type="submit">Submit</Button>
             </form>
-            <footer className="sticky bottom-0">
+            <footer className="sticky bottom-0 pt-96">
              <FooterComponent/>
                 </footer>
         </main>

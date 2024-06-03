@@ -1,13 +1,14 @@
 "use client";
 
 import {Navigation} from "@/app/components/Navigation";
-import {TextInput} from "flowbite-react";
+import {FooterComponent, } from "@/app/components/Footer";
 import React from "react";
 import {Posts} from "@/app/components/Posts";
 import {LeftNav} from "@/app/components/LeftNav";
 import profile from "@/app/images/profile.png";
 import setting from "@/app/images/settingsicon.png"
 import Image from "next/image";
+import {TextInput} from "flowbite-react";
 
 
 
@@ -23,7 +24,8 @@ export default function ProfileHeader () {
                     <section className="container border border-slate-950 col-start-1 col-span-3">
 
                         <div className="grid md:grid-cols-4 grid-cols-3">
-                            <Image className="object-scale-down h-36 w-36 p-5" src={profile} alt="Sunset in the mountains"/>
+                            <Image className="object-scale-down h-36 w-36 p-5" src={profile}
+                                   alt="Sunset in the mountains"/>
 
                             <div className="col-start-2">
                                 <p className="py-1">@UserName</p>
@@ -54,8 +56,7 @@ export default function ProfileHeader () {
                     </div>
                 </div>
             </section>
-
-
+            <FooterComponent/>
         </main>
     )
 }
