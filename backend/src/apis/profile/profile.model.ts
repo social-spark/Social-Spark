@@ -175,7 +175,7 @@ export async function selectPublicProfilesByProfileName(profileName: string): Pr
     const profileNameWithWildcards = `%${profileName}%`
 
     // create a prepared statement that selects profiles by profileName and execute the statement
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name FROM profile WHERE profile_full_name LIKE ${profileNameWithWildcards}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username FROM profile WHERE profile_full_name LIKE ${profileNameWithWildcards}`
 
     return PublicProfileSchema.array().parse(rowList)
 }

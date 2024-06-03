@@ -39,7 +39,6 @@ export async function getPublicProfileByProfileIdController(request: Request, re
         // return the response to the client with the requested information
         return response.json({status: 200, message: null, data})
     } catch (error: unknown) {
-        console.error(error)
         // if an error occurs, return a preformatted response to the client
         return response.json({status: 500,message: "internal server error", data: null})
     }
