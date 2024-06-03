@@ -167,7 +167,7 @@ export async function putProfileController(request: Request, response: Response)
 
         //update the profile with the new data
         profile.profileBio = profileBio
-        profile.profileImage= profileImage
+        profile.profileImage = profileImage
         profile.profileFullName = profileFullName
 
         //update the profile in the database

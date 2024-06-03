@@ -62,3 +62,11 @@ VALUES
 (gen_random_uuid(), 'Travel', 'How do you prepare for a long-haul flight?'),
 (gen_random_uuid(), 'Travel', 'What are the top destinations on your travel bucket list?');
 
+INSERT INTO profile (profile_id, profile_activation_token, profile_bio, profile_date_created, profile_email,
+                     profile_full_name, profile_image, profile_hash, profile_username)
+values (gen_random_uuid(), '1234567890abcdef1234567890abcdef', 'Im a full-stack developer', now(),'smendez22@cnm.edu',
+        'Monica Mendez', 'https://example.com/avatar.jpg', '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1','myblahblah');
+
+
+INSERT INTO post (post_id, post_body, post_date_created, post_image, post_title, profile_id, prompt_id),
+    VALUES (gen_random_uuid(), 'This is a post body', now(), 'https://example.com/image.jpg', 'This is a post title',);
