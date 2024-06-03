@@ -5,7 +5,7 @@ import {
     Like,
     selectLikeByLikeId,
     selectLikesByLikeProfileId,
-    selectLikesByLikeThreadId
+    selectLikesByLikePostId
 } from "./like.model";
 import {PublicProfile} from "../profile/profile.model";
 import {Status} from "../../utils/interfaces/Status";
@@ -18,7 +18,7 @@ import {z} from "zod";
  * @param request object containing the like thread id
  * @param response object containing the status of the request and the likes associated with the thread
  */
-export async function getLikesByLikeThreadIdController(request: Request, response: Response): Promise<Response> {
+export async function getLikesByLikePostIdController(request: Request, response: Response): Promise<Response> {
     try {
 
         // validate the likeProfileId coming from the request parameters
@@ -32,10 +32,10 @@ export async function getLikesByLikeThreadIdController(request: Request, respons
         // if the validation succeeds, continue
 
         // deconstruct the like thread id from the request parameters
-        const likeThreadId = validationResult.data
+        const likePostId = validationResult.data
 
         // select the likes by like thread id
-        const data = await selectLikesByLikeThreadId(likeThreadId)
+        const data = await selectLikesByLikePostId(likePostId)
 
         // return the status and the likes associated with the thread
         return response.json({status: 200, message: null, data})
@@ -108,7 +108,7 @@ export async function toggleLikeController(request: Request, response: Response)
         // if the validation succeeds, continue
 
         // deconstruct the like thread id from the validation result
-        const {likeThreadId} = validationResult.data
+        const {likePostId} = validationResult.data
 
         // deconstruct the profile from the session
         const profile = request.session.profile
@@ -120,7 +120,7 @@ export async function toggleLikeController(request: Request, response: Response)
         // create a like object
         const like: Like = {
             likeProfileId,
-            likeThreadId,
+            likePostId,
             likeDatetime: null
         }
 
@@ -171,7 +171,7 @@ export async function postLikeController(request: Request, response: Response): 
         // if the validation succeeds, continue
 
         // deconstruct the like thread id from the validation result
-        const {likeThreadId} = validationResult.data
+        const {likePostId} = validationResult.data
 
         // deconstruct the profile from the session
         const profile = request.session.profile as PublicProfile
@@ -182,7 +182,7 @@ export async function postLikeController(request: Request, response: Response): 
         // create a like object
         const like: Like = {
             likeProfileId,
-            likeThreadId,
+            likePostId,
             likeDatetime: null
         }
 
@@ -225,7 +225,7 @@ export async function deleteLikeController(request: Request, response: Response)
         // if the validation succeeds, continue
 
         // deconstruct the like thread id from the validation result
-        const {likeThreadId} = validationResult.data
+        const {likePostId} = validationResult.data
 
         // deconstruct the profile from the session
         const profile = request.session.profile as PublicProfile
@@ -236,7 +236,7 @@ export async function deleteLikeController(request: Request, response: Response)
         // create a like object
         const like: Like = {
             likeProfileId,
-            likeThreadId,
+            likePostId,
             likeDatetime: null
         }
 

@@ -2,7 +2,7 @@ import {Router} from 'express'
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 import {
     deleteLikeController, getLikesByLikeProfileIdController,
-    getLikesByLikeThreadIdController,
+    getLikesByLikePostIdController,
     postLikeController,
     toggleLikeController
 } from "./like.controller";
@@ -22,8 +22,8 @@ router.route('/toggle')
     .post(isLoggedInController, toggleLikeController)
 
 // define like route for this router
-router.route('/likeThreadId/:likeThreadId')
-    .get(getLikesByLikeThreadIdController)
+router.route('/likePostId/:likePostId')
+    .get(getLikesByLikePostIdController)
     .delete(isLoggedInController, deleteLikeController)
 
 router.route('/profileId/:profileId')

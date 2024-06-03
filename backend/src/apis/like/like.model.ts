@@ -13,11 +13,11 @@ export type Like = z.infer<typeof LikeSchema>
 export async function insertLike(like: Like): Promise<string> {
 
     // deconstruct the like object
-    const {likeProfileId, likeThreadId} = like
+    const {likeProfileId, likePostId: likePostId} = like
 
     // insert the like into the like table
-    await sql`INSERT INTO "like" (like_profile_id, like_thread_id, like_datetime)
-              VALUES (${likeProfileId}, ${likeThreadId}, NOW())`
+    await sql`INSERT INTO "like" (like_profile_id, like_post_id, like_date)
+              VALUES (${likeProfileId}, ${likePostId}, NOW())`
 
     // return a message to the user indicating success
     return 'Like successfully posted'
@@ -32,13 +32,13 @@ export async function insertLike(like: Like): Promise<string> {
 export async function selectLikeByLikeId(like: Like): Promise<Like | null> {
 
     // deconstruct the like object
-    const {likeProfileId, likeThreadId} = like
+    const {likeProfileId, likePostId} = like
 
     // select the like from the like table by likeId
-    const rowList = <Like[]>await sql`SELECT like_profile_id, like_thread_id, like_datetime
+    const rowList = <Like[]>await sql`SELECT like_profile_id, like_thread_id, like_date
                                       FROM "like"
                                       WHERE like_profile_id = ${likeProfileId}
-                                        AND like_thread_id = ${likeThreadId}`
+                                        AND like_post_id = ${likePostId}`
 
     // parse the result into an array of likes
     const result = LikeSchema.array().max(1).parse(rowList)
@@ -55,13 +55,13 @@ export async function selectLikeByLikeId(like: Like): Promise<Like | null> {
 export async function deleteLike(like: Like): Promise<string> {
 
     // deconstruct the like object
-    const {likeProfileId, likeThreadId} = like
+    const {likeProfileId, likePostId} = like
 
     // delete the like from the like table
     await sql`DELETE
               FROM "like"
               WHERE like_profile_id = ${likeProfileId}
-                AND like_thread_id = ${likeThreadId}`
+                AND like_thread_id = ${likePostId}`
 
     // return a message to the user indicating success
     return 'Like successfully deleted'
@@ -69,16 +69,16 @@ export async function deleteLike(like: Like): Promise<string> {
 
 
 /**
- * selects likes from the like table by likeThreadId and returns the likes
- * @param likeThreadId
+ * selects likes from the like table by likePostId and returns the likes
+ * @param likePostId
  * @returns the likes that were selected
  */
-export async function selectLikesByLikeThreadId(likeThreadId: string): Promise<Like[]> {
+export async function selectLikesByLikePostId(likePostId: string): Promise<Like[]> {
 
-    // select the likes from the like table by likeThreadId
-    const rowList = <Like[]>await sql`SELECT like_profile_id, like_thread_id, like_datetime
+    // select the likes from the like table by likePostId
+    const rowList = <Like[]>await sql`SELECT like_profile_id, like_post_id, like_date
                                       FROM "like"
-                                      WHERE like_thread_id = ${likeThreadId}`
+                                      WHERE like_post_id = ${likePostId}`
 
     // parse the result into an array of likes and return it
     return LikeSchema.array().parse(rowList)
@@ -92,7 +92,7 @@ export async function selectLikesByLikeThreadId(likeThreadId: string): Promise<L
 export async function selectLikesByLikeProfileId(likeProfileId: string): Promise<Like[]> {
 
     // select the likes from the like table by likeProfileId
-    const rowList = <Like[]>await sql`SELECT like_profile_id, like_thread_id, like_datetime
+    const rowList = <Like[]>await sql`SELECT like_profile_id, like_post_id, like_date
                                       FROM "like"
                                       WHERE like_profile_id = ${likeProfileId}`
 
