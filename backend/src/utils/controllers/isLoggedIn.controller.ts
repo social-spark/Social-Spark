@@ -21,6 +21,7 @@ export function isLoggedInController(request: Request, response: Response, next:
         if (profile === undefined || signature === undefined || unverifiedJwtToken == undefined) {
             return response.json(status)
         }
+
         //verify the jwt token from the request header matches the JWT token from the session if the tokens do not match return the predefined status
         if (unverifiedJwtToken !== request.session?.jwt) {
             return response.json(status)
