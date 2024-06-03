@@ -8,6 +8,7 @@ import {LeftNav} from "@/app/components/LeftNav";
 import profile from "@/app/images/profile.png";
 import setting from "@/app/images/settingsicon.png"
 import Image from "next/image";
+import {PromptBox} from "@/app/components/PromptBox";
 
 
 
@@ -15,6 +16,7 @@ export default function ProfileHeader () {
     return (
         <main className="container mx-auto rounded-lg">
             <Navigation/>
+        <PromptBox/>
 
         <section className="grid grid-cols-3 md:grid-cols-3">
 
