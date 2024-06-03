@@ -10,6 +10,7 @@ import setting from "@/app/images/settingsicon.png"
 import Image from "next/image";
 
 
+
 export default function ProfileHeader () {
     return (
         <main className="container mx-auto rounded-lg">

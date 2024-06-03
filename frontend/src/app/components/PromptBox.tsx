@@ -1,91 +1,70 @@
-
-import { MegaMenu } from 'flowbite-react';
-import React from "react";
-
-
+import {Button, Modal} from "flowbite-react";
+import { useState } from "react";
 
 
 export function PromptBox() {
-  return (
-    <MegaMenu>
-      <MegaMenu.Dropdown>
+  const [openModal, setOpenModal] = useState(true);
 
-        <h1 className="font-bold text-center">Your Daily Prompt Topics</h1>
-        <ul className="mx-auto mt-6 grid max-w-screen-xl border-y border-gray-200 px-4 py-5 sm:grid-cols-2 md:grid-cols-3 md:px-6">
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">Art:</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Share your latest artwork, discuss art techniques, artists you admire, or ask for recommendations on art supplies.
+  return (
+      <>
+        <Modal show={openModal} onClose={() => setOpenModal(false)} popup>
+          <Modal.Header className="text-center" >Your Daily Prompt Topics</Modal.Header>
+          <Modal.Body>
+            <ul className="mx-auto mt-6 grid max-w-screen-xl border-y border-gray-200 px-4 py-5 sm:grid-cols-2 md:grid-cols-3 md:px-6">
+              <li>
+                <a href="#" className="block rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <div className="font-semibold">Entertainment:</div>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                "What are the most anticipated movies and TV shows set to release this year?"
               </span>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">Books/Movies/TV Shows:</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Discuss your recent reads, favorite movies or TV shows, recommendations, or ask for suggestions.
+                </a>
+              </li>
+              <li>
+                <a href="#" className="block rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <div className="font-semibold">Fashion:</div>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                "What are the current trends in sustainable fashion and how can consumers make more eco-friendly clothing choices?"
               </span>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">Culture:</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Explore different cultures, share cultural traditions, festivals, or ask for recommendations on cultural experiences to explore.
+                </a>
+              </li>
+              <li>
+                <a href="#" className="block rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <div className="font-semibold">Food:</div>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                "What are some innovative plant-based recipes that are both healthy and delicious?"
               </span>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">DIY/Crafts:</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Share your DIY projects, crafting ideas, or ask for creative suggestions.
+                </a>
+              </li>
+              <li>
+                <a href="#" className="block rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <div className="font-semibold">Health:</div>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+               "What are some effective strategies for maintaining mental health and wellness in a fast-paced world?"
               </span>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">Segmentation</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Connect with third-party tools that you're already using.
+                </a>
+              </li>
+              <li>
+                <a href="#" className="block rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <div className="font-semibold">Technology:</div>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                "What are the latest advancements in artificial intelligence and how are they impacting various industries?"
               </span>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">Education:</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Share interesting facts, educational content, or ask questions to spark intellectual discussions.
+                </a>
+              </li>
+              <li>
+                <a href="#" className="block rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <div className="font-semibold">Travel:</div>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+               "What are the top destinations for solo travelers looking for adventure and cultural experiences?"
               </span>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">Fashion:</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Share your outfit of the day, fashion tips, favorite brands, or ask for fashion advice.
-              </span>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">Fitness:</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Share your workout routines, progress, fitness tips, or ask for advice on achieving specific fitness goals.
-              </span>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="block rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-700">
-              <div className="font-semibold">Food:</div>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Post about your favorite recipes, meals you've tried, restaurant experiences, or ask for food-related suggestions.
-              </span>
-            </a>
-          </li>
-        </ul>
-      </MegaMenu.Dropdown>
-    </MegaMenu>
+                </a>
+              </li>
+            </ul>
+          </Modal.Body>
+          <Modal.Footer className="flex justify-end">
+            <Button onClick={() => setOpenModal(false)}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </>
   );
 }
