@@ -3,7 +3,7 @@ import {Nav} from "@/app/components/Nav";
 import {Button, Checkbox, Label, TextInput} from "flowbite-react";
 import {Footer} from "flowbite-react";
 import React from "react";
-import {FooterComponent} from "@/app/components/footer";
+import {FooterComponent} from "@/app/components/Footer";
 
 
 
