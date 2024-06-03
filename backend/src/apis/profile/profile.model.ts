@@ -64,7 +64,7 @@ export const PrivateProfileSchema = z.object({
         .max(32, { message: 'please provide a valid profile name (max 32 characters)' }),
 
     profileDateCreated: z.coerce.date({required_error: 'profile date created is required',
-        invalid_type_error: 'please provide a valid date created name'})
+        invalid_type_error: 'please provide a valid date created'})
         .nullable()
 })
 
@@ -89,8 +89,8 @@ export type PublicProfile = z.infer<typeof PublicProfileSchema>
  * @returns {Promise<string>} 'Profile successfully updated'
  */
 export async function updateProfile (profile: PrivateProfile): Promise<string> {
-    const { profileId, profileBio, profileActivationToken, profileEmail, profileHash, profileImage, profileFullName } = profile
-    await sql`UPDATE profile SET profile_bio = ${profileBio}, profile_activation_token = ${profileActivationToken}, profile_email = ${profileEmail}, profile_hash = ${profileHash}, profile_image = ${profileImage}, profile_full_name = ${profileFullName} WHERE profile_id = ${profileId}`
+    const { profileId, profileBio, profileActivationToken, profileEmail, profileHash, profileImage, profileFullName, profileDateCreated, profileUsername } = profile
+    await sql`UPDATE profile SET profile_bio = ${profileBio}, profile_activation_token = ${profileActivationToken}, profile_email = ${profileEmail}, profile_hash = ${profileHash}, profile_image = ${profileImage}, profile_full_name = ${profileFullName}, profile_date_created = ${profileDateCreated}, profile_username = ${profileUsername} WHERE profile_id = ${profileId}`
     return 'Profile successfully updated'
 }
 
@@ -102,7 +102,7 @@ export async function updateProfile (profile: PrivateProfile): Promise<string> {
 export async function selectPrivateProfileByProfileEmail (profileEmail: string): Promise<PrivateProfile | null> {
 
     // create a prepared statement that selects the profile by profileEmail and execute the statement
-    const rowList =  await sql`SELECT profile_id, profile_bio, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name FROM profile WHERE profile_email = ${profileEmail}`
+    const rowList =  await sql`SELECT profile_id, profile_bio, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name, profile_date_created, profile_username FROM profile WHERE profile_email = ${profileEmail}`
 
     //enforce that the result is an array of one profile, or null
     const result = PrivateProfileSchema.array().max(1).parse(rowList)

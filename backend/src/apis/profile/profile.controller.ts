@@ -178,6 +178,7 @@ export async function putProfileController(request: Request, response: Response)
 
 
     } catch (error: unknown) {
+        console.log(error)
         // if an error occurs, return a preformatted response to the client
         return response.json({status: 500,message: "internal server error", data: null})
     }
