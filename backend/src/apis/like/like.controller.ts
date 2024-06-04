@@ -22,7 +22,7 @@ export async function getLikesByLikePostIdController(request: Request, response:
     try {
 
         // validate the likeProfileId coming from the request parameters
-        const validationResult = z.string().uuid("Please provide a valid likeThreadId").safeParse(request.params.likeThreadId)
+        const validationResult = z.string().uuid("Please provide a valid likePostId").safeParse(request.params.likeThreadId)
 
         // if the validation fails, return a response to the client
         if (!validationResult.success) {

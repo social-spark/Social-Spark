@@ -61,7 +61,7 @@ export async function deleteLike(like: Like): Promise<string> {
     await sql`DELETE
               FROM "like"
               WHERE like_profile_id = ${likeProfileId}
-                AND like_thread_id = ${likePostId}`
+                AND like_post_id = ${likePostId}`
 
     // return a message to the user indicating success
     return 'Like successfully deleted'
