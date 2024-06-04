@@ -35,7 +35,7 @@ export async function selectLikeByLikeId(like: Like): Promise<Like | null> {
     const {likeProfileId, likePostId} = like
 
     // select the like from the like table by likeId
-    const rowList = <Like[]>await sql`SELECT like_profile_id, like_thread_id, like_date
+    const rowList = <Like[]>await sql`SELECT like_profile_id, like_post_id, like_date
                                       FROM "like"
                                       WHERE like_profile_id = ${likeProfileId}
                                         AND like_post_id = ${likePostId}`
@@ -61,7 +61,7 @@ export async function deleteLike(like: Like): Promise<string> {
     await sql`DELETE
               FROM "like"
               WHERE like_profile_id = ${likeProfileId}
-                AND like_thread_id = ${likePostId}`
+                AND like_post_id = ${likePostId}`
 
     // return a message to the user indicating success
     return 'Like successfully deleted'
