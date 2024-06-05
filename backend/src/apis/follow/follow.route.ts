@@ -1,8 +1,8 @@
 import {Router} from 'express'
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 import {
-    deleteFollowController, getFollowsByFollowFollowingProfileIdController,
-    getFollowsByFollowProfileIdController,
+    deleteFollowController, getFollowsByFollowingProfileIdController,
+    getFollowsByFollowedProfileIdController,
     postFollowController,
     toggleFollowController
 } from "./follow.controller";
@@ -22,12 +22,12 @@ router.route('/toggle')
     .post(isLoggedInController, toggleFollowController)
 
 // define follow route for this router
-router.route('/followProfileId/:followProfileId')
-    .get(getFollowsByFollowProfileIdController)
+router.route('/followingProfileId/:followingProfileId')
+    .get(getFollowsByFollowingProfileIdController)
 
 // define follow route for this router
-router.route('/followFollowingProfileId/:followFollowingProfileId')
-    .get(getFollowsByFollowFollowingProfileIdController)
+router.route('/followedProfileId/:followedProfileId')
+    .get(getFollowsByFollowedProfileIdController)
     .delete(isLoggedInController, deleteFollowController)
 
 

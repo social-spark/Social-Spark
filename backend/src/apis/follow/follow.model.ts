@@ -13,11 +13,11 @@ export type Follow = z.infer<typeof FollowSchema>
 export async function insertFollow(follow: Follow): Promise<string> {
 
     // deconstruct the follow object
-    const {followProfileId, followFollowingProfileId} = follow
+    const {followingProfileId, followedProfileId} = follow
 
     // insert the follow into the follow table
-    await sql`INSERT INTO follow (follow_profile_id, follow_following_profile_id)
-              VALUES (${followProfileId}, ${followFollowingProfileId})`
+    await sql`INSERT INTO follow (following_profile_id, followed_profile_id, follow_date_created)
+              VALUES (${followingProfileId}, ${followedProfileId}, NOW())`
 
     // return a message to the user indicating success
     return 'Follow successfully posted'
@@ -28,16 +28,16 @@ export async function insertFollow(follow: Follow): Promise<string> {
  * @param follow to be selected by followId
  * @returns the follow that was selected
  */
-export async function selectFollowByFollowId(follow: Follow): Promise<Follow | null> {
+export async function selectFollowByFollowedId(follow: Follow): Promise<Follow | null> {
 
     // deconstruct the follow object
-    const {followProfileId, followFollowingProfileId} = follow
+    const {followingProfileId, followedProfileId} = follow
 
     // select the follow from the follow table by followId
-    const rowList = <Follow[]>await sql`SELECT follow_profile_id, follow_following_profile_id
+    const rowList = <Follow[]>await sql`SELECT following_profile_id, followed_profile_id, follow_date_created
                                         FROM follow
-                                        WHERE follow_profile_id = ${followProfileId}
-                                          AND follow_following_profile_id = ${followFollowingProfileId}`
+                                        WHERE following_profile_id = ${followingProfileId}
+                                          AND followed_profile_id = ${followedProfileId}`
 
     // parse the result into an array of follows
     const result = FollowSchema.array().max(1).parse(rowList)
@@ -54,13 +54,13 @@ export async function selectFollowByFollowId(follow: Follow): Promise<Follow | n
 export async function deleteFollow(follow: Follow): Promise<string> {
 
     // deconstruct the follow object
-    const {followProfileId, followFollowingProfileId} = follow
+    const {followingProfileId, followedProfileId} = follow
 
     // delete the follow from the follow table
     await sql`DELETE
               FROM follow
-              WHERE follow_profile_id = ${followProfileId}
-                AND follow_following_profile_id = ${followFollowingProfileId}`
+              WHERE following_profile_id = ${followingProfileId}
+                AND followed_profile_id = ${followedProfileId}`
 
     // return a message to the user indicating success
     return 'Follow successfully deleted'
@@ -68,31 +68,31 @@ export async function deleteFollow(follow: Follow): Promise<string> {
 
 /**
  * selects a list of follows for the profiles that the profile is following
- * @param followProfileId the profile id of the profile that is doing the following
+ * @param followingProfileId the profile id of the profile that is doing the following
  * @returns an array of follows (containing profileIds that the profile is following)
  */
-export async function selectFollowsByFollowProfileId(followProfileId: string): Promise<Follow[]> {
+export async function selectFollowsByFollowingProfileId(followingProfileId: string): Promise<Follow[]> {
 
     // selects a list of follows for the profiles that the profile is following
-    const rowList = <Follow[]>await sql`SELECT follow_profile_id, follow_following_profile_id
+    const rowList = <Follow[]>await sql`SELECT following_profile_id, followed_profile_id, follow_date_created
                                         FROM follow
-                                        WHERE follow_profile_id = ${followProfileId}`
+                                        WHERE following_profile_id = ${followingProfileId}`
 
     // parse the result into an array of follows and return it
     return FollowSchema.array().parse(rowList)
 }
 
 /**
- * selects a list of follows for the profiles that are following this profile (followFollowingProfileId)
- * @param followFollowingProfileId the profile id of the profile that is being followed
- * @returns an array of follows (containing profileIds that are following this profile - followFollowingProfileId)
+ * selects a list of follows for the profiles that are following this profile (followedProfileId)
+ * @param followedProfileId the profile id of the profile that is being followed
+ * @returns an array of follows (containing profileIds that are following this profile - followedProfileId)
  */
-export async function selectFollowsByFollowFollowingProfileId(followFollowingProfileId: string): Promise<Follow[]> {
+export async function selectFollowsByFollowedProfileId(followedProfileId: string): Promise<Follow[]> {
 
-    // selects a list of follows for the profiles that are following this profile (followFollowingProfileId)
-    const rowList = <Follow[]>await sql`SELECT follow_profile_id, follow_following_profile_id
+    // selects a list of follows for the profiles that are following this profile (followedProfileId)
+    const rowList = <Follow[]>await sql`SELECT following_profile_id, followed_profile_id, follow_date_created
                                             FROM follow
-                                            WHERE follow_following_profile_id = ${followFollowingProfileId}`
+                                            WHERE followed_profile_id = ${followedProfileId}`
 
     // parse the result into an array of follows and return it
     return FollowSchema.array().parse(rowList)

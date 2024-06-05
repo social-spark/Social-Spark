@@ -2,9 +2,9 @@ import {Request, Response} from 'express'
 import {
     deleteFollow,
     Follow,
-    insertFollow, selectFollowByFollowId,
-    selectFollowsByFollowFollowingProfileId,
-    selectFollowsByFollowProfileId
+    insertFollow, selectFollowByFollowedId,
+    selectFollowsByFollowingProfileId,
+    selectFollowsByFollowedProfileId
 } from "./follow.model";
 import {Status} from "../../utils/interfaces/Status";
 import {zodErrorResponse} from "../../utils/response.utils";
@@ -18,11 +18,11 @@ import {z} from "zod";
  * @param response object containing the status of the request and the follows associated with the profile
  * @returns status object containing the status of the request and the follows associated with the profile
  */
-export async function getFollowsByFollowProfileIdController(request: Request, response: Response): Promise<Response> {
+export async function getFollowsByFollowingProfileIdController(request: Request, response: Response): Promise<Response> {
     try {
 
-        // validate the followProfileId coming from the request parameters
-        const validationResult = z.string().uuid("Please provide a valid followProfileId").safeParse(request.params.followProfileId)
+        // validate the followingProfileId coming from the request parameters
+        const validationResult = z.string({required_error: "following profile id is required", invalid_type_error: "following profile id is the wrong type"}).uuid("Please provide a valid followingProfileId").safeParse(request.params.followingProfileId)
 
         // if the validation fails, return a response to the client
         if (!validationResult.success) {
@@ -32,10 +32,10 @@ export async function getFollowsByFollowProfileIdController(request: Request, re
         // if the validation succeeds, continue
 
         // deconstruct the follow profile id from the request parameters
-        const followProfileId = validationResult.data
+        const followingProfileId = validationResult.data
 
         // select the follows by follow profile id
-        const data = await selectFollowsByFollowProfileId(followProfileId)
+        const data = await selectFollowsByFollowingProfileId(followingProfileId)
 
         // return the status and the follows associated with the profile
         return response.json({status: 200, message: null, data})
@@ -56,11 +56,11 @@ export async function getFollowsByFollowProfileIdController(request: Request, re
  * @param response object containing the status of the request and the follows associated with the profile
  * @returns status object containing the status of the request and the follows associated with the profile
  */
-export async function getFollowsByFollowFollowingProfileIdController(request: Request, response: Response): Promise<Response> {
+export async function getFollowsByFollowedProfileIdController(request: Request, response: Response): Promise<Response> {
     try {
 
-        // validate the followProfileId coming from the request parameters
-        const validationResult = z.string().uuid("Please provide a valid followFollowingProfileId").safeParse(request.params.followFollowingProfileId)
+        // validate the followingProfileId coming from the request parameters
+        const validationResult = z.string({required_error: "followed profile id is required", invalid_type_error: "followed profile id is the wrong type"}).uuid("Please provide a valid followedProfileId").safeParse(request.params.followedProfileId)
 
         // if the validation fails, return a response to the client
         if (!validationResult.success) {
@@ -70,16 +70,17 @@ export async function getFollowsByFollowFollowingProfileIdController(request: Re
         // if the validation succeeds, continue
 
         // deconstruct the follow following profile id from the request parameters
-        const followFollowingProfileId = validationResult.data
+        const followedProfileId = validationResult.data
 
         // select the follows by follow following profile id
-        const data = await selectFollowsByFollowFollowingProfileId(followFollowingProfileId)
+        const data = await selectFollowsByFollowedProfileId(followedProfileId)
 
         // return the status and the follows associated with the profile
         return response.json({status: 200, message: null, data})
 
         // if an error occurs, return the error to the user
     } catch (error) {
+        console.error(error)
         return response.json({
             status: 500,
             message: '',
@@ -108,8 +109,8 @@ export async function postFollowController (request: Request, response: Response
         // if the validation succeeds, continue on with postFollowController logic below this line
 
         // deconstruct the follow profile id and the follow following profile id from the request body
-        const {followProfileId, followFollowingProfileId} = validationResult.data
-        const result = await insertFollow({followProfileId, followFollowingProfileId})
+        const {followingProfileId, followedProfileId} = validationResult.data
+        const result = await insertFollow({followingProfileId, followedProfileId, followDateCreated: null})
 
         return response.json({status: 200, message: null, data: result})
     } catch (error) {
@@ -125,8 +126,8 @@ export async function postFollowController (request: Request, response: Response
  */
 export async function deleteFollowController (request: Request, response: Response): Promise<Response> {
     try {
-        const {followProfileId, followFollowingProfileId} = request.body
-        const result = await insertFollow({followProfileId, followFollowingProfileId})
+        const {followingProfileId, followedProfileId} = request.body
+        const result = await insertFollow({followingProfileId, followedProfileId, followDateCreated: null})
         return response.json({status: 200, message: null, data: result})
     } catch (error) {
         return response.json({status: 500, message: 'Deleting the follow failed. Please try again.', data: null})
@@ -141,13 +142,14 @@ export async function deleteFollowController (request: Request, response: Respon
  */
 export async function toggleFollowController (request: Request, response: Response): Promise<Response> {
     try {
-        const {followFollowingProfileId} = request.body
+        const {followedProfileId} = request.body
         // @ts-ignore
-        const followProfileId = request.session.profile.profileId
+        const followingProfileId = request.session.profile.profileId
 
         const follow: Follow = {
-            followProfileId,
-            followFollowingProfileId
+            followingProfileId,
+            followedProfileId,
+            followDateCreated: null
         }
 
         // create a status object
@@ -157,7 +159,7 @@ export async function toggleFollowController (request: Request, response: Respon
             data: null
         }
 
-        const selectedFollow = await selectFollowByFollowId(follow)
+        const selectedFollow = await selectFollowByFollowedId(follow)
 
         if(selectedFollow === null) {
             status.message = await insertFollow(follow)
