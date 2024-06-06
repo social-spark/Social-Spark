@@ -1,5 +1,12 @@
 import {Request, Response} from 'express'
-import {insertPost, Post, PostSchema, selectAllPosts, selectPostsByPostProfileId} from "./Post.model";
+import {
+    insertPost,
+    Post,
+    PostSchema,
+    selectAllPosts, selectPostByPostId,
+    selectPostsByPostProfileId,
+    selectPostsByProfileUsername
+} from "./post.model";
 import {Status} from "../../utils/interfaces/Status";
 import {zodErrorResponse} from "../../utils/response.utils";
 import {z} from "zod";

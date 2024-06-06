@@ -51,3 +51,27 @@ export async function selectPostsByPostProfileId(postProfileId: string): Promise
     //parse the post from the database into an array of post objects
     return PostSchema.array().parse(rowList)
 }
+
+export async function selectPostsByProfileUsername(profileUsername: string): Promise<Post[]> {
+    // get all post from the post table in the database by profileUsername and return them
+    const rowList = <Post[]>await sql`SELECT post_id,
+    post_profile_id,post_prompt_id, post_body, post_date, post_image
+    FROM post JOIN profile ON post.post_profile_id = profile.profile_id
+    WHERE profile.profile_username = ${profileUsername}`
+
+    return PostSchema.array().parse(rowList)
+
+}
+
+export async function selectPostByPostId(postId: string): Promise<Post | null> {
+    // get the post from the post table in the database postId
+    const rowList = <Post[]>await sql`SELECT post_id, post_profile_id, post_prompt_id, post_body, post_date, post_image
+    FROM post
+    WHERE post_id = ${postId}`
+
+   //parse the post from the database into a Post object
+    const result = PostSchema.array().max(1).parse(rowList)
+
+    // return the post or null if no post is found
+    return result.length === 0 ? null : result[0]
+}
