@@ -26,7 +26,28 @@ export type Post = z.infer<typeof PostSchema>
  * @returns 'Post successfully posted'
  */
 export async function insertPost(post: Post): Promise<string> {
-   const {postProfileId, postPromptId, postBody, postDate, postImage} = post
-    await sql`INSERT INTO post (post_profile_id, post_prompt_id, post_body, post_date, post_image) VALUES (${postProfileId}, ${postPromptId}, ${postBody}, now(), ${postImage})`
+   const {postId,postProfileId, postPromptId, postBody, postDate, postImage} = post
+    await sql`INSERT INTO post (post_id, post_profile_id, post_prompt_id, post_body, post_date, post_image) VALUES (${postId}, ${postProfileId}, ${postPromptId}, ${postBody}, now(), ${postImage})`
     return 'Post successfully posted'
+}
+
+/**
+ * gets all posts from the post table in the database
+ * @returns all posts
+ */
+
+export async function selectAllPosts(): Promise<Post[]> {
+    //get all posts from the post table in the database and return them
+    const rowList = <Post[]>await sql `SELECT post_id, post_profile_id,post_prompt_id, post_body, post_date, post_image FROM post ORDER BY post_date DESC`
+
+    //parse the posts from the database into an array of Post objects
+    return PostSchema.array().parse(rowList)
+}
+
+export async function selectPostsByPostProfileId(postProfileId: string): Promise<Post[]> {
+    //get all posts from the post table in the database by postProfileId and return them
+    const rowList = <Post[]>await
+        sql`SELECT post_id,post_profile_id,post_prompt_id,post_body,post_date,post_image FROM post WHERE post_profile_id = ${postProfileId}`
+    //parse the post from the database into an array of post objects
+    return PostSchema.array().parse(rowList)
 }

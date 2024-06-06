@@ -1,22 +1,15 @@
 import {Request, Response} from 'express'
-import {
-    deletePostByPostId,
-    insertPost, selectAllReplyPostsByPostId,
-    selectAllPosts, selectPageOfPosts,
-    selectPostByPostId, selectPostsByProfileUsername,
-    selectPostsByPostProfileId,
-    Thread
-} from "./Post.model";
+import {insertPost, Post, PostSchema, selectAllPosts, selectPostsByPostProfileId} from "./Post.model";
 import {Status} from "../../utils/interfaces/Status";
-import {PublicProfile} from "../profile/profile.model";
 import {zodErrorResponse} from "../../utils/response.utils";
 import {z} from "zod";
-import {PublicProfileSchema} from "../profile/profile.validator";
+import {PublicProfileSchema, PublicProfile} from "../profile/profile.model";
 
 
 /**
- * Posts a new thread to the database and returns a status. If successful, the status will contain the message "Thread created successfully." If unsuccessful, the status will contain the message "Error creating thread. Try again.".
- * @param request body must contain a threadContent, threadReplyThreadId, and threadImageUrl
+ * Posts a new post to the database and returns a status. If successful, the status will contain the message "Post created successfully."
+ * If unsuccessful, the status will contain the message "Error creating post. Try again.".
+ * @param request body must contain a postBody, postId, and threadImage
  * @param response will contain a status object with a message and data if successful or a status with an error message and null data if unsuccessful
  */
 export async function postPostController(request: Request, response: Response): Promise<Response | undefined> {
@@ -32,16 +25,16 @@ export async function postPostController(request: Request, response: Response): 
 
         // if the validation succeeds, continue on with postPostController logic below this line
 
-        // get the thread content, thread reply thread id, and thread image url from the request body
-        const {PostContent, PostReplyPostId, PostImageUrl} = validationResult.data
+        // get the post content, post id, postProfileId and post image from the request body
+        const {postBody, postId, postImage} = validationResult.data
 
         // get the profile from the session
         const profile: PublicProfile = request.session.profile as PublicProfile
 
-        // set the thread profile id to the profile id from the session
+        // set the post profile id to the profile id from the session
         const postProfileId: string = profile.profileId as string
 
-        // create a new thread object with the postId, postProfileId, postPromptId, postBody, postDate, and postImage
+        // create a new post object with the postId, postProfileId, postPromptId, postBody, postDate, and postImage
         const post: Post = {
             postId: null,
             postProfileId,
@@ -52,7 +45,7 @@ export async function postPostController(request: Request, response: Response): 
         }
 
         // insert the post into the database and store the result in a variable called result
-        const result = await insertPost(Post)
+        const result = await insertPost(post)
 
         // return the response with the status code 200, a message, and the result as data
         const status: Status = {status: 200, message: result, data: null}
@@ -66,7 +59,7 @@ export async function postPostController(request: Request, response: Response): 
 }
 
 /**
- * gets all threads from the database and returns them to the user in the response
+ * gets all posts from the database and returns them to the user in the response
  * @param request from the client to the server to get all posts
  * @param response from the server to the client with all posts or an error message
  */
@@ -92,15 +85,15 @@ export async function getAllPosts (request: Request, response: Response): Promis
 }
 
 /**
- * gets all posts from the database by thread profile id and returns them to the user in the response
+ * gets all posts from the database by  post profile id and returns them to the user in the response
  * @param request from the client to the server to get all posts by post profile id
  * @param response from the server to the client with all posts by post profile id or an error message
  */
 export async function getPostsByPostProfileIdController (request: Request, response: Response): Promise<Response<Status>> {
     try {
 
-        // validate the incoming request threadProfileId with the uuid schema
-        const validationResult = z.string().uuid({message: 'please provide a valid PostProfileId'}).safeParse(request.params.threadProfileId)
+        // validate the incoming request postProfileId with the uuid schema
+        const validationResult = z.string().uuid({message: 'please provide a valid PostProfileId'}).safeParse(request.params.postProfileId)
 
         // if the validation fails, return a response to the client
         if (!validationResult.success) {
@@ -110,10 +103,10 @@ export async function getPostsByPostProfileIdController (request: Request, respo
         // get the post profile id from the request parameters
         const postProfileId = validationResult.data
 
-        // get the posts from the database by thread profile id and store it in a variable called data
+        // get the posts from the database by post profile id and store it in a variable called data
         const data = await selectPostsByPostProfileId(postProfileId)
 
-        // return the response with the status code 200, a message, and the threads as data
+        // return the response with the status code 200, a message, and the posts as data
         return response.json({status: 200, message: null, data})
 
         // if there is an error, return the response with the status code 500, an error message, and null data
@@ -131,10 +124,10 @@ export async function getPostsByPostProfileIdController (request: Request, respo
  * @param request from the client to the server to get all posts by post profile id
  * @param response from the server to the client with all posts by post profile id or an error message
  */
-export async function getPostsByProfileNameController (request: Request, response: Response): Promise<Response<Status>> {
+export async function getPostsByProfileUsernameController (request: Request, response: Response): Promise<Response<Status>> {
     try {
 
-        // validate the incoming request postProfileId with the uuid schema
+        // validate the incoming request postProfileUsername with the uuid schema
         const validationResult = PublicProfileSchema.pick({profileUsername: true}).safeParse(request.params.profileUsername)
 
         // if the validation fails, return a response to the client
@@ -142,7 +135,7 @@ export async function getPostsByProfileNameController (request: Request, respons
             return zodErrorResponse(response, validationResult.error)
         }
 
-        // get the post profile id from the request parameters
+        // get the post profile username from the request parameters
         const {profileUsername} = validationResult.data
 
         // get the posts from the database by post profile id and store it in a variable called data
@@ -162,7 +155,8 @@ export async function getPostsByProfileNameController (request: Request, respons
 }
 
 /**
- * gets a thread from the database by post id and returns it to the user in the response
+ * CHECK THIS ONE
+ * gets a post from the database by post id and returns it to the user in the response
  * @param request from the client to the server to get a post by post id from
  * @param response from the server to the client with a post by post id or an error message
  */
@@ -269,7 +263,7 @@ export async function getPageOfPostsController(request: Request, response: Respo
 
 /**
  * deletes a post from the database by post id and returns a status to the user in the response
- * @param request from the client to the server to delete a post by thread id from the database
+ * @param request from the client to the server to delete a post by post id from the database
  * @param response from the server to the client with a status of 200 or an error message
  */
 export async function deletePostByPostIdController (request: Request, response: Response): Promise<Response<Status>> {
