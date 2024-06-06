@@ -23,12 +23,12 @@ export async function selectAllPromptsByCategory(promptCategory: string): Promis
 }
 
 
-export async function selectPromptsByPostId(postId: string): Promise<Prompt[]> {
-    const result = await sql<Prompt[]>
-        `SELECT prompt_id,
-        prompt_category,
-        prompt_body
-        FROM prompt
-        INNER JOIN post_prompt on prompt.prompt_id  = post_prompt.post_prompt_prompt_id WHERE post_prompt.post_prompt_post_id = ${postId}`;
-    return result
-}
+// export async function selectPromptsByPostId(postId: string): Promise<Prompt[]> {
+//     const result = await sql<Prompt[]>
+//         `SELECT prompt_id,
+//         prompt_category,
+//         prompt_body
+//         FROM prompt
+//         INNER JOIN post_prompt on prompt.prompt_id  = post_prompt.post_prompt_prompt_id WHERE post_prompt.post_prompt_post_id = ${postId}`;
+//     return result
+// }
