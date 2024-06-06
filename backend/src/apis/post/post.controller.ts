@@ -1,28 +1,30 @@
 import {Request, Response} from 'express'
 import {
+    deletePostByPostId,
     insertPost,
     Post,
     PostSchema,
-    selectAllPosts, selectPostByPostId,
+    selectAllPosts, selectPageOfPosts, selectPostByPostId,
     selectPostsByPostProfileId,
     selectPostsByProfileUsername
 } from "./post.model";
 import {Status} from "../../utils/interfaces/Status";
 import {zodErrorResponse} from "../../utils/response.utils";
-import {z} from "zod";
+import {string, z} from "zod";
 import {PublicProfileSchema, PublicProfile} from "../profile/profile.model";
+import {randomUUID} from "node:crypto";
 
 
 /**
  * Posts a new post to the database and returns a status. If successful, the status will contain the message "Post created successfully."
  * If unsuccessful, the status will contain the message "Error creating post. Try again.".
- * @param request body must contain a postBody, postId, and threadImage
+ * @param request body must contain a postBody, postId, and postImage
  * @param response will contain a status object with a message and data if successful or a status with an error message and null data if unsuccessful
  */
 export async function postPostController(request: Request, response: Response): Promise<Response | undefined> {
     try {
 
-        // validate the incoming request with the thread schema
+        // validate the incoming request with the post schema
         const validationResult = PostSchema.safeParse(request.body)
 
         // if the validation fails, return a response to the client
@@ -32,14 +34,16 @@ export async function postPostController(request: Request, response: Response): 
 
         // if the validation succeeds, continue on with postPostController logic below this line
 
-        // get the post content, post id, postProfileId and post image from the request body
-        const {postBody, postId, postImage} = validationResult.data
+        // get the post body, post id, post image from the request body
+        const {postBody, postId, postImage, postPromptId} = validationResult.data
 
         // get the profile from the session
         const profile: PublicProfile = request.session.profile as PublicProfile
 
         // set the post profile id to the profile id from the session
         const postProfileId: string = profile.profileId as string
+
+
 
         // create a new post object with the postId, postProfileId, postPromptId, postBody, postDate, and postImage
         const post: Post = {
@@ -170,7 +174,7 @@ export async function getPostsByProfileUsernameController (request: Request, res
 export async function getPostByPostIdController (request: Request, response: Response): Promise<Response<Status>> {
     try {
 
-        // validate the incoming request threadId with the uuid schema
+        // validate the incoming request postId with the uuid schema
         const validationResult = z.string().uuid({message: 'please provide a valid postId'}).safeParse(request.params.postId)
 
         // if the validation fails, return a response to the client
@@ -202,35 +206,35 @@ export async function getPostByPostIdController (request: Request, response: Res
  * @param request from the client to the server to get all replies to a post by the original post id
  * @param response from the server to the client with all replies to a post by the original post id or an error message
  */
-export async function getAllReplyPostsByPostIdController (request: Request, response: Response): Promise<Response<Status>> {
-    try {
+// export async function getAllReplyPostsByPostIdController (request: Request, response: Response): Promise<Response<Status>> {
+//     try {
+//
+//         // validate the incoming request postId with the uuid schema
+//         const validationResult = z.string().uuid({message: 'please provide a valid postId'}).safeParse(request.params.postId)
+//
+//         // if the validation fails, return a response to the client
+//         if (!validationResult.success) {
+//             return zodErrorResponse(response, validationResult.error)
+//         }
+//
+//         // get the post id from the request parameters
+//         const postId = validationResult.data
+//
 
-        // validate the incoming request postId with the uuid schema
-        const validationResult = z.string().uuid({message: 'please provide a valid postId'}).safeParse(request.params.postId)
-
-        // if the validation fails, return a response to the client
-        if (!validationResult.success) {
-            return zodErrorResponse(response, validationResult.error)
-        }
-
-        // get the post id from the request parameters
-        const postId = validationResult.data
-
-
-        const data = await selectAllReplyPostsByPostId(postId)
-
-        // return the response with the status code 200, a message, and the post as data
-        return response.json({status: 200, message: null, data})
-
-        // if there is an error, return the response with the status code 500, an error message, and null data
-    } catch (error) {
-        return response.json({
-            status: 500,
-            message: '',
-            data: []
-        })
-    }
-}
+//         const data = await selectAllReplyPostsByPostId(postId)
+//
+//         // return the response with the status code 200, a message, and the post as data
+//         return response.json({status: 200, message: null, data})
+//
+//         // if there is an error, return the response with the status code 500, an error message, and null data
+//     } catch (error) {
+//         return response.json({
+//             status: 500,
+//             message: '',
+//             data: []
+//         })
+//     }
+// }
 
 
 /**

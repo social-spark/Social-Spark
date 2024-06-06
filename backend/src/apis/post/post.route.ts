@@ -1,11 +1,10 @@
 import { Router } from 'express'
 import {
-    getAllReplyPostsByPostIdController,
     getAllPosts,
     getPageOfPostsController,
     getPostsByPostProfileIdController,
     getPostsByProfileUsernameController,
-    postPostController, getPostByPostIdController
+    postPostController, getPostByPostIdController, deletePostByPostIdController
 } from "./post.controller";
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 
@@ -20,17 +19,13 @@ router.route('/')
     .post(isLoggedInController, postPostController)
     .get(getAllPosts)
 
-router.route('/replies/postId/:postId').get(getAllReplyPostsByPostIdController)
+// router.route('/replies/postId/:postId').get(getAllReplyPostsByPostIdController)
 
 router.route('/page/:page').get(getPageOfPostsController)
 
 router.route('/profileUsername/:profileUsername').get(getPostsByProfileUsernameController)
 
 router.route('/postProfileId/:postProfileId').get(getPostsByPostProfileIdController)
-
-function deletePostByPostIdController() {
-
-}
 
 router.route('/:postId')
     .get(getPostByPostIdController)

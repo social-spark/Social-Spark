@@ -75,3 +75,21 @@ export async function selectPostByPostId(postId: string): Promise<Post | null> {
     // return the post or null if no post is found
     return result.length === 0 ? null : result[0]
 }
+
+export async function selectPageOfPosts (page: number): Promise<Post[]> {
+    //get all posts from the post table in the database and return them
+    const rowList = <Post []> await sql`SELECT post_id, post_profile_id, post_prompt_id, post_body, post_date, post_image FROM post ORDER BY post_date DESC LIMIT 10 OFFSET ${page - 1} * 10`
+return PostSchema.array().parse(rowList)
+}
+
+/**
+ * deletes the post from the post table in the database by postId and returns a message that says 'post successfully deleted'
+ * @return 'Post successfully deleted'
+ */
+export async function deletePostByPostId(postId: string): Promise<string> {
+    //delete the post from the post table in the database by postId
+    await sql`DELETE
+              FROM post
+              WHERE post_id = ${postId}`
+    return 'Post successfully deleted'
+}
