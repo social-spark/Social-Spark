@@ -10,9 +10,8 @@ import {
 } from "./post.model";
 import {Status} from "../../utils/interfaces/Status";
 import {zodErrorResponse} from "../../utils/response.utils";
-import {string, z} from "zod";
+import {z} from "zod";
 import {PublicProfileSchema, PublicProfile} from "../profile/profile.model";
-import {randomUUID} from "node:crypto";
 
 
 /**
@@ -259,7 +258,7 @@ export async function getPageOfPostsController(request: Request, response: Respo
         // get the posts from the database by page number and store it in a variable called data
         const data = await selectPageOfPosts(Number(page))
 
-        // return the response with the status code 200, a message, and the threads as data
+        // return the response with the status code 200, a message, and the posts as data
         return response.json({status: 200, message: null, data})
 
         // if there is an error, return the response with the status code 500, an error message, and null data
@@ -297,7 +296,7 @@ export async function deletePostByPostIdController (request: Request, response: 
         // get the post id from the request parameters
         const postId = validationResult.data
 
-        // get the post from the database by thread id
+        // get the post from the database by post id
         const post = await selectPostByPostId(postId)
 
         // if the post profile id does not match the post profile id from the session, return a response to the client
