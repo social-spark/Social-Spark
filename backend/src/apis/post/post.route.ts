@@ -4,11 +4,7 @@ import {
     getPageOfPostsController,
     getPostsByPostProfileIdController,
     getPostsByProfileUsernameController,
-<<<<<<< HEAD
-    postPostController, getPostByPostIdController, deletePostByPostIdController, UpdatePostByPostIdController
-=======
-    postPostController, getPostByPostIdController
->>>>>>> 00ea6e73f0f0f7c860047e040dbf306b3e1bc9f5
+    postPostController, getPostByPostIdController, UpdatePostByPostIdController
 } from "./post.controller";
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 
@@ -31,12 +27,9 @@ router.route('/profileUsername/:profileUsername').get(getPostsByProfileUsernameC
 
 router.route('/postProfileId/:postProfileId').get(getPostsByPostProfileIdController)
 
-<<<<<<< HEAD
-=======
 function deletePostByPostIdController() {
 
 }
->>>>>>> 00ea6e73f0f0f7c860047e040dbf306b3e1bc9f5
 
 router.route('/:postId')
     .get(getPostByPostIdController)
