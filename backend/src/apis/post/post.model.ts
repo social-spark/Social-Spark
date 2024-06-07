@@ -26,11 +26,14 @@ export type Post = z.infer<typeof PostSchema>
  * @returns 'Post successfully posted'
  */
 export async function insertPost(post: Post): Promise<string> {
-   const {postId,postProfileId, postPromptId, postBody, postDate, postImage} = post
-    await sql`INSERT INTO post (post_id, post_profile_id, post_prompt_id, post_body, post_date, post_image) VALUES (${postId}, ${postProfileId}, ${postPromptId}, ${postBody}, now(), ${postImage})`
-    return 'Post successfully posted'
-}
+    const { postId, postProfileId, postPromptId, postBody, postImage } = post;
 
+    // Execute the SQL query to insert the post
+    await sql`INSERT INTO post (post_id, post_profile_id, post_prompt_id, post_body, post_date, post_image) 
+               VALUES (${postId}, ${postProfileId}, ${postPromptId}, ${postBody}, now(), ${postImage})`;
+
+    return 'Post successfully posted';
+}
 /**
  * gets all posts from the post table in the database
  * @returns all posts
@@ -94,3 +97,22 @@ export async function deletePostByPostId(postId: string): Promise<string> {
     return 'Post successfully deleted'
 }
 
+/**
+ * updates the post from the post table in the database by postId and returns a message that says 'post successfully deleted'
+ * @return 'Post successfully posted'
+ */
+export async function updatePost(post: Post): Promise<string> {
+    // Destructure the post object
+    const { postId, postBody, postImage, postProfileId, postPromptId } = post;
+
+    // Execute the SQL query to update the post
+    await sql`UPDATE post
+              SET post_body = ${postBody},
+                  post_image = ${postImage},
+                  post_date = now(),
+                  post_profile_id = ${postProfileId},
+                  post_prompt_id = ${postPromptId}
+              WHERE post_id = ${postId}`;
+
+    return 'Post successfully updated';
+}

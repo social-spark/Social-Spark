@@ -6,7 +6,7 @@ import {
     PostSchema,
     selectAllPosts, selectPageOfPosts, selectPostByPostId,
     selectPostsByPostProfileId,
-    selectPostsByProfileUsername
+    selectPostsByProfileUsername, updatePost
 } from "./post.model";
 import {Status} from "../../utils/interfaces/Status";
 import {zodErrorResponse} from "../../utils/response.utils";
@@ -34,15 +34,13 @@ export async function postPostController(request: Request, response: Response): 
         // if the validation succeeds, continue on with postPostController logic below this line
 
         // get the post body, post id, post image from the request body
-        const {postBody, postId, postImage, postPromptId} = validationResult.data
+        const {postBody, postImage, postPromptId} = validationResult.data
 
         // get the profile from the session
         const profile: PublicProfile = request.session.profile as PublicProfile
 
         // set the post profile id to the profile id from the session
         const postProfileId: string = profile.profileId as string
-
-
 
         // create a new post object with the postId, postProfileId, postPromptId, postBody, postDate, and postImage
         const post: Post = {
@@ -226,7 +224,7 @@ export async function getPostByPostIdController (request: Request, response: Res
 //         return response.json({status: 200, message: null, data})
 //
 //         // if there is an error, return the response with the status code 500, an error message, and null data
-//     } catch (error) {
+//      catch (error) {
 //         return response.json({
 //             status: 500,
 //             message: '',
@@ -321,5 +319,49 @@ export async function deletePostByPostIdController (request: Request, response: 
             message: '',
             data: []
         })
+    }
+}
+
+/**
+ * updates a post from the database by post id and returns a status to the user in the response
+ * @param request from the client to the server to update a post by post id from the database
+ * @param response from the server to the client with a status of 200 or an error message
+ */
+
+export async function UpdatePostByPostIdController(request: Request, response: Response): Promise<Response> {
+    try {
+        // Validate the incoming request postId with the uuid schema
+        const validationResult = z.string().uuid({ message: 'Please provide a valid Post Id' }).safeParse(request.params.postId);
+
+        // If the validation fails, return a response to the client
+        if (!validationResult.success) {
+            return response.status(400).json({ status: 400, message: validationResult.error.message, data: null });
+        }
+
+        // Get the profile from the session
+        const profile = request.session.profile as PublicProfile;
+
+        // Set the profile id to the profile id from the session
+        const postProfileId = profile.profileId as string;
+
+        // Get the post id from the request parameters
+        const postId = validationResult.data;
+
+        // Get the post from the database by post id
+        const post = await selectPostByPostId(postId);
+
+        // If the post profile id does not match the post profile id from the session, return a response to the client
+        if (post?.postProfileId !== postProfileId) {
+            return response.status(403).json({ status: 403, message: 'You are not allowed to update this post', data: null });
+        }
+
+        // Update the post in the database
+        const result = await updatePost(post);
+
+        // Return the response with the status code 200, a message, and the post as data
+        return response.status(200).json({ status: 200, message: result, data: null });
+    } catch (error) {
+        // If there is an error, return the response with the status code 500, an error message, and null data
+        return response.json({status: 500, message: '', data: [] });
     }
 }
