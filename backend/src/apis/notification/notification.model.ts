@@ -62,71 +62,14 @@ export async function insertNotification(notification: Notification): Promise<st
     return 'notification successfully posted'
 }
 
-/**
- * inserts a notification into the notification table
- * @param notificationLikePostId the post id to search for in the notification table
- * @param notificationProfileId the profile id to search for in the notification table
- * @returns {Promise<string>} returns the posts that were notified or a message indicating no posts were notified
- **/
+// Define the function to get notifications by profile ID
+export async function getNotificationsByProfileID(profileId: string): Promise<Notification[]> {
+    // Write the SQL query to fetch notifications by profile ID and filter those that are not read
+    const notifications = await sql<Notification[]>`
+        SELECT notification_profile_id, notification_like_post_id, notification_like_profile_id, notification_date, notification_read
+        FROM notification
+        WHERE notification_profile_id = ${profileId} AND notification_read = false`;
 
-export async function selectNotificationsByLikePostId(notificationLikePostId: string): Promise<Notification[]> {
-    //prepare a statement to select the notifications by notificationsLikePostId and execute the statement
-    const rowList = await sql`SELECT notification_profile_id, notification_like_post_id, notification_like_profile_id
-FROM notification WHERE notification_profile_id = ${notificationProfileId}
- AND notification_like_post_id = ${notificationLikePostId}`
-
-    // enforce that the result is an array of notifications and return the array
-    return NotificationSchema.array().parse(rowList)
-}
-
-/**
- * selects tags by tagKeywordId from the tag table
- * @param tagKeywordId the keyword id to search for in the tag table
- * @returns {Promise<Tag[]>} an array of tags or an empty array
- **/
-
-export async function selectTagsByTagKeywordId(tagKeywordId: string): Promise<Tag[]> {
-
-    //prepare a statement to select the tags by tagKeywordId and execute the statement
-    const rowList = await sql`SELECT tag_keyword_id, tag_thread_id FROM tag WHERE tag_keyword_id = ${tagKeywordId}`
-
-    // enforce that the result is an array of tags and return the array
-    return TagSchema.array().parse(rowList)
-}
-
-
-/**
- * selects a  tag by tagKeywordId and tagThreadId from the tag table
- * @param tagKeywordId the keyword id to search for in the tag table
- * @param tagThreadId the thread id to search for in the tag table
- * @returns {Promise<Tag | null>} a tag or null
- **/
-export async function selectTagByTagKeywordIdAndTagThreadId(tagKeywordId: string, tagThreadId: string): Promise<Tag | null> {
-    // prepare a statement to select the tag by tagKeywordId and tagThreadId and execute the statement
-
-    const rowList = await sql`SELECT tag_keyword_id, tag_thread_id FROM tag WHERE tag_keyword_id = ${tagKeywordId} AND tag_thread_id = ${tagThreadId}`
-
-    // enforce that the result is an array of one tag, or null
-    const result = TagSchema.array().max(1).parse(rowList)
-
-    // return the tag or null if no tag was found
-    return result?.length === 1 ? result[0] : null
-}
-
-
-/**
- * deletes a tag by tagKeywordId and tagThreadId from the tag table
- * @param tagKeywordId the keyword id to search for in the tag table
- * @param tagThreadId the thread id to search for in the tag table
- * @returns {Promise<string>} a message indicating success
- *
- */
-
-export async function deleteTagByTagKeywordIdAndTagThreadId(tagKeywordId: string, tagThreadId: string): Promise<string> {
-
-    // prepare a statement to delete the tag by tagKeywordId and tagThreadId and execute the statement
-    await sql`DELETE FROM tag WHERE tag_keyword_id = ${tagKeywordId} AND tag_thread_id = ${tagThreadId}`
-
-    // return a message to the user indicating success
-    return 'Tag successfully deleted'
+    // Return the fetched notifications
+    return notifications;
 }
