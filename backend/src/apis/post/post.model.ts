@@ -30,7 +30,7 @@ export async function insertPost(post: Post): Promise<string> {
 
     // Execute the SQL query to insert the post
     await sql`INSERT INTO post (post_id, post_profile_id, post_prompt_id, post_body, post_date, post_image) 
-               VALUES (${postId}, ${postProfileId}, ${postPromptId}, ${postBody}, now(), ${postImage})`;
+               VALUES (gen_random_uuid(), ${postProfileId}, ${postPromptId}, ${postBody}, now(), ${postImage})`;
 
     return 'Post successfully posted';
 }
