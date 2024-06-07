@@ -32,8 +32,8 @@ function deletePostByPostIdController() {
 }
 
 router.route('/:postId')
-    .get(getPostByPostIdController)
-    .delete(isLoggedInController, deletePostByPostIdController, UpdatePostByPostIdController)
+    .get(getPostByPostIdController,UpdatePostByPostIdController)
+    .delete(isLoggedInController, deletePostByPostIdController)
 
 // export the router with the basePath and router object
 export const postRoute = { basePath, router }
