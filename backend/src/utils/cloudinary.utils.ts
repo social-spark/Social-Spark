@@ -18,7 +18,7 @@ export const uploadToCloudinary = async (file: Express.Multer.File): Promise<str
     })
 
 return await new Promise((resolve, reject): void => {
-    const clouinaryUploadStream: UploadStream = cloudinaryUtils.uploader.upload_stream(
+    const cloudinaryUploadStream: UploadStream = cloudinaryUtils.uploader.upload_stream(
         (error: Error, cloudinaryResult: UploadApiOptions | undefined) => {
             if (cloudinaryResult !== undefined) {
                 resolve(cloudinaryResult.secure_url)
@@ -33,6 +33,6 @@ return await new Promise((resolve, reject): void => {
     }
     readable.push(file.buffer)
     readable.push(null)
-    readable.pipe(clouinaryUploadStream)
+    readable.pipe(cloudinaryUploadStream)
 })
 }
