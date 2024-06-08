@@ -21,12 +21,14 @@ export async function selectAllPromptsByCategory(promptCategory: string): Promis
     return result?.length === 1 ? result[0] : null
 }
 
-export async function selectPromptsByPostId(postId: string): Promise<Prompt | null> {
-const result = await sql<Prompt[]>
+export async function selectPromptsByPostId(postId: string): Promise<Prompt[]> {
+    const result = await sql<Prompt[]>
+
         `SELECT prompt_id,
         prompt_category,
         prompt_body
         FROM prompt
         INNER JOIN post on prompt.prompt_id  = post.post_prompt_id WHERE post.post_id = ${postId}`;
-    return result?.length === 1 ? result[0]: null
+
+    return result
 }

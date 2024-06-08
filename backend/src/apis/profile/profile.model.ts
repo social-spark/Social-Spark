@@ -80,7 +80,7 @@ export type PrivateProfile = z.infer<typeof PrivateProfileSchema>
  * @property profileFullName {string} the profile's name
  **/
 
-export const PublicProfileSchema = PrivateProfileSchema.omit({profileHash: true, profileActivationToken: true, profileEmail: true})
+export const PublicProfileSchema = PrivateProfileSchema.omit({profileHash: true, profileActivationToken: true})
 export type PublicProfile = z.infer<typeof PublicProfileSchema>
 
 /**
@@ -127,7 +127,6 @@ export async function selectPublicProfileByProfileId (profileId: string): Promis
     // return the profile or null if no profile was found
     return  result?.length === 1 ? result[0] : null
 }
-
 
 /**
  * selects the privateProfile from the profile table by profileId
@@ -205,4 +204,21 @@ export async function selectPrivateProfileByProfileActivationToken (profileActiv
     const rowList = await sql`SELECT profile_id, profile_bio, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name FROM profile WHERE profile_activation_token = ${profileActivationToken}`
     const result = PrivateProfileSchema.array().max(1).parse(rowList)
     return result?.length === 1 ? result[0] : null
+}
+
+/**
+ * selects profile from the profile table by profileUsername
+ * @param profileUsername the profile's name to search for in the profile table
+ * @returns an array of profiles
+ **/
+
+export async function selectPublicProfileByUsername(profileUsername: string): Promise<PublicProfile[]> {
+
+    // format profileUsername to include wildcards
+    const profileUsernameWithWildcards = `%${profileUsername}%`
+
+    // create a prepared statement that selects profiles by profileName and execute the statement
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username FROM profile WHERE profile.profile_username LIKE ${profileUsernameWithWildcards}`
+
+    return PublicProfileSchema.array().parse(rowList)
 }
