@@ -121,7 +121,7 @@ export async function toggleLikeController(request: Request, response: Response)
         const like: Like = {
             likeProfileId,
             likePostId,
-            likeDatetime: null
+            likeDate: null
         }
 
         // create a status object
@@ -183,7 +183,7 @@ export async function postLikeController(request: Request, response: Response): 
         const like: Like = {
             likeProfileId,
             likePostId,
-            likeDatetime: null
+            likeDate: null
         }
 
         // create a status object
@@ -237,7 +237,7 @@ export async function deleteLikeController(request: Request, response: Response)
         const like: Like = {
             likeProfileId,
             likePostId,
-            likeDatetime: null
+            likeDate: null
         }
 
         // create a status object

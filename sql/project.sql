@@ -20,6 +20,7 @@ CREATE TABLE profile
     Primary Key (profile_id)
 );
 
+
 CREATE TABLE prompt(
 prompt_id uuid not null,
 prompt_body varchar(128) not null,
