@@ -21,7 +21,7 @@ export async function getAllPromptsController(request: Request, response: Respon
     }
 }
 
-export async function getPromptsByPromptId(request: Request, response: Response): Promise<Response<Status>> {
+export async function getPromptByPromptId(request: Request, response: Response): Promise<Response<Status>> {
     try {
         const {promptId} = request.params
         const data = await selectPromptByPromptId(promptId)
@@ -48,7 +48,7 @@ export async function getAllPromptsByCategory(request: Request, response: Respon
         })
     }
 }
-export const getPromptsByPostId = async (req: Request, res: Response): Promise<void> => {
+export const getPromptByPostId = async (req: Request, res: Response): Promise<void> => {
     const { postId } = req.params; // Assuming postId is in the URL parameters
     try {
         const prompts = await selectPromptsByPostId(postId); // Call your async function to get prompts
