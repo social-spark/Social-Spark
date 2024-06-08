@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-    getAllPromptsController,
+    getAllPromptsController, getPromptsByPostId,
     getPromptsByPromptId
 } from './prompt.controller';
 
@@ -13,7 +13,7 @@ router.route('/')
 router.route('/:promptId')
     .get(getPromptsByPromptId);
 
-// PromptRoute.route('/postId/:postId')
-//     .get(getPromptsByPostId);
+router.route('/:postId')
+    .get(getPromptsByPostId);
 
 export const promptRoute = { basePath, router };

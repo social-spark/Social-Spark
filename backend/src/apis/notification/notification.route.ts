@@ -1,38 +1,28 @@
-
-
-// declare a basePath for this router
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 import {
-    deleteTagController,
-    getTagByPrimaryKeyController,
-    getTagByTagKeywordIdController,
-    getTagByTagThreadIdController, postTagController
+    createNotification,
+    getAllNotificationsByProfileID,
+    getUnreadNotificationsByProfileID
 } from "./notification.controller";
 import {Router} from "express";
 
-const basePath = '/apis/tag'
 
+const basePath = '/apis/tag'
 
 // instantiate a new router object
 const router = Router()
 
-// define the endpoint for posting a tag
-router.route('/')
-    .post(isLoggedInController, postTagController)
+router.route('/:notification')
+    .get(createNotification)
+    .put(isLoggedInController)
 
-// define the endpoint for getting a tag by tagThreadId
-router.route('/tagThreadId/:tagThreadId')
-    .get(getTagByTagThreadIdController)
+router.route('/:notificationByProfileId')
+    .get(getUnreadNotificationsByProfileID)
+    .put(isLoggedInController)
 
-// define the endpoint for getting a tag by tagKeywordId
-router.route('/tagKeywordId/:tagKeywordId')
-    .get(getTagByTagKeywordIdController)
-
-// define the endpoints for getting a tag by tagKeywordId and tagThreadId, and deleting a tag
-router.route('/tagKeywordId/:tagKeywordId/tagThreadId/:tagThreadId')
-    .get(getTagByPrimaryKeyController)
-    .delete(isLoggedInController, deleteTagController)
-
+router.route('/:notificationByProfileId')
+    .get(getAllNotificationsByProfileID)
+    .put(isLoggedInController)
 
 // export the router with the basePath and router object
-export const tagRoute = {basePath, router}
+export const NotificationRoute = {basePath, router}

@@ -1,9 +1,9 @@
 import {Request, Response} from "express";
 import {
-    PrivateProfile, PublicProfileSchema,
+    PrivateProfile, PublicProfileSchema, selectPrivateProfileByProfileEmail,
     selectPrivateProfileByProfileId,
     selectPublicProfileByProfileId,
-    selectPublicProfileByProfileName,
+    selectPublicProfileByProfileName, selectPublicProfileByUsername,
     selectPublicProfilesByProfileName, updateProfile
 } from "./profile.model";
 import {zodErrorResponse} from "../../utils/response.utils";
@@ -14,8 +14,8 @@ import {Status} from "../../utils/interfaces/Status";
 
 /**
  * Express controller for getting the public profile by profileId
- * @param request from the client to the server to get all threads by thread profile id
- * @param response from the server to the client with all threads by thread profile id or an error message
+ * @param request from the client to the server to get all post by post profile id
+ * @param response from the server to the client with all post by post profile id or an error message
  * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
  * or null if the information could not be found, set to the data field.
  */
@@ -45,10 +45,9 @@ export async function getPublicProfileByProfileIdController(request: Request, re
 }
 
 /**
- * Express controller for getting the public profile by profileEmail
- * `
- * @param request from the client to the server to get all  by thread profile id
- * @param response from the server to the client with all threads by thread profile id or an error message
+ * Express controller for getting the public profile by profileId
+ * @param request from the client to the server to get all  by post profile id
+ * @param response from the server to the client with all post by post profile id or an error message
  * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
  * or null if the information could not be found, set to the data field.
  */
@@ -82,8 +81,8 @@ export async function getPublicProfileByProfileNameController(request: Request, 
 
 /**
  * Express controller for searching for a profile by profileName
- * @param request from the client to the server to get all threads by thread profile id
- * @param response from the server to the client with all threads by thread profile id or an error message
+ * @param request from the client to the server to get all post by post profile id
+ * @param response from the server to the client with all post by post profile id or an error message
  * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information
  */
 
@@ -178,6 +177,75 @@ export async function putProfileController(request: Request, response: Response)
 
     } catch (error: unknown) {
         console.log(error)
+        // if an error occurs, return a preformatted response to the client
+        return response.json({status: 500,message: "internal server error", data: null})
+    }
+}
+
+/**
+ * Express controller for searching for a profile by profileUsername
+ * @param request from the client to the server to get all posts by post profile id
+ * @param response from the server to the client with all posts by post profile id or an error message
+ * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information
+ */
+
+export async function getPublicProfileByProfileUsernameController(request: Request, response: Response) : Promise<Response<Status>>  {
+    try {
+
+        // validate the profileName coming from the request parameters
+        const validationResult = PublicProfileSchema.pick({profileUsername: true}).safeParse(request.params)
+
+        // if the validation is unsuccessful, return a preformatted response to the client
+        if (!validationResult.success) {
+            return zodErrorResponse(response, validationResult.error)
+        }
+
+        // grab the profileName off of the validated request parameters
+        const {profileUsername} = validationResult.data
+
+        // grab the profile by profileName
+        const data = await selectPublicProfileByUsername(profileUsername)
+
+        // return the response to the client with the requested information
+        return response.json({status: 200, message: null, data})
+
+    } catch (error: unknown) {
+
+        // if an error occurs, return a preformatted response to the client
+        return response.json({status: 500,message: "internal server error", data: null})
+    }
+}
+
+/**
+ * Express controller for getting the public profile by profile Email
+ * @param request from the client to the server to get all  by post profile id
+ * @param response from the server to the client with all post by post profile id or an error message
+ * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
+ * or null if the information could not be found, set to the data field.
+ */
+
+export async function getPublicProfileByProfileEmailController(request: Request, response: Response): Promise<Response<Status>> {
+    try {
+
+        // validate the profileName coming from the request parameters
+        const validationResult = PublicProfileSchema.pick({profileEmail: true}).safeParse(request.params)
+
+        // if the validation is unsuccessful, return a preformatted response to the client
+        if (!validationResult.success) {
+            return zodErrorResponse(response, validationResult.error)
+        }
+
+        // grab the profileEmail off of the validated request parameters
+        const {profileEmail} = validationResult.data
+
+        // grab the profile by profileName
+        const data= await selectPrivateProfileByProfileEmail(profileEmail)
+
+        // return the response to the client with the requested information
+        return response.json({status: 200, message: null, data})
+
+    } catch (error: unknown) {
+
         // if an error occurs, return a preformatted response to the client
         return response.json({status: 500,message: "internal server error", data: null})
     }

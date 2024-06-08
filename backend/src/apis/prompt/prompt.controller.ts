@@ -1,5 +1,10 @@
 import {Request, Response} from 'express'
-import {selectAllPrompts, selectAllPromptsByCategory, selectPromptByPromptId} from './prompt.model'
+import {
+    selectAllPrompts,
+    selectAllPromptsByCategory,
+    selectPromptByPromptId,
+    selectPromptsByPostId
+} from './prompt.model'
 import {Status} from "../../utils/interfaces/Status";
 
 export async function getAllPromptsController(request: Request, response: Response): Promise<Response<Status>> {
@@ -43,3 +48,13 @@ export async function getAllPromptsByCategory(request: Request, response: Respon
         })
     }
 }
+export const getPromptsByPostId = async (req: Request, res: Response): Promise<void> => {
+    const { postId } = req.params; // Assuming postId is in the URL parameters
+    try {
+        const prompts = await selectPromptsByPostId(postId); // Call your async function to get prompts
+        res.status(200).json(prompts); // Send the prompts as JSON response
+    } catch (error) {
+        console.error('Error fetching prompts:', error);
+        res.status(500).json({ error: 'Internal Server Error' }); // Send error response if something goes wrong
+    }
+};

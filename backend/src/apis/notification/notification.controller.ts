@@ -1,203 +1,79 @@
 import {Request, Response} from "express";
-import {NotificationSchema} from './tag.validator';
-import {zodErrorResponse} from "../../utils/response.utils";
-import {
-    deleteTagByTagKeywordIdAndTagThreadId,
-    insertTag,
-    selectTagByTagKeywordIdAndTagThreadId,
-    selectTagsByTagKeywordId,
-    selectTagsByTagThreadId
-} from "./tag.model";
-import {Status} from "../../utils/interfaces/Status";
-
+import {insertNotification, selectNotificationsByProfileID, selectUnreadNotificationsByProfileID,} from './notification.model';
+import {Notification} from "./notification.model";
 
 /**
- * Express controller for posting a new tag
- * @param request from the client to the server containing the data needed to create a tag
- * @param response from the server to the client indicating whether the tag was created or not
- * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
+ * Handles the creation of a new notification.
+ * @param request - The request object containing notification data in the body.
+ * @param response - The response object used to send a response to the client.
+ * @returns {Promise<Response<Status>>} A Promise indicating the completion of the function.
  */
-export async function postTagController(request: Request, response: Response) {
+export async function createNotification(request: Request, response: Response): Promise<Response> {
     try {
-        // validate the incoming request with the schema
-        const validationResult = TagSchema.safeParse(request.body)
+        // Extract notification data from request body
+        const { notificationProfileId, notificationLikePostId, notificationDate, notificationLikeProfileId, notificationRead } = request.body;
 
-        // if the validation is unsuccessful, return a preformatted response to the client
-        if (!validationResult.success) {
-            return zodErrorResponse(response, validationResult.error)
+        // Perform validation here
+        if (!notificationProfileId || !notificationLikePostId || !notificationDate || !notificationLikeProfileId || notificationRead === undefined) {
+            // If any required field is missing, return a 400 Bad Request response
+            return response.status(400).json({ status: 400, message: 'Missing required fields', data: null });
         }
+        // Create notification object
+        const notification = {
+            notificationProfileId,
+            notificationLikePostId,
+            notificationDate,
+            notificationLikeProfileId,
+            notificationRead
+        };
 
-        // get the tag data from the validated request body
-        const {tagKeywordId, tagThreadId} = validationResult.data
+        // Call insertNotification function from model to insert notification into database
+        const result = await insertNotification(notification);
 
-        // create a new tag object
-        const tag = {tagKeywordId, tagThreadId}
-
-        // insert the tag into the database
-        const result = await insertTag(tag)
-
-        //create a preformatted response to send to the client
-        const status: Status = {status: 200, data: null, message: result}
-
-        // return the result to the client
-        return response.json(status)
-
-
-
+        // Return the response to the client with the requested information
+        return response.json({ status: 200, message: null, data: result });
 
     } catch (error) {
-        return response.json({status: 500, data: null, message: "Internal error try again later"})
+        // Log the error for debugging purposes
+        console.error('Error creating notification:', error);
+
+        // Return a preformatted response to the client
+        return response.status(500).json({ status: 500, message: 'Internal server error', data: null });
     }
 }
 
+
 /**
- * express controller for getting a tag by tagThreadId
- * @param request from the client to the server containing the tagThreadId in the request parameters
- * @param response from the server to the client containing the tag or an error message
- * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
+ * Controller function to get unread notifications by profile ID.
  *
+ * @param profileId - The profile ID to get notifications for.
+ * @returns A promise that resolves to an array of unread notifications.
+ * @throws If an error occurs during the operation.
  */
-
-export async function getTagByTagThreadIdController(request: Request, response: Response): Promise<Response<Status>> {
+export async function getUnreadNotificationsByProfileID(profileId: string): Promise<Notification[]> {
     try {
-
-        //validate the incoming request parameters with the tag schema
-        const validationResult = TagSchema.pick({tagThreadId: true}).safeParse(request.params)
-
-        // if the validation is unsuccessful, return a preformatted response to the client
-        if (!validationResult.success) {
-            return zodErrorResponse(response, validationResult.error)
-        }
-
-        // get the tagThreadId from the validated request parameters
-        const {tagThreadId} = validationResult.data
-
-        // get the tag by tagThreadId
-        const data = await selectTagsByTagThreadId(tagThreadId)
-
-        // create a preformatted response to send to the client
-        const status: Status = {status: 200, data, message: null}
-
-        // return the result to the client
-        return response.json(status)
-
-
+        // Call the selectUnreadNotificationsByProfileID function to get unread notifications
+        return await selectUnreadNotificationsByProfileID(profileId); // Return the unread notifications
     } catch (error) {
-        return response.json({status: 500, data: null, message: "Internal error try again later"})
+        // Handle any errors that occur during the operation
+        console.error('Error getting unread notifications by profile ID:', error);
+        throw new Error('Error getting unread notifications by profile ID');
     }
 }
 
 /**
- * express controller for getting a tag by tagKeywordId
- *
- * @param request from the client to the server containing the tagKeywordId in the request parameters
- * @param response from the server to the client containing the tag or an error message
- * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
- *
+ * Controller function to get all notifications by profile ID.
+ * @param profileId - The profile ID to get notifications for.
+ * @returns A promise that resolves to an array of notifications.
  */
-export async function getTagByTagKeywordIdController(request: Request, response: Response): Promise<Response<Status>> {
+export async function getAllNotificationsByProfileID(profileId: string): Promise<Notification[]> {
     try {
-        //validate the incoming request parameters with the tag schema
-        const validationResult = TagSchema.pick({tagKeywordId: true}).safeParse(request.params)
-
-        // if the validation is unsuccessful, return a preformatted response to the client
-        if (!validationResult.success) {
-            return zodErrorResponse(response, validationResult.error)
-        }
-
-        // get the tagKeywordId from the validated request parameters
-        const {tagKeywordId} = validationResult.data
-
-        // get the tag by tagKeywordId
-        const data = await selectTagsByTagKeywordId(tagKeywordId)
-
-        // create a preformatted response to send to the client
-        const status: Status = {status: 200, data, message: null}
-
-        // return the result to the client
-        return response.json(status)
+        // Call the selectNotificationsByProfileID function to get notifications
+            return await selectNotificationsByProfileID(profileId);
 
     } catch (error) {
-        return response.json({status: 500, data: null, message: "Internal error try again later"})
-    }
-}
-
-/**
- * express controller for getting a tag by tagKeywordId and tagThreadId
- * @param request from the client to the server containing the tagKeywordId and tagThreadId in the request parameters
- * @param response from the server to the client containing the tag or an error message
- * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
- **/
-
-export async function getTagByPrimaryKeyController(request: Request, response: Response): Promise<Response<Status>> {
-    try {
-        //validate the incoming request parameters with the tag schema
-        const validationResult = TagSchema.safeParse(request.params)
-
-        // if the validation is unsuccessful, return a preformatted response to the client
-        if (!validationResult.success) {
-            return zodErrorResponse(response, validationResult.error)
-        }
-
-        // get the tagKeywordId and tagThreadId from the validated request parameters
-        const {tagKeywordId, tagThreadId} = validationResult.data
-
-        // get the tag by tagKeywordId and tagThreadId
-        const data = await selectTagByTagKeywordIdAndTagThreadId(tagKeywordId, tagThreadId)
-
-
-        // create a preformatted response to send to the client
-        const status: Status = {status: 200, data, message: null}
-
-        // return the result to the client
-        return response.json(status)
-
-
-    } catch (error) {
-        return response.json({status: 500, data: null, message: "Internal error try again later"})
-
-    }
-}
-
-/**
- * express controller for deleting a tag by tagKeywordId and tagThreadId
- * @param request from the client to the server containing the tagKeywordId and tagThreadId in the request parameters
- * @param response from the server to the client containing the tag or an error message
- * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
- */
-
-export async function deleteTagController(request: Request, response: Response): Promise<Response<Status>> {
-
-    try {
-        //validate the incoming request parameters with the tag schema
-        const validationResult = TagSchema.safeParse(request.params)
-
-        // if the validation is unsuccessful, return a preformatted response to the client
-        if (!validationResult.success) {
-            return zodErrorResponse(response, validationResult.error)
-        }
-
-        // get the tagKeywordId and tagThreadId from the validated request parameters
-        const {tagKeywordId, tagThreadId} = validationResult.data
-
-        // get the tag by tagKeywordId and tagThreadId
-        const data = await selectTagByTagKeywordIdAndTagThreadId(tagKeywordId, tagThreadId)
-
-        // if the tag is null, return a preformatted response to the client
-        if (data === null) {
-            return response.json({status: 400, data: null, message: "Tag does not exist"})
-        }
-
-        // delete the tag by tagKeywordId and tagThreadId
-        await deleteTagByTagKeywordIdAndTagThreadId(tagKeywordId, tagThreadId)
-
-        // create a preformatted response to send to the client
-        const status: Status = {status: 200, data: null, message: "Tag successfully deleted"}
-
-        // return the result to the client
-        return response.json(status)
-
-    } catch (error) {
-        return response.json({status: 500, data: null, message: "Internal error try again later"})
+        // Handle any errors that occur during the operation
+        console.error('Error getting notifications by profile ID:', error);
+        throw new Error('Error getting notifications by profile ID');
     }
 }

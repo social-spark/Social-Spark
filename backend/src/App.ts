@@ -10,6 +10,7 @@ import {signInRoute} from "./apis/sign-in/sign-in.route";
 import {profileRoute} from "./apis/profile/profile.route";
 import {promptRoute} from "./apis/prompt/prompt.route";
 import {likeRoute} from "./apis/like/like.route";
+import {NotificationRoute} from "./apis/notification/notification.route";
 
 // The following class creates the app and instantiates the server
 export class App {
@@ -57,6 +58,7 @@ export class App {
         this.app.use(profileRoute.basePath, profileRoute.router)
         this.app.use(promptRoute.basePath, promptRoute.router)
         this.app.use(likeRoute.basePath, likeRoute.router)
+        this.app.use(NotificationRoute.basePath, NotificationRoute.router)
     }
 
     // starts the server and tells the terminal to post a message that the server is running and on what port
