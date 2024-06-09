@@ -120,7 +120,7 @@ export async function getPublicProfilesByProfileNameController(request: Request,
  * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information
  **/
 
-export async function putProfileController(request: Request, response: Response): Promise<Response<Status>> {
+export async function putUpdateProfileByProfileIdController(request: Request, response: Response): Promise<Response<Status>> {
     try {
 
 

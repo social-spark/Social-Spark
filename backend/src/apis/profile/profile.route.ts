@@ -4,8 +4,7 @@ import {
     getPublicProfileByProfileIdController,
     getPublicProfileByProfileNameController,
     getPublicProfileByProfileUsernameController,
-    getPublicProfilesByProfileNameController,
-    putProfileController
+    getPublicProfilesByProfileNameController, putUpdateProfileByProfileIdController
 } from "./profile.controller";
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 import {getAllPromptsController} from "../prompt/prompt.controller";
@@ -18,13 +17,13 @@ const router: Router = Router()
 
 //Update a profile
 router.route('/')
-    .get(putProfileController)
-    .put(isLoggedInController, putProfileController)
+    .get(putUpdateProfileByProfileIdController)
+    .put(isLoggedInController, putUpdateProfileByProfileIdController)
 
 
 router.route('/:profileId')
     .get(getPublicProfileByProfileIdController)
-    .put(isLoggedInController, putProfileController)
+
 
 router.route('/profileNames/:profileFullName')
     .get(getPublicProfilesByProfileNameController)
