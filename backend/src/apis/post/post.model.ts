@@ -98,12 +98,13 @@ export async function deletePostByPostId(postId: string): Promise<string> {
 }
 
 /**
- * updates the post from the post table in the database by postId and returns a message that says 'post successfully deleted'
- * @return 'Post successfully posted'
+ * updates the post from the post table in the database by postId and returns a message that says
+ * @param post
+ * @return {Promise<string>} 'Post successfully posted'
  */
 export async function updatePost(post: Post): Promise<string> {
     // Destructure the post object
-    const { postId, postBody, postImage, postProfileId, postPromptId } = post;
+    const { postId, postBody, postImage, postProfileId, postPromptId } = post
 
     // Execute the SQL query to update the post
     await sql`UPDATE post
@@ -112,7 +113,6 @@ export async function updatePost(post: Post): Promise<string> {
                   post_date = now(),
                   post_profile_id = ${postProfileId},
                   post_prompt_id = ${postPromptId}
-              WHERE post_id = ${postId}`;
-
-    return 'Post successfully updated';
+              WHERE post_id = ${postId}`
+    return 'Post successfully updated'
 }

@@ -126,7 +126,6 @@ export async function getPublicProfilesByProfileNameController(request: Request,
 export async function putUpdateProfileByProfileIdController(request: Request, response: Response): Promise<Response<Status>> {
     try {
 
-
         //validate the updated profile data coming from the request body
         const validationResultForRequestBody = PublicProfileSchema.safeParse(request.body)
 

@@ -323,45 +323,64 @@ export async function deletePostByPostIdController (request: Request, response: 
 }
 
 /**
- * updates a post from the database by post id and returns a status to the user in the response
- * @param request from the client to the server to update a post by post id from the database
+ * express controller for updating a post by postid
+ * @param request from the client to the server to update a post by post id
  * @param response from the server to the client with a status of 200 or an error message
+ * @return {Promise<Response<Status>>} A promise containing the response for the client with the requested info.
  */
 
-export async function UpdatePostByPostIdController(request: Request, response: Response): Promise<Response> {
+export async function putUpdatePostByPostIdController(request: Request, response: Response): Promise<Response<Status>> {
+
     try {
-        // Validate the incoming request postId with the uuid schema
-        const validationResult = z.string().uuid({ message: 'Please provide a valid Post Id' }).safeParse(request.params.postId);
+        //validate the updated post data coming from the request body
+        const validationResultForRequestBody = PostSchema.safeParse(request.body)
 
-        // If the validation fails, return a response to the client
-        if (!validationResult.success) {
-            return response.status(400).json({ status: 400, message: validationResult.error.message, data: null });
+        // if the validation of the body is unsuccessful, return a preformatted response to the client
+        if(!validationResultForRequestBody.success) {
+            return zodErrorResponse(response, validationResultForRequestBody.error)
         }
 
-        // Get the profile from the session
-        const profile = request.session.profile as PublicProfile;
+        // validate the postId coming from the request parameters
+        const validationResultForRequestParams = z.string({required_error:"postId is required", invalid_type_error:"postId is the wrong type"}).uuid().safeParse(request.params.postId)
 
-        // Set the profile id to the profile id from the session
-        const postProfileId = profile.profileId as string;
-
-        // Get the post id from the request parameters
-        const postId = validationResult.data;
-
-        // Get the post from the database by post id
-        const post = await selectPostByPostId(postId);
-
-        // If the post profile id does not match the post profile id from the session, return a response to the client
-        if (post?.postProfileId !== postProfileId) {
-            return response.status(403).json({ status: 403, message: 'You are not allowed to update this post', data: null });
+        // if the validation of the params is unsuccessful, return a preformatted response to the client
+        if(!validationResultForRequestParams.success) {
+            return zodErrorResponse(response, validationResultForRequestParams.error)
         }
 
-        // Update the post in the database
-        const result = await updatePost(post);
+        // get the profile from the session
+        const profile: PublicProfile = request.session.profile as PublicProfile
 
-        // Return the response with the status code 200, a message, and the post as data
-        return response.status(200).json({ status: 200, message: result, data: null });
-    } catch (error) {
-        // If there is an error, return the response with the status code 500, an error message, and null data
-        return response.json({status: 500, message: '', data: [] });
+        // set the post profile id to the profile id from the session
+        const profileIdFromSession: string = profile.profileId as string
+
+        const post= await selectPostByPostId(validationResultForRequestParams.data)
+
+//if the profile does not exist, return a preformatted response to the client
+        if(post === null) {
+            return response.json({status: 400, message: "profile does not exist", data: null})
+        }
+
+        if (profileIdFromSession !== post.postProfileId) {
+            return response.json({status: 400, message: "you cannot update a post that is not yours", data: null})
+        }
+
+        //grab the post data off of the validated request body
+        const {postBody,postImage} = validationResultForRequestBody.data
+
+        //update the post with the new data
+        post.postBody = postBody
+        post.postImage = postImage
+
+        //update the profile in the database
+        await updatePost(post)
+
+        //return a response to the client with a success message
+        return response.json({status: 200, message: "profile successfully updated", data: null})
+
+
+    } catch (error: unknown) {
+        // if an error occurs, return a preformatted response to the client
+        return response.json({status: 500,message: "internal server error", data: null})
     }
 }

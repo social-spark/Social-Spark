@@ -2,8 +2,7 @@ import {Router} from "express";
 import {
     getPublicProfileByProfileEmailController,
     getPublicProfileByProfileFullNameController, getPublicProfileByProfileIDController,
-    getPublicProfileByProfileUsernameController,
-    getPublicProfilesByProfileNameController, putUpdateProfileByProfileIdController
+    getPublicProfileByProfileUsernameController, putUpdateProfileByProfileIdController
 } from "./profile.controller";
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 
@@ -19,8 +18,6 @@ router.route('/:profileId')
     .put(isLoggedInController, putUpdateProfileByProfileIdController)
 
 
-router.route('/all-profiles')
-    .get(getPublicProfileByProfileIDController)
 
 router.route('/profile')
 
