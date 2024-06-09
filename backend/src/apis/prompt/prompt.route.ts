@@ -18,4 +18,5 @@ router.route('/:postId')
 router.route('/:promptCategory')
     .get(getAllPromptsByCategory);
 
+
 export const promptRoute = { basePath, router };
