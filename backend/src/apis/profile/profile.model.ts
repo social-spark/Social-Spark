@@ -222,3 +222,15 @@ export async function selectPublicProfileByUsername(profileUsername: string): Pr
 
     return PublicProfileSchema.array().parse(rowList)
 }
+
+/**
+ * deletes the profile from the profile table in the database by profileId and returns a message that says 'profile successfully deleted'
+ * @return 'Profile successfully deleted'
+ */
+export async function deleteProfileByProfileId (profileId: string): Promise<string> {
+    //delete the profile from the profile table in the database by profileId
+    await sql`DELETE
+              FROM profile
+              WHERE profile_id = ${profileId}`
+    return 'Profile successfully deleted'
+}

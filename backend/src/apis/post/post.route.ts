@@ -28,7 +28,7 @@ router.route('/page/:page').get(getPageOfPostsController)
 
 router.route('/profileUsername/:profileUsername').get(getPostsByProfileUsernameController)
 
-router.route('/postProfileId/:postProfileId').get(getPostsByPostProfileIdController)
+router.route('/post-profile-id/:postProfileId').get(getPostsByPostProfileIdController)
 
 
 router.route('/:postId')

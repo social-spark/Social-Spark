@@ -62,6 +62,7 @@ export async function selectPostsByProfileUsername(profileUsername: string): Pro
     FROM post JOIN profile ON post.post_profile_id = profile.profile_id
     WHERE profile.profile_username = ${profileUsername}`
 
+    //parse the post from the database into a Post object
     return PostSchema.array().parse(rowList)
 
 }

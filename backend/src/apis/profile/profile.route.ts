@@ -1,5 +1,6 @@
 import {Router} from "express";
 import {
+    deleteProfileByProfileIdController,
     getPublicProfileByProfileEmailController,
     getPublicProfileByProfileFullNameController, getPublicProfileByProfileIDController,
     getPublicProfileByProfileUsernameController, putUpdateProfileByProfileIdController
@@ -16,6 +17,7 @@ const router: Router = Router()
 router.route('/:profileId')
     .get(getPublicProfileByProfileIDController)
     .put(isLoggedInController, putUpdateProfileByProfileIdController)
+    .delete(isLoggedInController, deleteProfileByProfileIdController)
 
 
 

@@ -1,12 +1,13 @@
 import {Request, Response} from "express";
 import {
-    PrivateProfile, PublicProfileSchema, selectPrivateProfileByProfileEmail,
+    deleteProfileByProfileId,
+    PrivateProfile, PublicProfile, PublicProfileSchema, selectPrivateProfileByProfileEmail,
     selectPrivateProfileByProfileId, selectPublicProfileByProfileFullName, selectPublicProfileByProfileId,
     selectPublicProfileByUsername,
     selectPublicProfilesByProfileName, updateProfile
 } from "./profile.model";
 import {zodErrorResponse} from "../../utils/response.utils";
-
+import { z } from 'zod';
 
 import {Status} from "../../utils/interfaces/Status";
 
@@ -251,5 +252,72 @@ export async function getPublicProfileByProfileEmailController(request: Request,
 
         // if an error occurs, return a preformatted response to the client
         return response.json({status: 500,message: "internal server error", data: null})
+    }
+}
+
+/**
+ * deletes a profile from the database by profile id and returns a status to the user in the response
+ * @param request from the client to the server to delete a profile by profile id from the database
+ * @param response from the server to the client with a status of 200 or an error message
+ */
+export async function deleteProfileByProfileIdController(request: Request, response: Response): Promise<Response> {
+    try {
+        // Validate the incoming request profileId with the uuid schema
+        const validationResult = z.string().uuid({ message: 'Please provide a valid profileId' }).safeParse(request.params.profileId);
+
+        // If the validation fails, return a response to the client
+        if (!validationResult.success) {
+            return response.status(400).json({
+                status: 400,
+                message: validationResult.error.message,
+                data: null
+            });
+        }
+
+        // Get the profile from the session
+        const profile: PublicProfile | undefined = request.session.profile as PublicProfile;
+
+        // Check if profile exists in session
+        if (!profile) {
+            return response.status(401).json({
+                status: 401,
+                message: 'Unauthorized',
+                data: null
+            });
+        }
+
+        // Get the profileId from the session
+        const sessionProfileId: string = profile.profileId;
+
+        // Get the profileId from the request parameters
+        const requestProfileId: string = validationResult.data;
+
+        // Check if the profileId from session matches the profileId from request
+        if (sessionProfileId !== requestProfileId) {
+            return response.status(403).json({
+                status: 403,
+                message: 'You are not allowed to delete this profile',
+                data: null
+            });
+        }
+
+        // Delete the profile from the database by profileId
+        await deleteProfileByProfileId(requestProfileId);
+
+        // Return the response with the status code 200 and a success message
+        return response.status(200).json({
+            status: 200,
+            message: 'Profile deleted successfully',
+            data: null
+        });
+
+    } catch (error) {
+        // If there is an error, return the response with the status code 500 and an error message
+        console.error('Error deleting profile:', error);
+        return response.status(500).json({
+            status: 500,
+            message: 'Internal server error',
+            data: null
+        });
     }
 }

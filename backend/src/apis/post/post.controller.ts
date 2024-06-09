@@ -128,9 +128,9 @@ export async function getPostsByPostProfileIdController (request: Request, respo
 }
 
 /**
- * gets all posts from the database by post profile id and returns them to the user in the response
- * @param request from the client to the server to get all posts by post profile id
- * @param response from the server to the client with all posts by post profile id or an error message
+ * gets all posts from the database by post profile username and returns them to the user in the response
+ * @param request from the client to the server to get all posts by post profile username
+ * @param response from the server to the client with all posts by post profile username or an error message
  */
 export async function getPostsByProfileUsernameController (request: Request, response: Response): Promise<Response<Status>> {
     try {
