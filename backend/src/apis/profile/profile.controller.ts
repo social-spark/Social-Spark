@@ -1,9 +1,8 @@
 import {Request, Response} from "express";
 import {
     PrivateProfile, PublicProfileSchema, selectPrivateProfileByProfileEmail,
-    selectPrivateProfileByProfileId,
-    selectPublicProfileByProfileId,
-    selectPublicProfileByProfileName, selectPublicProfileByUsername,
+    selectPrivateProfileByProfileId, selectPublicProfileByProfileFullName, selectPublicProfileByProfileId,
+    selectPublicProfileByUsername,
     selectPublicProfilesByProfileName, updateProfile
 } from "./profile.model";
 import {zodErrorResponse} from "../../utils/response.utils";
@@ -13,13 +12,14 @@ import {Status} from "../../utils/interfaces/Status";
 
 
 /**
- * Express controller for getting the public profile by profileId
- * @param request from the client to the server to get all post by post profile id
- * @param response from the server to the client with all post by post profile id or an error message
+ * Express controller for getting the public profiles by profileId
+ * @param request from the client to the server to get all profiles by the profileId
+ * @param response from the server to the client with all the public profiles or an error message
  * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information,
  * or null if the information could not be found, set to the data field.
  */
-export async function getPublicProfileByProfileIdController(request: Request, response: Response) : Promise<Response<Status>> {
+
+export async function getPublicProfileByProfileIDController(request: Request, response: Response): Promise<Response<Status>> {
     try {
 
         // validate the profileId coming from the request parameters
@@ -33,16 +33,19 @@ export async function getPublicProfileByProfileIdController(request: Request, re
         //grab the profileId off of the validated request parameters
         const {profileId} = validationResult.data
 
+
         // grab the profile by profileId
         const data= await selectPublicProfileByProfileId(profileId)
 
-        // return the response to the client with the requested information
-        return response.json({status: 200, message: null, data})
-    } catch (error: unknown) {
-        // if an error occurs, return a preformatted response to the client
-        return response.json({status: 500,message: "internal server error", data: null})
+        // Return the response to the client with the requested information
+        return response.json({ status: 200, message: null, data});
+    } catch (error) {
+        // Handle any errors and return a preformatted response to the client
+        console.error("Error fetching public profile:", error);
+        return response.json({ status: 500, message: "Internal server error", data: null });
     }
 }
+
 
 /**
  * Express controller for getting the public profile by profileId
@@ -52,7 +55,7 @@ export async function getPublicProfileByProfileIdController(request: Request, re
  * or null if the information could not be found, set to the data field.
  */
 
-export async function getPublicProfileByProfileNameController(request: Request, response: Response): Promise<Response<Status>> {
+export async function getPublicProfileByProfileFullNameController(request: Request, response: Response): Promise<Response<Status>> {
     try {
 
         // validate the profileName coming from the request parameters
@@ -67,13 +70,13 @@ export async function getPublicProfileByProfileNameController(request: Request, 
         const {profileFullName} = validationResult.data
 
         // grab the profile by profileName
-        const data= await selectPublicProfileByProfileName(profileFullName)
+        const data= await selectPublicProfileByProfileFullName(profileFullName)
 
         // return the response to the client with the requested information
         return response.json({status: 200, message: null, data})
 
     } catch (error: unknown) {
-
+    console.log(error)
         // if an error occurs, return a preformatted response to the client
         return response.json({status: 500,message: "internal server error", data: null})
     }
@@ -152,7 +155,7 @@ export async function putUpdateProfileByProfileIdController(request: Request, re
         }
 
         //grab the profile data off of the validated request body
-        const {profileBio, profileImage, profileFullName} = validationResultForRequestBody.data
+        const {profileBio, profileImage, profileFullName, profileUsername} = validationResultForRequestBody.data
 
         //grab the profile by profileId
         const profile: PrivateProfile|null = await selectPrivateProfileByProfileId(profileId)
@@ -167,6 +170,7 @@ export async function putUpdateProfileByProfileIdController(request: Request, re
         profile.profileBio = profileBio
         profile.profileImage = profileImage
         profile.profileFullName = profileFullName
+        profile.profileUsername = profileUsername
 
         //update the profile in the database
         await updateProfile(profile)

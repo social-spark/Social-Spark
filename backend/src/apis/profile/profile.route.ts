@@ -1,13 +1,11 @@
 import {Router} from "express";
 import {
     getPublicProfileByProfileEmailController,
-    getPublicProfileByProfileIdController,
-    getPublicProfileByProfileNameController,
+    getPublicProfileByProfileFullNameController, getPublicProfileByProfileIDController,
     getPublicProfileByProfileUsernameController,
     getPublicProfilesByProfileNameController, putUpdateProfileByProfileIdController
 } from "./profile.controller";
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
-import {getAllPromptsController} from "../prompt/prompt.controller";
 
 
 const basePath = '/apis/profile'
@@ -16,20 +14,21 @@ const router: Router = Router()
 
 
 //Update a profile
-router.route('/')
-    .get(putUpdateProfileByProfileIdController)
+router.route('/:profileId')
+    .get(getPublicProfileByProfileIDController)
     .put(isLoggedInController, putUpdateProfileByProfileIdController)
 
 
-router.route('/:profileId')
-    .get(getPublicProfileByProfileIdController)
+router.route('/all-profiles')
+    .get(getPublicProfileByProfileIDController)
 
+router.route('/profile')
 
-router.route('/profileNames/:profileFullName')
-    .get(getPublicProfilesByProfileNameController)
+router.route('/full-name/:profileFullName')
+    .get(getPublicProfileByProfileFullNameController)
 
-router.route('/profileName/:profileFullName')
-    .get(getPublicProfileByProfileNameController)
+// router.route('/profileName/:profileFullName')
+    // .get(getPublicProfileByProfileNameController)
 
 router.route('/profileUserName/:profileUserName')
     .get(getPublicProfileByProfileUsernameController)

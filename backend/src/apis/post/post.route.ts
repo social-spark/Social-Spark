@@ -14,7 +14,7 @@ const basePath = '/apis/post'
 // instantiate a new router object
 const router = Router()
 
-// define thread route for this router
+// define post route for this router
 router.route('/')
     .post(isLoggedInController, postPostController)
     .get(getAllPosts)

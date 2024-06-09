@@ -112,14 +112,14 @@ export async function selectPrivateProfileByProfileEmail (profileEmail: string):
 }
 
 /**
- * selects the publicProfile from the profile table by profileId
+ * selects all the publicProfile from the profile table by profileId
  * @param profileId the profile's id to search for in the profile table
- * @returns Profile or null if no profile was found
+ * @returns Profile or null if no profile was found by that profileId
  **/
-export async function selectPublicProfileByProfileId (profileId: string): Promise<PublicProfile | null> {
+export async function selectPublicProfileByProfileId(profileId:string): Promise<PublicProfile | null> {
 
     // create a prepared statement that selects the profile by profileId and execute the statement
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created, profile_username FROM profile WHERE profile_id = ${profileId}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created, profile_username, profile_email FROM profile WHERE profile_id = ${profileId}`
 
     // enforce that the result is an array of one profile, or null
     const result = PublicProfileSchema.array().max(1).parse(rowList)
@@ -147,13 +147,13 @@ export async function selectPrivateProfileByProfileId(profileId: string): Promis
 
 /**
  * selects the publicProfile from the profile table by profileName
- * @param profileName the profile's name to search for in the profile table
+ * @param profileFullName the profile's name to search for in the profile table
  * @returns {PublicProfile | null} if no profile was found
  */
-export async function selectPublicProfileByProfileName(profileName: string): Promise<PublicProfile | null> {
+export async function selectPublicProfileByProfileFullName(profileFullName: string): Promise<PublicProfile | null> {
 
     // create a prepared statement that selects the profile by profileName and execute the statement
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username, profile_email FROM profile WHERE profile_full_name = ${profileName}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username, profile_email, profile_date_created FROM profile WHERE profile_full_name = ${profileFullName}`
 
     // enforce that the result is an array of one profile, or null
     const result = PublicProfileSchema.array().max(1).parse(rowList)
