@@ -10,7 +10,13 @@ import {signInRoute} from "./apis/sign-in/sign-in.route";
 import {profileRoute} from "./apis/profile/profile.route";
 import {promptRoute} from "./apis/prompt/prompt.route";
 import {likeRoute} from "./apis/like/like.route";
+
 import {signOutRoute} from "./apis/sign-out/sign-out.route";
+
+import {postRoute} from "./apis/post/post.route";
+import {NotificationRoute} from "./apis/notification/notification.route";
+
+
 
 // The following class creates the app and instantiates the server
 export class App {
@@ -21,9 +27,6 @@ export class App {
     constructor ( private readonly redisClient: RedisClientType,
                   private readonly port?: number | string,
     ) {
-
-
-
         this.redisStore = new RedisStore({client: this.redisClient})
         this.app = express()
         this.settings()
@@ -46,7 +49,6 @@ export class App {
             saveUninitialized: false,
             secret: process.env.SESSION_SECRET as string,
             resave: false
-
         }))
     }
 
@@ -59,12 +61,13 @@ export class App {
         this.app.use(profileRoute.basePath, profileRoute.router)
         this.app.use(promptRoute.basePath, promptRoute.router)
         this.app.use(likeRoute.basePath, likeRoute.router)
-
+        this.app.use(postRoute.basePath, postRoute.router)
+        this.app.use(NotificationRoute.basePath, NotificationRoute.router)
     }
 
     // starts the server and tells the terminal to post a message that the server is running and on what port
     public async listen (): Promise<void> {
-        await this.app.listen(4200)
+        this.app.listen(4200)
         console.log('Express application built successfully')
     }
 }

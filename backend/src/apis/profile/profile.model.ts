@@ -80,7 +80,7 @@ export type PrivateProfile = z.infer<typeof PrivateProfileSchema>
  * @property profileFullName {string} the profile's name
  **/
 
-export const PublicProfileSchema = PrivateProfileSchema.omit({profileHash: true, profileActivationToken: true, profileEmail: true})
+export const PublicProfileSchema = PrivateProfileSchema.omit({profileHash: true, profileActivationToken: true})
 export type PublicProfile = z.infer<typeof PublicProfileSchema>
 
 /**
@@ -90,7 +90,7 @@ export type PublicProfile = z.infer<typeof PublicProfileSchema>
  */
 export async function updateProfile (profile: PrivateProfile): Promise<string> {
     const { profileId, profileBio, profileActivationToken, profileEmail, profileHash, profileImage, profileFullName, profileUsername, profileDateCreated} = profile
-    await sql`UPDATE profile SET profile_bio = ${profileBio}, profile_activation_token = ${profileActivationToken}, profile_email = ${profileEmail}, profile_hash = ${profileHash}, profile_image = ${profileImage}, profile_full_name = ${profileFullName}, profile_username = ${profileUsername}, profile_date_created = ${profileDateCreated} WHERE profile_id = ${profileId}`
+    await sql`UPDATE profile SET profile_bio = ${profileBio}, profile_activation_token = ${profileActivationToken}, profile_email = ${profileEmail}, profile_hash = ${profileHash}, profile_image = ${profileImage}, profile_full_name = ${profileFullName}, profile_username = ${profileUsername} WHERE profile_id = ${profileId}`
     return 'Profile successfully updated'
 }
 
@@ -112,14 +112,14 @@ export async function selectPrivateProfileByProfileEmail (profileEmail: string):
 }
 
 /**
- * selects the publicProfile from the profile table by profileId
+ * selects all the publicProfile from the profile table by profileId
  * @param profileId the profile's id to search for in the profile table
- * @returns Profile or null if no profile was found
+ * @returns Profile or null if no profile was found by that profileId
  **/
-export async function selectPublicProfileByProfileId (profileId: string): Promise<PublicProfile | null> {
+export async function selectPublicProfileByProfileId(profileId:string): Promise<PublicProfile | null> {
 
     // create a prepared statement that selects the profile by profileId and execute the statement
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created, profile_username FROM profile WHERE profile_id = ${profileId}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created, profile_username, profile_email FROM profile WHERE profile_id = ${profileId}`
 
     // enforce that the result is an array of one profile, or null
     const result = PublicProfileSchema.array().max(1).parse(rowList)
@@ -127,7 +127,6 @@ export async function selectPublicProfileByProfileId (profileId: string): Promis
     // return the profile or null if no profile was found
     return  result?.length === 1 ? result[0] : null
 }
-
 
 /**
  * selects the privateProfile from the profile table by profileId
@@ -148,13 +147,13 @@ export async function selectPrivateProfileByProfileId(profileId: string): Promis
 
 /**
  * selects the publicProfile from the profile table by profileName
- * @param profileName the profile's name to search for in the profile table
+ * @param profileFullName the profile's name to search for in the profile table
  * @returns {PublicProfile | null} if no profile was found
  */
-export async function selectPublicProfileByProfileName(profileName: string): Promise<PublicProfile | null> {
+export async function selectPublicProfileByProfileFullName(profileFullName: string): Promise<PublicProfile | null> {
 
     // create a prepared statement that selects the profile by profileName and execute the statement
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username, profile_email FROM profile WHERE profile_full_name = ${profileName}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username, profile_email, profile_date_created FROM profile WHERE profile_full_name = ${profileFullName}`
 
     // enforce that the result is an array of one profile, or null
     const result = PublicProfileSchema.array().max(1).parse(rowList)
@@ -205,4 +204,33 @@ export async function selectPrivateProfileByProfileActivationToken (profileActiv
     const rowList = await sql`SELECT profile_id, profile_bio, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name FROM profile WHERE profile_activation_token = ${profileActivationToken}`
     const result = PrivateProfileSchema.array().max(1).parse(rowList)
     return result?.length === 1 ? result[0] : null
+}
+
+/**
+ * selects profile from the profile table by profileUsername
+ * @param profileUsername the profile's name to search for in the profile table
+ * @returns an array of profiles
+ **/
+
+export async function selectPublicProfileByUsername(profileUsername: string): Promise<PublicProfile[]> {
+
+    // format profileUsername to include wildcards
+    const profileUsernameWithWildcards = `%${profileUsername}%`
+
+    // create a prepared statement that selects profiles by profileName and execute the statement
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username FROM profile WHERE profile.profile_username LIKE ${profileUsernameWithWildcards}`
+
+    return PublicProfileSchema.array().parse(rowList)
+}
+
+/**
+ * deletes the profile from the profile table in the database by profileId and returns a message that says 'profile successfully deleted'
+ * @return 'Profile successfully deleted'
+ */
+export async function deleteProfileByProfileId (profileId: string): Promise<string> {
+    //delete the profile from the profile table in the database by profileId
+    await sql`DELETE
+              FROM profile
+              WHERE profile_id = ${profileId}`
+    return 'Profile successfully deleted'
 }
