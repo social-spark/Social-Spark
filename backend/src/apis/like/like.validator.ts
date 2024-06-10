@@ -10,4 +10,5 @@ export const LikeSchema = z.object({
     likeProfileId: z.string({required_error: 'please provide a valid likeProfileId'}).uuid({message: 'please provide a valid uuid for likeProfileId'}),
     likePostId: z.string({required_error: 'please provide a valid likePostId'}).uuid({message: 'please provide a valid uuid for likePostId'}),
     likeDate: z.date({required_error: 'please provide a valid likeDate or null'}).nullable()
+
 })

@@ -68,5 +68,5 @@ values (gen_random_uuid(), '1234567890abcdef1234567890abcdef', 'Im a full-stack 
         'Monica Mendez', 'https://example.com/avatar.jpg', '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1','myblahblah');
 
 
-INSERT INTO post (post_id, post_body, post_date_created, post_image, post_title, profile_id, prompt_id),
-    VALUES (gen_random_uuid(), 'This is a post body', now(), 'https://example.com/image.jpg', 'This is a post title',);
+SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created, profile_username FROM profile
+WHERE profile_id = '1c2240b0-13b2-443e-9be7-ab020d41a565';

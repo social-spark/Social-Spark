@@ -4,7 +4,10 @@ import {
     getPageOfPostsController,
     getPostsByPostProfileIdController,
     getPostsByProfileUsernameController,
-    postPostController, getPostByPostIdController, UpdatePostByPostIdController
+    postPostController,
+    getPostByPostIdController,
+    deletePostByPostIdController,
+    putUpdatePostByPostIdController
 } from "./post.controller";
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 
@@ -14,7 +17,7 @@ const basePath = '/apis/post'
 // instantiate a new router object
 const router = Router()
 
-// define thread route for this router
+// define post route for this router
 router.route('/')
     .post(isLoggedInController, postPostController)
     .get(getAllPosts)
@@ -25,14 +28,12 @@ router.route('/page/:page').get(getPageOfPostsController)
 
 router.route('/profileUsername/:profileUsername').get(getPostsByProfileUsernameController)
 
-router.route('/postProfileId/:postProfileId').get(getPostsByPostProfileIdController)
+router.route('/post-profile-id/:postProfileId').get(getPostsByPostProfileIdController)
 
-function deletePostByPostIdController() {
-
-}
 
 router.route('/:postId')
-    .get(getPostByPostIdController,UpdatePostByPostIdController)
+    .get(getPostByPostIdController)
+    .put(putUpdatePostByPostIdController)
     .delete(isLoggedInController, deletePostByPostIdController)
 
 // export the router with the basePath and router object

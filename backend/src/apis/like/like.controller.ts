@@ -14,15 +14,15 @@ import {zodErrorResponse} from "../../utils/response.utils";
 import {z} from "zod";
 
 /**
- * Handles GET request for all likes associated with a thread
- * @param request object containing the like thread id
- * @param response object containing the status of the request and the likes associated with the thread
+ * Handles GET request for all likes associated with a post
+ * @param request object containing the like post id
+ * @param response object containing the status of the request and the likes associated with the post
  */
 export async function getLikesByLikePostIdController(request: Request, response: Response): Promise<Response> {
     try {
 
         // validate the likeProfileId coming from the request parameters
-        const validationResult = z.string().uuid("Please provide a valid likePostId").safeParse(request.params.likeThreadId)
+        const validationResult = z.string().uuid("Please provide a valid likePostId").safeParse(request.params.likePostId)
 
         // if the validation fails, return a response to the client
         if (!validationResult.success) {
@@ -31,13 +31,13 @@ export async function getLikesByLikePostIdController(request: Request, response:
 
         // if the validation succeeds, continue
 
-        // deconstruct the like thread id from the request parameters
+        // deconstruct the like post id from the request parameters
         const likePostId = validationResult.data
 
-        // select the likes by like thread id
+        // select the likes by like post id
         const data = await selectLikesByLikePostId(likePostId)
 
-        // return the status and the likes associated with the thread
+        // return the status and the likes associated with the post
         return response.json({status: 200, message: null, data})
 
         // if an error occurs, return the error to the user
@@ -89,8 +89,8 @@ export async function getLikesByLikeProfileIdController(request: Request, respon
 }
 
 /**
- * Handles POST request to toggle a like on a thread by inserting or deleting a like from the like table
- * @param request object containing the like thread id
+ * Handles POST request to toggle a like on a post by inserting or deleting a like from the like table
+ * @param request object containing the like post id
  * @param response object containing the status of the request
  * @returns status object indicating whether the like was inserted or deleted
  */
@@ -107,7 +107,7 @@ export async function toggleLikeController(request: Request, response: Response)
 
         // if the validation succeeds, continue
 
-        // deconstruct the like thread id from the validation result
+        // deconstruct the like post id from the validation result
         const {likePostId} = validationResult.data
 
         // deconstruct the profile from the session
@@ -153,7 +153,7 @@ export async function toggleLikeController(request: Request, response: Response)
 
 /**
  * Handles POST request to insert a like into the like table
- * @param request object containing the like thread id and the profile id
+ * @param request object containing the like post id and the profile id
  * @param response object containing the status of the request
  * @returns status object indicating if the like was inserted
  */
@@ -170,7 +170,7 @@ export async function postLikeController(request: Request, response: Response): 
 
         // if the validation succeeds, continue
 
-        // deconstruct the like thread id from the validation result
+        // deconstruct the like post id from the validation result
         const {likePostId} = validationResult.data
 
         // deconstruct the profile from the session
@@ -207,7 +207,7 @@ export async function postLikeController(request: Request, response: Response): 
 
 /**
  * Handles DELETE request to delete a like from the like table
- * @param request object containing the like thread id
+ * @param request object containing the like post id
  * @param response object containing the status of the request
  * @returns status object indicating if the like was deleted
  */
@@ -224,7 +224,7 @@ export async function deleteLikeController(request: Request, response: Response)
 
         // if the validation succeeds, continue
 
-        // deconstruct the like thread id from the validation result
+        // deconstruct the like post id from the validation result
         const {likePostId} = validationResult.data
 
         // deconstruct the profile from the session
