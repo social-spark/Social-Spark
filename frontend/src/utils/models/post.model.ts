@@ -22,7 +22,7 @@ export async function fetchAllPosts() : Promise<Post[]> {
 
     }).then((response: Response) => {
         if(!response.ok) {
-            throw new Error('Error fetching threads')
+            throw new Error('Error fetching posts')
         } else {
             return response.json()
         }
