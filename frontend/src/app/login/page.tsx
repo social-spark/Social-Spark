@@ -21,7 +21,7 @@ export default function Login() {
         <div className="mb-2 block">
                     <Label htmlFor="email1" value="Your email" />
                 </div>
-                <TextInput id="email1" type="email" placeholder="name@flowbite.com" required />
+                <TextInput id="email1" type="email" placeholder="email@example.com" required />
             </div>
             <div>
                 <div className="mb-2 block">

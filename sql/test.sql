@@ -70,3 +70,6 @@ values (gen_random_uuid(), '1234567890abcdef1234567890abcdef', 'Im a full-stack 
 
 SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created, profile_username FROM profile
 WHERE profile_id = '1c2240b0-13b2-443e-9be7-ab020d41a565';
+
+INSERT INTO post (post_id, post_body, post_image, post_date, post_profile_id, post_prompt_id)
+VALUES (gen_random_uuid(), 'This is a post body', 'https://example.com/image.jpg', now(), '0ac295dc-5670-47ab-88ee-db86212f8987', 'afaa4296-27b7-4e38-aff6-7d3f8a7fe13a');
