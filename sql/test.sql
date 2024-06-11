@@ -71,5 +71,5 @@ values (gen_random_uuid(), '1234567890abcdef1234567890abcdef', 'Im a full-stack 
 SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created, profile_username FROM profile
 WHERE profile_id = '1c2240b0-13b2-443e-9be7-ab020d41a565';
 
-INSERT INTO post (post_id, post_body, post_image, post_date, post_body, post_profile_id, post_prompt_id)
-VALUES (gen_random_uuid(), 'This is a post body', 'https://example.com/image.jpg', 'This is a post title',  now(), '66427f8b-0c35-4562-bd16-93d4e6994acd', '8260be3d-3c5d-412a-a5f2-6d8d3f76baad');
+INSERT INTO post (post_id, post_image, post_body, post_date, post_profile_id, post_prompt_id)
+VALUES (gen_random_uuid(), 'https://example.com/image.jpg', 'How has the music industry changed with the rise of digital platforms?',  now(), '0ac295dc-5670-47ab-88ee-db86212f8987', '2a842f0b-73a9-4783-998b-17a3a537f201');
