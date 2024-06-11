@@ -5,9 +5,7 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import {main} from "@popperjs/core";
 import {Nav} from "@/app/components/Nav";
 import React from "react";
-
-
-
+import {PostCard} from "@/app/(index)/PostCard";
 
 
 export default function Login() {
@@ -35,6 +33,8 @@ export default function Login() {
             </div>
             <Button type="submit">Submit</Button>
         </form>
+
+
         </main>
     );
 }
