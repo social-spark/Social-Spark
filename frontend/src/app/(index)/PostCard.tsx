@@ -16,12 +16,12 @@ export async function PostCard(props: Props) {
 
 	return (
 		<>
-			<form>
-				<div className="max-w-sm rounded overflow-hidden shadow-lg my-5">
+			<form className= " flex justify-center">
+				<div className="max-w-sm rounded overflow-hidden shadow-lg my-5 ">
 						<Image className="w-full" src={cardTopImage} alt="Sunset in the mountains"/>
-						<div className="px-6 py-4">
+						<div className="pr-4 pl-2 py-4">
 							<p className="inline-flex items-center mr-3 text-sm font-semibold"><img
-								className="mr-2 w-6 h-6 rounded-full"
+								className="mr-2 w-10 h-10 rounded-full"
 								src={profile.profileImage ?? 'https://picsum.photos/seed/picsum/200/300'}
 								alt="profile image"/>{profile.profileUsername}</p>
 							<p className="text-sm text-gray-600 dark:text-gray-400">
