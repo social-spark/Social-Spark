@@ -1,14 +1,12 @@
-
 "use server"
 {unstable_noStore()}
-unstable_noStore()
 import {unstable_noStore, unstable_noStore as noStore} from "next/cache";
 import {Profile, ProfileSchema} from "@/utils/models/profile.model";
 import {cookies} from "next/headers";
 import {jwtDecode} from "jwt-decode";
 
 
-
+unstable_noStore()
 
 export type Session = {
     profile: Profile,

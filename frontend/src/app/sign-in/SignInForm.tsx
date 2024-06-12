@@ -6,7 +6,9 @@ import {Formik, FormikHelpers, FormikProps} from "formik";
 import {z} from "zod";
 import {useRouter} from "next/navigation";
 import {toFormikValidationSchema} from "zod-formik-adapter";
-import {FormDebugger} from "@/app/components/navigation/FormDebugger";
+import {FormDebugger} from "@/app/components/FormDebugger";
+import {DisplayError} from "@/app/components/DisplayError";
+import {DisplayStatus} from "@/app/components/navigation/DisplayStatus";
 
 
 const formSchema = z.object({
@@ -51,11 +53,11 @@ export function SignInForm(){
             }
             throw new Error('Network response was not ok.')
         }).then(json => {
-            let type = 'alert-danger'
+            let type = 'failure'
             if (json.status === 200){
                 resetForm()
                 router.refresh()
-                type = 'alert-success'
+                type = 'success'
             }
             setStatus({type,message: json.message})
         })
@@ -88,23 +90,26 @@ function SignInFormContent(props: FormikProps<FormSchema>) {
             <form onSubmit={handleSubmit} className="flex-col gap-4 flex py-60 items-center">
                 <div>
                     <div className="mb-2 block">
-                        <Label htmlFor="email1" value="Your email"/>
+                        <Label htmlFor="email1" value="Enter your email address"/>
                     </div>
                     <TextInput autoComplete='email' value={values.profileEmail} onBlur={handleBlur}
                                onChange={handleChange} id="email1" type="email" placeholder="name@example.com"
                                name="profileEmail"/>
+                    <DisplayError errors={errors} touched={touched} field={'profileEmail'}/>
                 </div>
                 <div>
                     <div className="mb-2 block">
-                        <Label htmlFor="password1" value="Your password"/>
+                        <Label htmlFor="password1" value="Enter your password"/>
                     </div>
                     <TextInput autoComplete='current-password' value={values.profilePassword} onBlur={handleBlur}
-                               onChange={handleChange} id="password1" type="password" required/>
+                               onChange={handleChange} name='profilePassword'  placeholder="Enter Password" id="password1" type="password"/>
+                    <DisplayError errors={errors} touched={touched} field={'profilePassword'}/>
                 </div>
                 <div className="flex">
                 <Button className='mx-5' color={'success'} type="submit">Submit</Button>
                 <Button className='mx-5' color={'failure'} type={'reset'} onClick={handleReset}>Reset</Button>
                 </div>
+                <DisplayStatus />
             </form>
             <FormDebugger{...props}/>
         </>
