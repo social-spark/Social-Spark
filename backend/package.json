@@ -27,6 +27,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.1",
+    "openai": "^4.50.0",
     "postgres": "^3.3.5",
     "redis": "^4.6.10",
     "ts-node": "^10.9.1",
