@@ -11,3 +11,4 @@ router.route('/').post(signupProfileController)
 router.route('/activation/:activation').get(activationController)
 
 export const signUpRoute = { basePath, router }
+

@@ -1,21 +1,19 @@
-/** @type {import('next').NextConfig} */
+/*@type {import('next').NextConfig}*/
 
 const nextConfig = {
     async rewrites() {
-        return [
+        return[
             {
-                source:'/apis/:path*',
+                source: '/apis/:path*',
                 destination: `${process.env.REST_API_URL}/apis/:path*`
             }
-        ]
+            ]
     },
     logging: {
-        fetches: {
-            fullUrl: true,
-        },
+    fetches: {
+        fullUrl: true,
     },
-
-
+    },
 };
 
 export default nextConfig;

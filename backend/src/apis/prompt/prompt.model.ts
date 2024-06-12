@@ -2,8 +2,8 @@ import {sql} from "../../utils/database.utils";
 
 export interface Prompt {
     promptId: string | null
-    promptType: string
-    promptValue: string
+    promptCategory: string
+    promptBio: string
 }
 
 export async function selectAllPrompts(): Promise<Prompt[]> {
@@ -22,7 +22,7 @@ export async function selectAllPromptsByCategory(promptCategory: string): Promis
 }
 
 export async function selectPromptsByPostId(postId: string): Promise<Prompt[]> {
-    const result = await sql<Prompt[]>
+   return sql<Prompt[]>
 
         `SELECT prompt_id,
         prompt_category,
@@ -30,5 +30,4 @@ export async function selectPromptsByPostId(postId: string): Promise<Prompt[]> {
         FROM prompt
         INNER JOIN post on prompt.prompt_id  = post.post_prompt_id WHERE post.post_id = ${postId}`;
 
-    return result
 }
