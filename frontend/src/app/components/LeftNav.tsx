@@ -6,7 +6,8 @@ import Image from "next/image";
 
 export function LeftNav() {
     return (
-        <Sidebar aria-label="Sidebar with content separator example" className="sticky top-0 h-screen">
+
+        <Sidebar aria-label="Sidebar with content separator example" className="sticky top-0 h-screen border border-slate-950">
             <Sidebar.Items>
                 <Sidebar.ItemGroup className="text-center">
                     <Sidebar.Item href="#"><Image className="size-7 inline-flex tracking-normal" src={friends} alt="friends icon"/>

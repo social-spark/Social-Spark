@@ -8,8 +8,8 @@ import {Post} from "@/app/components/Post";
 export default function Share() {
     return (
         <body>
-        <div className="flex justify-center items-center h-screen">
-            <div className="box-border sm:w-1/4 p-4 border-4 px-10">
+        <div className="flex justify-center items-center h-screen ">
+            <div className="box-border sm:w-1/4 p-4 border-4 px-10 bg-white rounded-lg">
                 <div className="flex items-center mb-4">
                     <Image className=" w-20 h-20 rounded-full" src={profile} alt="profile picture"/>
                     <div className="ml-4">

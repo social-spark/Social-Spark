@@ -12,10 +12,10 @@ export function Like() {
     };
 
     return (
-        <div className="float-right pr-10">
+        <button className="float-right pr-10">
             <br/>
-            <Image className="size-6" src={liked} alt="liked icon" onClick={onLikeButtonClick}/>
+            <Image className="hover:bg-[#42AEEE] rounded-full size-6" src={liked} alt="liked icon" onClick={onLikeButtonClick}/>
             <p>{like}</p>
-        </div>
+        </button>
     );
 }
