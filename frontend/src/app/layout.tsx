@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import {Flowbite, Sidebar,  ThemeModeScript} from "flowbite-react";
+import {Flowbite, Sidebar, ThemeModeScript} from "flowbite-react";
 import {Nav} from "@/app/components/Nav";
 import {LeftNav} from "@/app/components/LeftNav";
+import {theme} from "@/utils/theme.utils";
 
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export default function RootLayout(props : RootLayoutProps) {
             <ThemeModeScript/><title>Prompt Me</title>
         </head>
         <body className={("min-h-dvh bg-[#50646F] font-sans antialiasing text-stone-800 dark:bg-gray-800 dark:text-slate-200")} >
-        <Flowbite>
+        <Flowbite theme={{theme: theme}}>
             {children}
         </Flowbite>
         </body>

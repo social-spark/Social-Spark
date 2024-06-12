@@ -24,7 +24,7 @@ export default function ProfileHeader() {
 
 
                 <div className="flex-1">
-                    <section className="grid grid-cols-2 md:grid md:grid-cols-3 border border-slate-950 bg-white rounded-lg p-6 md:space-x-6"
+                    <section className="grid grid-cols-2 md:grid md:grid-cols-3 border border-slate-950 bg-gray-300 rounded-lg p-6 md:space-x-6"
                         id="profile-header">
                         <Image className="object-scale-down h-36 w-36 row-span-2 " src={profile} alt="Profile picture"/>
 
