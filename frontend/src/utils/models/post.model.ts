@@ -25,6 +25,7 @@ export async function fetchAllPosts() : Promise<Post[]> {
         if(!response.ok) {
             throw new Error('Error fetching posts')
         } else {
+            console.log("post model")
             return response.json()
         }
 

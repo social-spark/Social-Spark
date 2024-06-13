@@ -11,6 +11,7 @@ import cardTopImage from "@/app/images/card-top.jpg";
 export default async function () {
     const posts = await fetchAllPosts()
     console.log(posts)
+    console.log('hello world')
 
     return (
         <>

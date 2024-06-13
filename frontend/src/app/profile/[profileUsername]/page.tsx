@@ -41,7 +41,7 @@ export default async function ProfileHeader(props: Props)
                 <div className="flex-1">
                     <section className="grid grid-cols-2 md:grid md:grid-cols-3 border border-slate-950 bg-gray-300 rounded-lg p-6 md:space-x-6"
                         id="profile-header">
-                        <Image className="object-scale-down h-36 w-36 row-span-2 " src={profileImage} alt="Profile picture"/>
+                        <Image className="object-scale-down h-36 w-36 row-span-2 " src={profile.profileImage ?? profileImage} alt="Profile picture"/>
 
                         <div className="col-start-2  space-y-2 md:space-y-0">
                             <p className="py-1 text-2xl font-bold">@{profile.profileUsername}</p>
@@ -58,10 +58,7 @@ export default async function ProfileHeader(props: Props)
                             </button>
                         </div>
 
-                        <p className="col-span-2 md:col-start-2 md:col-span-2 text-l pt-5">Lorem ipsum dolor sit amet,
-                            consectetur adipisicing elit.
-                            Voluptatibus
-                            quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.</p>
+                        <p className="col-span-2 md:col-start-2 md:col-span-2 text-l pt-5">{profile.profileBio}</p>
 
                     </section>
                     <Posts/>
