@@ -1,27 +1,30 @@
-"use client";
+
 
 import {Navigation} from "@/app/components/Navigation";
 import {TextInput} from "flowbite-react";
 import React from "react";
 import {Posts} from "@/app/components/Posts";
 import {LeftNav} from "@/app/components/LeftNav";
-import profile from "@/app/images/profile.png";
+import profileImage from "@/app/images/profile.png";
 import setting from "@/app/images/settingsicon.png"
 import Image from "next/image";
 import {PromptBox} from "@/app/components/PromptBox";
-import {fetchProfileByProfileId} from "@/utils/models/profile.model";
+import {fetchProfileByProfileId, fetchProfileByUsername} from "@/utils/models/profile.model";
 import {redirect} from "next/navigation";
+import {getSession} from "@/utils/fetchSession";
+import {fetchPostsByProfileId} from "@/utils/models/post.model";
 
 type Props = {
     params:{
-        profileName: string
+        profileUsername: string
     }
 }
 export default async function (props: Props) {
 
-    const {profileName} = props.params
+    const {profileUsername} = props.params
     const session = await getSession()
-
+    const {profile, posts}=await getProfileAndPosts(profileUsername)
+console.log(posts)
     return (
         <main className="container mx-auto rounded-lg">
             <Navigation/>
@@ -34,17 +37,17 @@ export default async function (props: Props) {
                     <section className="container border border-slate-950 col-start-1 col-span-3">
 
                         <div className="grid md:grid-cols-4 grid-cols-3">
-                            <Image className="object-scale-down h-36 w-36 p-5" src={profile}
+                            <Image className="object-scale-down h-36 w-36 p-5" src={profileImage}
                                    alt="Sunset in the mountains"/>
 
                             <div className="col-start-2">
-                                <p className="py-1">@UserName</p>
-                                <p className="py-1">Full Name</p>
+                                <p className="py-1 text-xl">@{profile.profileUsername}</p>
+                                <p className="py-1">{profile.profileFullName}</p>
                                 <TextInput id="Bio" type="Bio" placeholder="Bio" className="py-3"/>
                             </div>
 
                             <div
-                                className="md:col-start-4 col-start-3 md:flex md:flex-row flex flex-col flex-wrap place-content-evenlynp">
+                                className="md:col-start-4 col-start-3 md:flex md:flex-row flex flex-col flex-wrap place-content-evenly">
                                 <button type="button"
                                         className="self-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Follow
                                 </button>
@@ -72,11 +75,11 @@ export default async function (props: Props) {
     )
 }
 
-export async function getProfileAndPosts(profileName: string) {
-    const profile = await fetchProfileByProfileName (profileName)
+export async function getProfileAndPosts(profileUsername: string) {
+    const profile = await fetchProfileByUsername (profileUsername)
     if (profile === null) {
         return (redirect('/404'))
     }
-    const posts = await fetchPostsByProfileId(profile.id)
+    const posts = await fetchPostsByProfileId(profile.profileId)
     return {profile, posts}
 }
