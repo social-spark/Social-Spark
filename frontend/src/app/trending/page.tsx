@@ -20,7 +20,7 @@ export default function ProfileHeader () {
 
                 <div className="grid grid-cols-subgrid gap-4 col-span-3">
 
-                    <div className="hidden lg:block">
+                    <div className="hidden lg:block pt-6">
                         <LeftNav/>
                     </div>
 
