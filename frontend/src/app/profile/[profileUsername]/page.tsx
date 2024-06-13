@@ -1,6 +1,7 @@
 
 
 import {Navigation} from "@/app/components/Navigation";
+import {TextInput} from "flowbite-react";
 import React from "react";
 import {Posts} from "@/app/components/Posts";
 import {LeftNav} from "@/app/components/LeftNav";
