@@ -13,6 +13,7 @@ import {fetchProfileByUsername} from "@/utils/models/profile.model";
 import {redirect} from "next/navigation";
 import {getSession} from "@/utils/fetchSession";
 import {fetchPostsByProfileId} from "@/utils/models/post.model";
+import {PostCard} from "@/app/(index)/PostCard";
 
 type Props = {
     params:{
@@ -61,7 +62,7 @@ export default async function ProfileHeader(props: Props)
                         <p className="col-span-2 md:col-start-2 md:col-span-2 text-l pt-5">{profile.profileBio}</p>
 
                     </section>
-                    <Posts/>
+                    {posts.map((post) => <PostCard key={post.postId} post={post}/>)}
                 </div>
 
             </section>
