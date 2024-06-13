@@ -10,6 +10,8 @@ import Image from 'next/image'
 
 import Link from "next/link";
 import { Navbar } from "flowbite-react";
+import React from "react";
+import {PromptBox} from "@/app/components/PromptBox";
 
 export function Navigation() {
     return (
@@ -20,7 +22,7 @@ export function Navigation() {
                 <Navbar.Link href="#"><Image className="size-7" src={notify} alt="notification icon"/></Navbar.Link>
                 <Navbar.Link href="#"><Image className="size-7" src={addicon} alt="add prompt icon"/></Navbar.Link>
                 <Navbar.Link href="#"><Image className="size-7" src={search} alt="search icon"/></Navbar.Link>
-                <Navbar.Link href="#"><Image className="size-7" src={profile} alt="profile icon"/></Navbar.Link>
+                <Navbar.Link href="/profile"><Image className="size-7" src={profile} alt="profile icon"/></Navbar.Link>
             </Navbar.Collapse>
         </Navbar>
     );
