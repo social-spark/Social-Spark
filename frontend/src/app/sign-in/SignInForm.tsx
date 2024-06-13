@@ -108,13 +108,12 @@ function SignInFormContent(props: FormikProps<FormSchema>) {
                 </div>
                 <SignUpForm/>
                 <div className="flex">
-
                     <Button className='mx-5' color={'success'} type="submit">Submit</Button>
                     <Button className='mx-5' color={'failure'} type={'reset'} onClick={handleReset}>Reset</Button>
                 </div>
                 <DisplayStatus status={status} />
             </form>
-            <FormDebugger{...props}/>
+            {/*<FormDebugger{...props}/>*/}
         </>
 
     )
