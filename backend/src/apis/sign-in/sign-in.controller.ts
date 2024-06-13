@@ -38,6 +38,11 @@ export async function signInController (request: Request, response: Response): P
             return response.json(signInFailedStatus)
         }
 
+        // check if the profile is active and return a response to the client if it is not active
+        // if (profile.profileActivationToken !== null) {
+        //     return response.json({ status: 400, message: 'Please check your email to activate your account', data: null })
+        // }
+
         //check if the password matches the hash
         const isPasswordValid = await validatePassword( profile.profileHash, profilePassword,)
         // check for failed sign in
