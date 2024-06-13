@@ -1,16 +1,25 @@
 "use server"
 import {fetchAllPosts} from "@/utils/models/post.model";
 import {PostCard} from "@/app/(index)/PostCard";
+import {getSession} from "@/utils/fetchSession";
+import {redirect} from "next/navigation";
+import {PostForm} from "@/app/(index)/PostForm";
 import {Nav} from "@/app/components/Nav";
-import {Button, Checkbox, Label, TextInput} from "flowbite-react";
+import {Button, TextInput} from "flowbite-react";
 import React from "react";
-import {main} from "@popperjs/core";
-import Image from "next/image";
-import cardTopImage from "@/app/images/card-top.jpg";
+
 
 export default async function () {
     const posts = await fetchAllPosts()
     console.log(posts)
+
+    const session = await getSession()
+    if(session === undefined) {
+        return  redirect('/sign-in')
+
+    }
+
+    const profile = session.profile
 
     return (
         <>
@@ -38,8 +47,8 @@ export default async function () {
                     </div>
                     <Button type="submit">Submit</Button>
                 </form>
-
-                {posts.map((post) => <PostCard key={post.postId} post={post}/>)}
+                <PostForm session={session}/>
+                {posts.map((post) => <p>{post.postBody}</p>)}
             </main>
         </>
     )
