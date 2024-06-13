@@ -32,3 +32,41 @@ export async function fetchAllPosts() : Promise<Post[]> {
     return PostSchema.array().parse(data)
 
 }
+
+export async function fetchPostByPostId(postId: string): Promise<Post> {
+    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/post/${postId}`, {
+        method: "get",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+    }).then((response: Response) => {
+        if (!response.ok) {
+            throw new Error('Error fetching post')
+        } else {
+            return response.json()
+        }
+
+    })
+
+    return PostSchema.parse(data)
+}
+
+export async function fetchPostsByProfileId(profileId: string): Promise<Post[]> {
+    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/post/postProfileId/${profileId}`, {
+        method: "get",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+    }).then((response: Response) => {
+        if (!response.ok) {
+            throw new Error('Error fetching post')
+        } else {
+            return response.json()
+        }
+
+    })
+
+    return PostSchema.array().parse(data)
+}

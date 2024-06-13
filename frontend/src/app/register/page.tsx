@@ -5,7 +5,7 @@ import React from "react";
 
 
 
-export default function Login() {
+export default function () {
     return (
         <main>
             <Nav/>

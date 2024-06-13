@@ -9,6 +9,7 @@ import {toFormikValidationSchema} from "zod-formik-adapter";
 import {FormDebugger} from "@/app/components/FormDebugger";
 import {DisplayError} from "@/app/components/DisplayError";
 import {DisplayStatus} from "@/app/components/navigation/DisplayStatus";
+import {SignUpForm} from "@/app/sign-in/SignUpForm";
 
 
 const formSchema = z.object({
@@ -64,10 +65,10 @@ export function SignInForm(){
     }
 
     return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={toFormikValidationSchema(formSchema)}>
-        {SignInFormContent}
+        <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={toFormikValidationSchema(formSchema)}>
+            {SignInFormContent}
 
-    </Formik>
+        </Formik>
     )
 }
 
@@ -105,20 +106,15 @@ function SignInFormContent(props: FormikProps<FormSchema>) {
                                onChange={handleChange} name='profilePassword'  placeholder="Enter Password" id="password1" type="password"/>
                     <DisplayError errors={errors} touched={touched} field={'profilePassword'}/>
                 </div>
+                <SignUpForm/>
                 <div className="flex">
-                <Button className='mx-5' color={'success'} type="submit">Submit</Button>
-                <Button className='mx-5' color={'failure'} type={'reset'} onClick={handleReset}>Reset</Button>
+                    <Button className='mx-5' color={'success'} type="submit">Submit</Button>
+                    <Button className='mx-5' color={'failure'} type={'reset'} onClick={handleReset}>Reset</Button>
                 </div>
-                <DisplayStatus />
+                <DisplayStatus status={status} />
             </form>
-            <FormDebugger{...props}/>
+            {/*<FormDebugger{...props}/>*/}
         </>
 
     )
 }
-
-
-
-
-
-

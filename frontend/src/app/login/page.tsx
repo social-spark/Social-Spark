@@ -55,7 +55,6 @@ export default function Login() {
             <Button type="submit">Submit</Button>
         </form>
 
-
         </main>
     );
 }
