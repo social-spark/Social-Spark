@@ -1,5 +1,6 @@
 
 import {z} from 'zod'
+import {ProfileSchema} from "@/utils/models/profile.model";
 
 export const PostSchema = z.object({
     postId: z.string({required_error: 'postId is required', invalid_type_error: 'postId must be a uuid or null'}).uuid({message: 'postId must be a uuid or null'}).nullable(),
@@ -24,6 +25,7 @@ export async function fetchAllPosts() : Promise<Post[]> {
         if(!response.ok) {
             throw new Error('Error fetching posts')
         } else {
+            console.log("post model")
             return response.json()
         }
 
@@ -33,35 +35,18 @@ export async function fetchAllPosts() : Promise<Post[]> {
 
 }
 
-export async function fetchPostByPostId(postId: string): Promise<Post> {
-    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/post/${postId}`, {
+
+export async function fetchPostsByProfileId(profileId:string) : Promise<Post[]> {
+    //get all posts from profileId in the post table in the database and return them
+    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/post/post-profile-id/${profileId}`, {
         method: "get",
         headers: {
             'Content-Type': 'application/json',
         },
 
     }).then((response: Response) => {
-        if (!response.ok) {
-            throw new Error('Error fetching post')
-        } else {
-            return response.json()
-        }
-
-    })
-
-    return PostSchema.parse(data)
-}
-
-export async function fetchPostsByProfileId(profileId: string): Promise<Post[]> {
-    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/post/postProfileId/${profileId}`, {
-        method: "get",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-
-    }).then((response: Response) => {
-        if (!response.ok) {
-            throw new Error('Error fetching post')
+        if(!response.ok) {
+            throw new Error('Error fetching posts')
         } else {
             return response.json()
         }
@@ -69,4 +54,6 @@ export async function fetchPostsByProfileId(profileId: string): Promise<Post[]> 
     })
 
     return PostSchema.array().parse(data)
+
 }
+

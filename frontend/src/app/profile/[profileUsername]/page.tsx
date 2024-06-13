@@ -1,16 +1,32 @@
-"use client";
+
 
 import {Navigation} from "@/app/components/Navigation";
 import {TextInput} from "flowbite-react";
 import React from "react";
 import {Posts} from "@/app/components/Posts";
 import {LeftNav} from "@/app/components/LeftNav";
-import profile from "@/app/images/profile.png";
+import profileImage from "@/app/images/profile.png";
 import setting from "@/app/images/settingsicon.png"
 import Image from "next/image";
 import {PromptBox} from "@/app/components/PromptBox";
+import {fetchProfileByUsername} from "@/utils/models/profile.model";
+import {redirect} from "next/navigation";
+import {getSession} from "@/utils/fetchSession";
+import {fetchPostsByProfileId} from "@/utils/models/post.model";
+import {PostCard} from "@/app/(index)/PostCard";
 
-export default function ProfileHeader() {
+type Props = {
+    params:{
+        profileUsername: string
+    }
+}
+export default async function ProfileHeader(props: Props)
+                {
+
+        const {profileUsername} = props.params
+        const session = await getSession()
+        const {profile, posts}=await getProfileAndPosts(profileUsername)
+        console.log(posts)
     return (
         <main className="container mx-auto">
             <Navigation />
@@ -26,11 +42,11 @@ export default function ProfileHeader() {
                 <div className="flex-1">
                     <section className="grid grid-cols-2 md:grid md:grid-cols-3 border border-slate-950 bg-gray-300 rounded-lg p-6 md:space-x-6"
                         id="profile-header">
-                        <Image className="object-scale-down h-36 w-36 row-span-2 " src={profile} alt="Profile picture"/>
+                        <Image className="object-scale-down h-36 w-36 row-span-2 " src={profile.profileImage ?? profileImage} alt="Profile picture"/>
 
                         <div className="col-start-2  space-y-2 md:space-y-0">
-                            <p className="py-1 text-2xl font-bold">@UserName</p>
-                            <p className="py-1 text-xl">Full Name</p>
+                            <p className="py-1 text-2xl font-bold">@{profile.profileUsername}</p>
+                            <p className="py-1 text-xl">{profile.profileFullName}</p>
                         </div>
 
                         <div className="md:col-start-3 flex items-center space-y-2 md:space-y-0 md:space-x-2 space-x-4">
@@ -43,13 +59,10 @@ export default function ProfileHeader() {
                             </button>
                         </div>
 
-                        <p className="col-span-2 md:col-start-2 md:col-span-2 text-l pt-5">Lorem ipsum dolor sit amet,
-                            consectetur adipisicing elit.
-                            Voluptatibus
-                            quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.</p>
+                        <p className="col-span-2 md:col-start-2 md:col-span-2 text-l pt-5">{profile.profileBio}</p>
 
                     </section>
-                    <Posts/>
+                    {posts.map((post) => <PostCard key={post.postId} post={post}/>)}
                 </div>
 
             </section>
@@ -57,6 +70,15 @@ export default function ProfileHeader() {
         </main>
     );
 }
+
+    export async function getProfileAndPosts(profileUsername: string) {
+        const profile = await fetchProfileByUsername (profileUsername)
+        if (profile === null) {
+            return (redirect('/404'))
+        }
+        const posts = await fetchPostsByProfileId(profile.profileId)
+        return {profile, posts}
+    }
 
 // export default function ProfileHeader () {
 //     return (

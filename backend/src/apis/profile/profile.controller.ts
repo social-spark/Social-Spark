@@ -3,8 +3,8 @@ import {
     deleteProfileByProfileId,
     PrivateProfile, PublicProfile, PublicProfileSchema, selectPrivateProfileByProfileEmail,
     selectPrivateProfileByProfileId, selectPublicProfileByProfileFullName, selectPublicProfileByProfileId,
-    selectPublicProfileByUsername,
-    selectPublicProfilesByProfileName, updateProfile
+    selectPublicProfilesByUsername,
+    selectPublicProfilesByProfileName, updateProfile, selectPublicProfileByUsername
 } from "./profile.model";
 import {zodErrorResponse} from "../../utils/response.utils";
 import { z } from 'zod';
@@ -193,7 +193,7 @@ export async function putUpdateProfileByProfileIdController(request: Request, re
  * @return {Promise<Response<Status>>}  A promise containing the response for the client with the requested information
  */
 
-export async function getPublicProfileByProfileUsernameController(request: Request, response: Response) : Promise<Response<Status>>  {
+export async function getPublicProfilesByProfileUsernameController(request: Request, response: Response) : Promise<Response<Status>>  {
     try {
 
         // validate the profileName coming from the request parameters
@@ -208,6 +208,34 @@ export async function getPublicProfileByProfileUsernameController(request: Reque
         const {profileUsername} = validationResult.data
 
         // grab the profile by profileName
+        const data = await selectPublicProfilesByUsername(profileUsername)
+
+        // return the response to the client with the requested information
+        return response.json({status: 200, message: null, data})
+
+    } catch (error: unknown) {
+
+        // if an error occurs, return a preformatted response to the client
+        return response.json({status: 500,message: "internal server error", data: null})
+    }
+}
+
+
+export async function getPublicProfileByProfileUsernameController(request: Request, response: Response) : Promise<Response<Status>>  {
+    try {
+
+        // validate the profileUsername coming from the request parameters
+        const validationResult = PublicProfileSchema.pick({profileUsername: true}).safeParse(request.params)
+
+        // if the validation is unsuccessful, return a preformatted response to the client
+        if (!validationResult.success) {
+            return zodErrorResponse(response, validationResult.error)
+        }
+
+        // grab the profileUsername off of the validated request parameters
+        const {profileUsername} = validationResult.data
+
+        // grab the profile by profileUsername
         const data = await selectPublicProfileByUsername(profileUsername)
 
         // return the response to the client with the requested information
@@ -219,6 +247,9 @@ export async function getPublicProfileByProfileUsernameController(request: Reque
         return response.json({status: 500,message: "internal server error", data: null})
     }
 }
+
+
+
 
 /**
  * Express controller for getting the public profile by profile Email

@@ -65,17 +65,16 @@ export async function fetchProfileByProfileId(profileId: string): Promise<Profil
     return ProfileSchema.parse(data)
 
 }
-
-export async function fetchProfileByProfileFullName(profileFullName: string): Promise<Profile | null> {
-
-    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/profile/profileFullName/${profileFullName}`, {
+export async function fetchProfileByUsername(profileUsername:string) : Promise<Profile|null> {
+    //get all posts from profileId in the post table in the database and return them
+    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/profile/profileUsername/${profileUsername}`, {
         method: "get",
         headers: {
             'Content-Type': 'application/json',
         },
 
     }).then((response: Response) => {
-        if (!response.ok) {
+        if(!response.ok) {
             throw new Error('Error fetching profile')
         } else {
             return response.json()
@@ -85,3 +84,4 @@ export async function fetchProfileByProfileFullName(profileFullName: string): Pr
 
     return ProfileSchema.nullable().parse(data)
 }
+

@@ -12,6 +12,7 @@ import React from "react";
 export default async function () {
     const posts = await fetchAllPosts()
     console.log(posts)
+    console.log('hello world')
 
     const session = await getSession()
     if(session === undefined) {

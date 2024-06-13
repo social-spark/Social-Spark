@@ -16,8 +16,8 @@ export async function PostCard(props: Props) {
 
 	return (
 		<>
-			<form className= " flex justify-center">
-				<div className="max-w-sm rounded overflow-hidden shadow-lg my-5 ">
+			<form className= "flex justify-center">
+				<div className="max-w-screen-lg rounded overflow-hidden bg-white mx-auto shadow-lg my-10 border border-slate-950">
 						<Image className="w-full" src={cardTopImage} alt="Sunset in the mountains"/>
 						<div className="pr-4 pl-2 py-4">
 							<p className="inline-flex items-center mr-3 text-sm font-semibold"><img
