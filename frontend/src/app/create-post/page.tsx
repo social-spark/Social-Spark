@@ -6,10 +6,11 @@ import Image from "next/image";
 import profileImage from "@/app/images/profile.png";
 import UploadImage from "@/app/images/UploadImage.jpg";
 
-export function CreatePost() {
+export default function Page() {
 
     return (
         <>
+
             <form>
                 <div className="max-w-screen-lg rounded overflow-hidden bg-white mx-auto shadow-lg my-10 pb-5 border border-slate-950">
                     <Image className="w-full" src={UploadImage} alt="Sunset in the mountains"/>

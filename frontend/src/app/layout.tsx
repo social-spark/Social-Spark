@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import {Flowbite, Sidebar, ThemeModeScript} from "flowbite-react";
-import {Nav} from "@/app/components/Nav";
-import {LeftNav} from "@/app/components/LeftNav";
 import {theme} from "@/utils/theme.utils";
+import {Navigation} from "@/app/components/Navigation";
+import {getSession} from "@/utils/fetchSession";
 
 
 export const metadata: Metadata = {
@@ -15,8 +15,9 @@ type RootLayoutProps = {
     children: React.ReactNode
 }
 
-export default function RootLayout(props : RootLayoutProps) {
+export default async function RootLayout(props : RootLayoutProps) {
     const { children } = props
+    const session = await getSession()
     return (
         <html>
         <head>
@@ -25,6 +26,7 @@ export default function RootLayout(props : RootLayoutProps) {
         </head>
         <body className={("min-h-dvh bg-[#50646F] font-sans antialiasing text-stone-800 dark:bg-gray-800 dark:text-slate-200")} >
         <Flowbite theme={{theme: theme}}>
+            <Navigation session={session}/>
             {children}
         </Flowbite>
         </body>

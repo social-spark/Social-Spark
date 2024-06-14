@@ -13,12 +13,13 @@ export const ProfileSchema = z.object({
         .max(512, { message: 'profile about length is to long' })
         .nullable(),
 
-    profileEmail: z.string({
-        required_error: 'profileEmail is required',
-        invalid_type_error: ' please provide a valid profileEmail'
-    })
-        .email({ message: 'please provide a valid email' })
-        .max(128, { message: 'profileEmail is to long' }),
+    // profileEmail: z.string({
+    //     required_error: 'profileEmail is required',
+    //     invalid_type_error: ' please provide a valid profileEmail'
+    // })
+    //     .email({ message: 'please provide a valid email' })
+    //     .max(128, { message: 'profileEmail is to long' }),
+
     profileImage: z.string({
         required_error: 'profileImage is required',
         invalid_type_error: 'please provide a valid profileImageUrl'
@@ -27,6 +28,7 @@ export const ProfileSchema = z.object({
         .url({ message: 'please provide a valid profile image url' })
         .max(255, { message: 'profile image url is to long' })
         .nullable(),
+
     profileFullName: z.string({required_error: 'profile fullname is required',
         invalid_type_error: 'please provide a valid profile name'})
         .trim()

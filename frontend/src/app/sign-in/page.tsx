@@ -90,7 +90,6 @@ function SignInFormContent(props: FormikProps<FormSchema>) {
 
     return (
         <>
-            <Nav/>
             <form onSubmit={handleSubmit} className="flex-col gap-4 flex py-60 items-center">
                 <div>
                     <div className="mb-2 block">

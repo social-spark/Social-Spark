@@ -60,6 +60,7 @@ export async  function setJwtToken(jwtToken: string) {
 
 
     } catch (error) {
+        console.error(error)
         session = undefined
     }
 }

@@ -14,6 +14,7 @@ import {redirect} from "next/navigation";
 import {getSession} from "@/utils/fetchSession";
 import {fetchPostsByProfileId} from "@/utils/models/post.model";
 import {PostCard} from "@/app/(index)/PostCard";
+import Link from "next/link";
 
 type Props = {
     params:{
@@ -21,7 +22,7 @@ type Props = {
     }
 }
 export default async function ProfileHeader(props: Props)
-                {
+{
 
         const {profileUsername} = props.params
         const session = await getSession()
@@ -29,7 +30,6 @@ export default async function ProfileHeader(props: Props)
         console.log(posts)
     return (
         <main className="container mx-auto">
-            <Navigation />
 
             <section className="flex flex-row md:flex-row pt-6 space-y-6 md:space-y-0 md:space-x-6">
                 <PromptBox />
@@ -54,9 +54,13 @@ export default async function ProfileHeader(props: Props)
                                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2 focus:outline-none">
                                 Follow
                             </button>
+                            {session?.profile.profileUsername === profile.profileUsername && (
+                                <Link href="/edit-profile">
                             <button className="flex items-center justify-center">
-                                <Image width={40} height={40} src={setting} alt="Setting icon"/>
+                                <Image  width={40} height={40} src={setting} alt="Setting icon"/>
                             </button>
+                             </Link>
+                                )}
                         </div>
 
                         <p className="col-span-2 md:col-start-2 md:col-span-2 text-l pt-5">{profile.profileBio}</p>
