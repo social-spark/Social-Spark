@@ -1,3 +1,4 @@
+'use client'
 import { Button, Modal } from "flowbite-react";
 import React, { useState } from "react";
 import postimage from "@/app/images/image-4.jpg";

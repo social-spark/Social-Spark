@@ -34,7 +34,7 @@ router.route('/full-name/:profileFullName')
 router.route('/profilesUserName/:profileUserName')
     .get(getPublicProfilesByProfileUsernameController)
 
-router.route('/profileUserName/:profileUsername')
+router.route('/profileUsername/:profileUsername')
     .get(getPublicProfileByProfileUsernameController)
 
 router.route('/profileEmail/:profileEmail')
