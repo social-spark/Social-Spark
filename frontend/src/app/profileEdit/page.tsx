@@ -1,12 +1,17 @@
+'use client'
+
 import {Navigation} from "@/app/components/Navigation";
+
 import React from "react";
 import Image from "next/image";
 import cardTopImage from "@/app/images/card-top.jpg";
+import {CreatePost} from "@/app/components/CreatePost";
 
 export default function ProfileHeader () {
     return (
         <main>
             <Navigation/>
+            <CreatePost/>
 
             <div
                 className="container border-solid bg-white border-2 border-black grid grid-cols-2 gap-5 mx-auto sm:max-w-4xl max-w-sm rounded shadow-lg p-10 mt-5 mb-10">

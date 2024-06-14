@@ -1,35 +1,34 @@
 import { Button, Modal } from "flowbite-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import postimage from "@/app/images/image-4.jpg";
 import Image from "next/image";
+import profileImage from "@/app/images/profile.png";
+import UploadImage from "@/app/images/UploadImage.jpg";
 
 export function CreatePost() {
-    const [openModal, setOpenModal] = useState(true);
 
     return (
         <>
-            <Modal show={openModal} onClose={() => setOpenModal(false)}>
-                <Modal.Header><label htmlFor="userInput">User Selected Prompt</label></Modal.Header>
-                <Modal.Body>
-                    <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6">
-                        <Image className="w-80 h-auto" src={postimage} alt="placeholder logo"/>
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400 text-left">
-                            With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
-                            companies around the world are updating their terms of service agreements to comply.<br/>
-
-                            The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
-                            to ensure a common set of data rights in the European Union. It requires organizations to notify users as
-                            soon as possible of high-risk data breaches that could personally affect them.
-                        </p>
+            <form>
+                <div className="max-w-screen-lg rounded overflow-hidden bg-white mx-auto shadow-lg my-10 pb-5 border border-slate-950">
+                    <Image className="w-full" src={UploadImage} alt="Sunset in the mountains"/>
+                    <div className="px-6 py-4">
+                        <Image className="mr-2 w-10 h-10 rounded-full inline-flex" src={profileImage}
+                               alt="profile image"/>
+                        <div className="font-bold mb-2 inline-flex">user_name</div>
+                        <br/>
+                        <div className="font-bold py-5 mb-2 inline-flex">#prompt</div>
+                        <p className="inline-flex pl-5 items-center mr-3 text-sm font-bold mb-2">Prompt Body</p>
+                        <p className="text-gray-500 dark:text-gray-400">Post Body flkkaklrjaklrjklajrklajr
+                            jklajrlajrkjarlkjaklrjrklajrkljalkrjlkajrklajrkljaklrjaklrjklajrklajrkljaklrjakljrklj
+                            kajrkljaklrjklarjklajrkljarkjaklrjklajrklj3riowuioqrjopqariopqiepioptiewopughslnkljja
+                            jklajrlajrkjarlkjaklrjrklajrkljalkrjlkajrklajrkljaklrjaklrjklajrklajrkljaklrjakljrklj
+                            kajrkljaklrjklarjklajrkljarkjaklrjklajrklj3riowuioqrjopqariopqiepioptiewopughslnkljja</p>
+                        <Button className='mx-5 float-right' color={'failure'} type={'reset'}>Cancel</Button>
+                        <Button className='mx-5 float-right' color={'success'} type="submit">Submit</Button>
                     </div>
-                </Modal.Body>
-                <Modal.Footer className="flex justify-end">
-                    <Button onClick={() => setOpenModal(false)}>Post</Button>
-                    <Button color="gray" onClick={() => setOpenModal(false)}>
-                        Cancel
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                </div>
+            </form>
         </>
     );
 }
