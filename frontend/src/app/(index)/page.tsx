@@ -3,7 +3,7 @@ import {fetchAllPosts} from "@/utils/models/post.model";
 import {PostCard} from "@/app/(index)/PostCard";
 import {getSession} from "@/utils/fetchSession";
 import {redirect} from "next/navigation";
-import {PostForm} from "@/app/(index)/PostForm";
+import {PostForm} from "@/app/create-post/[promptId]/PostForm";
 import React from "react";
 
 
@@ -23,7 +23,6 @@ export default async function () {
     return (
         <>
             <main>
-                <PostForm session={session}/>
                     {posts.map((post) => <PostCard key={post.postId} post={post}/>)}
             </main>
         </>

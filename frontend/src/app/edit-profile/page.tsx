@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import cardTopImage from "@/app/images/card-top.jpg";
-import Page from "@/app/create-post/page";
+import Page from "@/app/create-post/[promptId]/PostForm";
 
 
 export default function ProfileHeader () {

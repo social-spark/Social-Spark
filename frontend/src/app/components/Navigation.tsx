@@ -19,7 +19,7 @@ type NavigationProps = {
 
 export function Navigation(props: NavigationProps) {
   const {session, prompts} = props
-    const [openModal, setOpenModal] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
     return (
         <Navbar className="bg-white rounded-lg border border-slate-950">
               <Navbar.Brand  href="#"><Image className="size-20" src={promptMeLogo} alt="placeholder logo"/></Navbar.Brand>

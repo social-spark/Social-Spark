@@ -9,9 +9,11 @@ import {DisplayError} from "@/app/components/DisplayError";
 import {DisplayStatus} from "@/app/components/navigation/DisplayStatus";
 import {toFormikValidationSchema} from "zod-formik-adapter";
 import {FormDebugger} from "@/app/components/FormDebugger";
+import {Prompt} from "@/utils/models/prompt.model";
 
 type Props = {
     session: Session
+    prompt: Prompt
 }
 const FormSchema = PostSchema.pick({postBody: true})
 
@@ -20,12 +22,17 @@ type Values = z.infer<typeof FormSchema>
 export function PostForm(props: Props ) {
 
     const session = props.session
-
+    const prompt = props.prompt
 
     const router = useRouter()
 
     const initialValues = {
-        postBody: "",
+        postId: '',
+        postProfileId: session.profile.profileId,
+        postPromptId: prompt.promptId,
+        postBody: '',
+        postDate: null,
+        postImage: null
     }
 
 
