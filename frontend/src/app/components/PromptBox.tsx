@@ -2,14 +2,17 @@
 
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
+import {Prompt} from "@/utils/models/prompt.model";
 type PromptBoxProps = {
     openModal: boolean;
     setOpenModal: (value: boolean) => void;
+    prompts: Prompt[];
     };
 
 export function PromptBox(props: PromptBoxProps) {
   // const [openModal, setOpenModal] = useState(true);
-const { openModal, setOpenModal } = props;
+const { openModal, setOpenModal, prompts } = props;
+
   return (
       <>
         <Modal show={openModal} onClose={() => setOpenModal(false)} popup>

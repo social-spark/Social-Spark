@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import {getAllPromptsByCategory, getAllPromptsController, getPromptByPostId, getPromptByPromptId} from './prompt.controller';
+import {
+    getAllPromptsByCategory,
+    getAllPromptsByDate,
+    getAllPromptsController,
+    getPromptByPromptId
+} from './prompt.controller';
 
 
 const router = Router();
@@ -12,11 +17,10 @@ router.route('/')
 router.route('/:promptId')
     .get(getPromptByPromptId);
 
-router.route('/:postId')
-    .get(getPromptByPostId);
 
-router.route('/:promptCategory')
+router.route('/promptCategory/:promptCategory')
     .get(getAllPromptsByCategory);
 
+router.route('/promptDate/:promptDate').get(getAllPromptsByDate);
 
 export const promptRoute = { basePath, router };

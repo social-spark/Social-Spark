@@ -25,6 +25,7 @@ CREATE TABLE prompt(
 prompt_id uuid not null,
 prompt_body varchar(128) not null,
 prompt_category varchar(32) not null,
+prompt_date timestamp with time zone not null,
 Primary Key (prompt_id)
 );
 
