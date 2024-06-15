@@ -8,6 +8,8 @@ import Image from 'next/image'
 import {getSession} from "@/utils/fetchSession";
 import {Navbar} from "flowbite-react";
 import Link from "next/link";
+import {useState} from "react";
+import {PromptBox} from "@/app/components/PromptBox";
 
 type NavigationProps = {
     session: any
@@ -16,7 +18,7 @@ type NavigationProps = {
 export function Navigation(props: NavigationProps) {
   const {session} = props
     console.log(session)
-
+    const [openModal, setOpenModal] = useState(true);
     return (
         <Navbar className="bg-white rounded-lg border border-slate-950">
               <Navbar.Brand  href="#"><Image className="size-20" src={promptMeLogo} alt="placeholder logo"/></Navbar.Brand>
@@ -25,7 +27,12 @@ export function Navigation(props: NavigationProps) {
                 {session && (
                     <>
                     <Navbar.Link href="#"><Image className="size-7" src={notify} alt="notification icon"/></Navbar.Link>
-                    <Navbar.Link href="#"><Image className="size-7" src={addicon} alt="add prompt icon"/></Navbar.Link>
+                    {/*<Navbar.Link href="#">*/}
+                        <button onClick={() => setOpenModal(true)}>
+                        <Image className="size-7" src={addicon} alt="add prompt icon"/>
+                        </button>
+                        <PromptBox openModal={openModal} setOpenModal={setOpenModal} />
+                    {/*</Navbar.Link>*/}
                     </>
                 )}
                 <Navbar.Link href="#"><Image className="size-7" src={search} alt="search icon"/></Navbar.Link>

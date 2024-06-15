@@ -13,7 +13,6 @@ import Image from "next/image";
 export default function ProfileHeader () {
     return (
         <main className="container mx-auto rounded-lg">
-            <Navigation/>
 
             <section className="grid grid-cols-3 md:grid-cols-3">
 

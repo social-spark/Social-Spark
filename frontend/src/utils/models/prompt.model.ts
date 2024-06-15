@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import {PostSchema} from "@/utils/models/post.model";
+
 
 
 export const PromptSchema = z.object({
@@ -44,4 +46,25 @@ export async function fetchPromptByPromptId(promptId: string): Promise<Prompt> {
 
     return PromptSchema.parse(data)
 
+}
+
+export async function fetchAllPrompts() : Promise<Prompt[]> {
+    //get all prompts from the prompt table in the database and return them
+    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/prompt`, {
+        method: "get",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+    }).then((response: Response) => {
+        if(!response.ok) {
+            throw new Error('Error fetching prompts')
+        } else {
+            console.log("prompt model")
+            return response.json()
+        }
+
+    })
+
+    return PromptSchema.array().parse(data)
 }

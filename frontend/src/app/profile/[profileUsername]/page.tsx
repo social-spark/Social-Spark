@@ -32,7 +32,7 @@ export default async function ProfileHeader(props: Props)
         <main className="container mx-auto">
 
             <section className="flex flex-row md:flex-row pt-6 space-y-6 md:space-y-0 md:space-x-6">
-                <PromptBox />
+                <PromptBox/>
 
                 <div className="hidden  bg-amber-400 lg:inline-block">
                     <LeftNav/>
