@@ -27,7 +27,7 @@ export default async function ProfileHeader(props: Props)
         const {profileUsername} = props.params
         const session = await getSession()
         const {profile, posts}=await getProfileAndPosts(profileUsername)
-        console.log(posts)
+
     return (
         <main className="container mx-auto">
 

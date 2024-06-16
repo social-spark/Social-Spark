@@ -10,13 +10,12 @@ import React from "react";
 export default async function () {
 
     const session = await getSession()
-    console.log(session)
     if(session === undefined) {
         return redirect('/sign-in')
     }
 
     const posts = await fetchAllPosts()
-    console.log(posts)
+
 
     const profile = session.profile
 

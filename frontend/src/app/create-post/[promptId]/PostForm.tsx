@@ -23,7 +23,6 @@ export function PostForm(props: Props ) {
 
     const session = props.session
     const prompt = props.prompt
-
     const router = useRouter()
 
     const initialValues = {
