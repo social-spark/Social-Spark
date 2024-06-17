@@ -118,6 +118,7 @@ export function PostFormContent(props: FormikProps<Values>) {
                 <div
                     className="max-w-screen-lg rounded mx-auto">
                     <div className="pr-4 pl-6 py-4">
+                        {selectedImage &&  <img src={selectedImage} alt="image to upload"/>}
                         <ImageUploadDropZone
                             formikProps={{
                                 setFieldError,

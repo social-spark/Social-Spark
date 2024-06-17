@@ -24,7 +24,7 @@ type Props = {
 
 
 export function ImageUploadDropZone(props: Props) {
-    const {formikProps, setSelectedImage} = props
+    const {formikProps, setSelectedImage, selectedImage} = props
 
     const MAX_FILE_SIZE = 2000000
     const ACCEPTED_IMAGE_TYPES = [
