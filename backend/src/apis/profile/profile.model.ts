@@ -201,7 +201,7 @@ export async function insertProfile (profile: PrivateProfile): Promise<string> {
  */
 export async function selectPrivateProfileByProfileActivationToken (profileActivationToken: string): Promise<PrivateProfile|null> {
 
-    const rowList = await sql`SELECT profile_id, profile_bio, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name FROM profile WHERE profile_activation_token = ${profileActivationToken}`
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_activation_token, profile_email, profile_hash, profile_image, profile_full_name, profile_username, profile_date_created FROM profile WHERE profile_activation_token = ${profileActivationToken}`
     const result = PrivateProfileSchema.array().max(1).parse(rowList)
     return result?.length === 1 ? result[0] : null
 }
@@ -212,7 +212,7 @@ export async function selectPrivateProfileByProfileActivationToken (profileActiv
  * @returns an array of profiles
  **/
 
-export async function selectPublicProfileByUsername(profileUsername: string): Promise<PublicProfile[]> {
+export async function selectPublicProfilesByUsername(profileUsername: string): Promise<PublicProfile[]> {
 
     // format profileUsername to include wildcards
     const profileUsernameWithWildcards = `%${profileUsername}%`
@@ -221,6 +221,16 @@ export async function selectPublicProfileByUsername(profileUsername: string): Pr
     const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_username FROM profile WHERE profile.profile_username LIKE ${profileUsernameWithWildcards}`
 
     return PublicProfileSchema.array().parse(rowList)
+}
+
+export async function selectPublicProfileByUsername(profileUsername: string): Promise<PublicProfile | null> {
+
+
+    // create a prepared statement that selects profiles by profileName and execute the statement
+    const rowList = await sql`SELECT profile_id, profile_bio, profile_image, profile_full_name, profile_date_created,profile_email, profile_username FROM profile WHERE profile_username = ${profileUsername}`
+    const result = PublicProfileSchema.array().max(1).parse(rowList)
+
+    return  result?.length === 1 ? result[0] : null
 }
 
 /**

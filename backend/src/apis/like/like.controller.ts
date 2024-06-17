@@ -12,6 +12,7 @@ import {Status} from "../../utils/interfaces/Status";
 import {LikeSchema} from "./like.validator";
 import {zodErrorResponse} from "../../utils/response.utils";
 import {z} from "zod";
+import {insertNotification} from "../notification/notification.model";
 
 /**
  * Handles GET request for all likes associated with a post
@@ -124,6 +125,15 @@ export async function toggleLikeController(request: Request, response: Response)
             likeDate: null
         }
 
+
+        // // create a notification object
+        // const notification: Notification = {
+        //     notificationLikeProfileId: likeProfileId,
+        //     notificationLikePostId: likePostId,
+        //     notificationProfileId: likeProfileId,
+        //     likeDate: null
+        // }
+
         // create a status object
         const status: Status = {
             status: 200,
@@ -137,6 +147,7 @@ export async function toggleLikeController(request: Request, response: Response)
         // if the like is null, insert the like into the like table
         if (selectedLike === null) {
             status.message = await insertLike(like)
+            // await insertNotification()
             // if the like is not null, delete the like from the like table
         } else {
             status.message = await deleteLike(like)

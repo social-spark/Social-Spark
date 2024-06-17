@@ -12,4 +12,4 @@ router.route('/')
     .post(imageUploader, imageUploadController)
 
 // export the router with the basePath and router object
-export const imageRoute = { basePath, router }
+export const ImageRoute = { basePath, router }

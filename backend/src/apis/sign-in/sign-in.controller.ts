@@ -38,6 +38,11 @@ export async function signInController (request: Request, response: Response): P
             return response.json(signInFailedStatus)
         }
 
+        // check if the profile is active and return a response to the client if it is not active
+        // if (profile.profileActivationToken !== null) {
+        //     return response.json({ status: 400, message: 'Please check your email to activate your account', data: null })
+        // }
+
         //check if the password matches the hash
         const isPasswordValid = await validatePassword( profile.profileHash, profilePassword,)
         // check for failed sign in
@@ -49,7 +54,7 @@ export async function signInController (request: Request, response: Response): P
 
         // if sign in was successful, create a new session for the client and return a response to the client
         // deconstruct the profileId, profileAbout, profileImageUrl and profileName from the profile
-        const { profileId, profileBio, profileImage, profileFullName} = profile
+        const { profileId, profileBio, profileImage, profileFullName, profileDateCreated, profileUsername} = profile
 
         // generate a new signature for the session
         const signature: string = uuid()
@@ -59,7 +64,9 @@ export async function signInController (request: Request, response: Response): P
             profileId,
             profileBio,
             profileImage,
-            profileFullName
+            profileFullName,
+            profileDateCreated,
+            profileUsername
         }, signature)
 
         // set the session variables

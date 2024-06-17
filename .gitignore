@@ -2,6 +2,8 @@
 */node_modules
 .idea
 */.Ds_Store
+*/.env.development
+frontend/.env.development
 
 project.env
 */.pnp

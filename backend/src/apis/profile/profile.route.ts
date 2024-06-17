@@ -2,8 +2,10 @@ import {Router} from "express";
 import {
     deleteProfileByProfileIdController,
     getPublicProfileByProfileEmailController,
-    getPublicProfileByProfileFullNameController, getPublicProfileByProfileIDController,
-    getPublicProfileByProfileUsernameController, putUpdateProfileByProfileIdController
+    getPublicProfileByProfileFullNameController,
+    getPublicProfileByProfileIDController, getPublicProfileByProfileUsernameController,
+    getPublicProfilesByProfileUsernameController,
+    putUpdateProfileByProfileIdController
 } from "./profile.controller";
 import {isLoggedInController} from "../../utils/controllers/isLoggedIn.controller";
 
@@ -29,7 +31,10 @@ router.route('/full-name/:profileFullName')
 // router.route('/profileName/:profileFullName')
     // .get(getPublicProfileByProfileNameController)
 
-router.route('/profileUserName/:profileUserName')
+router.route('/profilesUserName/:profileUserName')
+    .get(getPublicProfilesByProfileUsernameController)
+
+router.route('/profileUsername/:profileUsername')
     .get(getPublicProfileByProfileUsernameController)
 
 router.route('/profileEmail/:profileEmail')

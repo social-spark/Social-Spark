@@ -21,6 +21,10 @@ promptBody: z.string({
     })
         .max(128, { message: 'prompt body length is too long' })
         .nullable(),
+    promptDate: z.coerce.date({
+        required_error: 'prompt date is required',
+        invalid_type_error: 'please provide a valid prompt date'
+    })
 })
 
 
@@ -43,5 +47,48 @@ export async function fetchPromptByPromptId(promptId: string): Promise<Prompt> {
     })
 
     return PromptSchema.parse(data)
+
+}
+
+export async function fetchAllPrompts() : Promise<Prompt[]> {
+    //get all prompts from the prompt table in the database and return them
+    const {data} = await fetch(`${process.env.PUBLIC_API_URL}/apis/prompt`, {
+        method: "get",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+    }).then((response: Response) => {
+        if(!response.ok) {
+            throw new Error('Error fetching prompts')
+        } else {
+            console.log("prompt model")
+            return response.json()
+        }
+
+    })
+
+    return PromptSchema.array().parse(data)
+}
+
+export async function fetchPromptByPromptDate(): Promise<Prompt[]> {
+    const date = new Date()
+    const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    const { data } = await fetch(`${process.env.PUBLIC_API_URL}/apis/prompt/promptDate/${formattedDate}`, {
+        method: "get",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+
+    }).then((response: Response) => {
+        if (!response.ok) {
+            throw new Error('Error fetching profile')
+        } else {
+            return response.json()
+        }
+
+    })
+
+    return PromptSchema.array().parse(data)
 
 }

@@ -25,6 +25,7 @@ CREATE TABLE prompt(
 prompt_id uuid not null,
 prompt_body varchar(128) not null,
 prompt_category varchar(32) not null,
+prompt_date timestamp with time zone not null,
 Primary Key (prompt_id)
 );
 
@@ -36,8 +37,8 @@ post_body varchar(200),
 post_date timestamp with time zone not null,
 post_image varchar,
 Primary Key (post_id),
-Foreign Key (post_profile_id) references profile(profile_id),
-Foreign Key (post_prompt_id) references prompt(prompt_id)
+Foreign Key (post_profile_id) references profile(profile_id) ON UPDATE CASCADE,
+Foreign Key (post_prompt_id) references prompt(prompt_id) ON UPDATE CASCADE
 );
 Create Index on post(post_profile_id);
 Create Index on post(post_prompt_id);
@@ -47,8 +48,8 @@ following_profile_id uuid not null,
 followed_profile_id uuid not null,
 follow_date_created timestamp with time zone not null,
 Primary Key (following_profile_id, followed_profile_id),
-Foreign Key (following_profile_id) references profile(profile_id),
-Foreign Key (followed_profile_id) references profile(profile_id)
+Foreign Key (following_profile_id) references profile(profile_id) ON UPDATE CASCADE,
+Foreign Key (followed_profile_id) references profile(profile_id) ON UPDATE CASCADE
 );
 Create Index on follow(following_profile_id);
 Create Index on follow(followed_profile_id);
@@ -58,8 +59,8 @@ like_post_id uuid not null,
 like_profile_id uuid not null,
 like_date timestamp with time zone not null,
 Primary Key (like_post_id, like_profile_id),
-Foreign Key (like_post_id) references post(post_id),
-Foreign Key (like_profile_id) references profile(profile_id)
+Foreign Key (like_post_id) references post(post_id) ON UPDATE CASCADE,
+Foreign Key (like_profile_id) references profile(profile_id) ON UPDATE CASCADE
 );
 Create Index on "like"(like_post_id);
 Create Index on "like"(like_profile_id);
@@ -72,8 +73,8 @@ notification_like_profile_id uuid not null,
 notification_date timestamp with time zone not null,
 notification_read boolean not null,
 Primary Key (notification_like_post_id, notification_profile_id, notification_like_profile_id),
-Foreign Key (notification_profile_id) references profile(profile_id),
-Foreign Key (notification_like_profile_id, notification_like_post_id) references "like"(like_profile_id, like_post_id)
+Foreign Key (notification_profile_id) references profile(profile_id) ON UPDATE CASCADE,
+Foreign Key (notification_like_profile_id, notification_like_post_id) references "like"(like_profile_id, like_post_id) ON UPDATE CASCADE
 );
 Create Index on notification(notification_profile_id);
 Create Index on notification(notification_like_profile_id, notification_like_post_id);

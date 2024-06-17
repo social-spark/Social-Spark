@@ -1,15 +1,18 @@
-import {Navigation} from "@/app/components/Navigation";
+'use client'
+
 import React from "react";
 import Image from "next/image";
 import cardTopImage from "@/app/images/card-top.jpg";
+import Page from "@/app/create-post/[promptId]/PostForm";
+
 
 export default function ProfileHeader () {
     return (
         <main>
-            <Navigation/>
+            <Page/>
 
             <div
-                className="container border-solid border-2 border-black grid grid-cols-2 gap-5 mx-auto sm:max-w-4xl max-w-sm rounded shadow-lg p-10 mt-5 mb-10">
+                className="container border-solid bg-white border-2 border-black grid grid-cols-2 gap-5 mx-auto sm:max-w-4xl max-w-sm rounded shadow-lg p-10 mt-5 mb-10">
 
                 <Image className="w-full" src={cardTopImage} alt="Sunset in the mountains"/>
                 <div className="flex items-center justify-center">
