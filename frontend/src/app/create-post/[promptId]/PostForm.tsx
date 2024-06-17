@@ -18,9 +18,10 @@ type Props = {
     session: Session
     prompt: Prompt
 }
-const FormSchema = PostSchema.omit({postImage: true}).extend({postImage:z.any()})
+const FormSchema = PostSchema.omit({postImage: true, postPromptId: true, postId: true, postDate: true, postProfileId: true}).extend({postImage:z.any().optional()})
 
-type Values = z.infer<typeof FormSchema>
+
+type FormValues = z.infer<typeof FormSchema>
 
 export function PostForm(props: Props ) {
     const session = props.session
@@ -28,15 +29,10 @@ export function PostForm(props: Props ) {
     const router = useRouter()
 
     const initialValues = {
-        postId: null,
-        postProfileId: session.profile.profileId,
-        postPromptId: prompt.promptId,
-        postBody: '',
-        postDate: null,
-        postImage: null
+        postBody: ''
     }
 
-    const handleSubmit = (values: Values, actions: FormikHelpers<Values>) => {
+    const handleSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
         console.log('handle submit is firing')
         const post = {
             postProfileId: session.profile.profileId,
@@ -101,6 +97,7 @@ export function PostForm(props: Props ) {
 
     return(
         <>
+
             <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={toFormikValidationSchema(FormSchema)}>
                 {PostFormContent}
             </Formik>
@@ -108,7 +105,7 @@ export function PostForm(props: Props ) {
     )
 }
 
-export function PostFormContent(props: FormikProps<Values>) {
+export function PostFormContent(props: FormikProps<FormValues>) {
     const {handleSubmit, handleChange, handleBlur, status, resetForm, errors, touched, setFieldTouched, setFieldValue, setFieldError, values} = props
     const [selectedImage, setSelectedImage] = React.useState<string|null>(null)
 
@@ -118,7 +115,6 @@ export function PostFormContent(props: FormikProps<Values>) {
                 <div
                     className="max-w-screen-lg rounded mx-auto">
                     <div className="pr-4 pl-6 py-4">
-                        {selectedImage &&  <img src={selectedImage} alt="image to upload"/>}
                         <ImageUploadDropZone
                             formikProps={{
                                 setFieldError,
@@ -129,6 +125,7 @@ export function PostFormContent(props: FormikProps<Values>) {
                                 fieldValue: 'postImage'
                             }}
                             setSelectedImage={setSelectedImage}
+                            selectedImage={selectedImage}
                         />
                         <DisplayUploadErrorProps errors={errors} field={'postImage'}/>
                         <div className="px-6 py-4 overflow-hidden border-2 dark:bg-gray-800">

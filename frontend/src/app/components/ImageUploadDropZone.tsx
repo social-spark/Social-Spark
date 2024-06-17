@@ -19,6 +19,7 @@ type Props = {
         setFieldTouched: FormikProps<unknown>[`setFieldTouched`],
     },
     setSelectedImage: React.Dispatch<React.SetStateAction<any>>,
+    selectedImage: any
 
 }
 
@@ -88,7 +89,7 @@ export function ImageUploadDropZone(props: Props) {
                     <span>Drop image here</span> :
                     <span>Drag and drop image or click on image to select an image.</span>
             }
-            <Image className="w-full mx-auto" src={uploadImage} alt="uploadImage"/><br/>
+            <Image className="w-full mx-auto" width={100} height={75} src={selectedImage ?? uploadImage} alt="uploadImage"/><br/>
         </div>
 
 

@@ -21,7 +21,7 @@ export default async function () {
     return (
         <>
             <main>
-                    {posts.map((post) => <PostCard key={post.postId} post={post}/>)}
+                    {posts.map((post) => <PostCard key={post.postId} post={post} session={session}/>)}
             </main>
         </>
 )

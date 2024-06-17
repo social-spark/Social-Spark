@@ -24,9 +24,9 @@ export default function ProfileHeader () {
                     </div>
 
 
-                    <div className="lg:col-start-2 lg:col-span-4 sm:pl-11 col-start-1 col-span-4">
-                        <Posts/>
-                    </div>
+                    {/*<div className="lg:col-start-2 lg:col-span-4 sm:pl-11 col-start-1 col-span-4">*/}
+                    {/*    <Posts/>*/}
+                    {/*</div>*/}
                 </div>
             </section>
 

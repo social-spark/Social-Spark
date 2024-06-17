@@ -8,7 +8,7 @@ export type Like = z.infer<typeof LikeSchema>
 /**
  * inserts a like into the like table and returns a message
  * @param like to be inserted
- * @returns 'Like successfully posted'
+ * @returns 'LikePost successfully posted'
  */
 export async function insertLike(like: Like): Promise<string> {
 
@@ -20,7 +20,7 @@ export async function insertLike(like: Like): Promise<string> {
               VALUES (${likeProfileId}, ${likePostId}, NOW())`
 
     // return a message to the user indicating success
-    return 'Like successfully posted'
+    return 'LikePost successfully posted'
 }
 
 /**
@@ -50,7 +50,7 @@ export async function selectLikeByLikeId(like: Like): Promise<Like | null> {
 /**
  * deletes a like from the like table and returns a message
  * @param like to be deleted
- * @returns 'Like successfully deleted'
+ * @returns 'LikePost successfully deleted'
  */
 export async function deleteLike(like: Like): Promise<string> {
 
@@ -64,7 +64,7 @@ export async function deleteLike(like: Like): Promise<string> {
                 AND like_post_id = ${likePostId}`
 
     // return a message to the user indicating success
-    return 'Like successfully deleted'
+    return 'LikePost successfully deleted'
 }
 
 
