@@ -17,10 +17,14 @@ export default async function Page(props: Props){
     return (
         <>
             <div className= "flex justify-center">
-            <div className="max-w-screen-lg rounded overflow-hidden bg-white mx-auto shadow-lg my-10 border border-slate-950">
-        <h1>{prompt.promptBody}</h1>
-        <PostForm session={session} prompt={prompt}/>
-            </div>
+                <div
+                    className="max-w-screen-lg rounded overflow-hidden bg-white mx-auto shadow-lg my-10 border border-slate-950 p-5">
+                    <h1 className="font-bold text-x-lg">Create Post</h1><br/>
+                    <p className="inline-flex items-center mr-3 text-md font-bold mb-2">#{prompt.promptCategory}
+                        <br/><br/>
+                        {prompt.promptBody}</p>
+                    <PostForm session={session} prompt={prompt}/>
+                </div>
             </div>
 
         </>

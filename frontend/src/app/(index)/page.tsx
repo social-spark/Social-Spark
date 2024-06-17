@@ -3,7 +3,6 @@ import {fetchAllPosts} from "@/utils/models/post.model";
 import {PostCard} from "@/app/(index)/PostCard";
 import {getSession} from "@/utils/fetchSession";
 import {redirect} from "next/navigation";
-import {PostForm} from "@/app/create-post/[promptId]/PostForm";
 import React from "react";
 
 

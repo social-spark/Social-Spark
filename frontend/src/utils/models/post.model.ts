@@ -6,7 +6,7 @@ export const PostSchema = z.object({
     postId: z.string({required_error: 'postId is required', invalid_type_error: 'postId must be a uuid or null'}).uuid({message: 'postId must be a uuid or null'}).nullable(),
     postProfileId: z.string({required_error: 'please provide a valid postProfileId', invalid_type_error: 'postProfileId must be a uuid'}).uuid({message: 'postProfileId must be a uuid'}),
     postPromptId: z.string({required_error: 'please provide a valid postPromptId', invalid_type_error: 'postPromptId must be a uuid'}).uuid({message: 'postPromptId must be a uuid'}),
-    postBody: z.string({required_error: 'please provide a valid postBody', invalid_type_error: 'postBody must be a string'}).max(200, {message: 'postBody must be at less than 200 character long'}),
+    postBody: z.string({required_error: 'Please type your post.', invalid_type_error: 'postBody must be a string'}).max(200, {message: 'postBody must be at less than 200 character long'}),
     postDate: z.coerce.date({required_error: 'please provide a valid postDate or null', invalid_type_error: 'postDate must be a date'}).nullable(),
     postImage: z.string({required_error: 'please provide a valid postImage or null', invalid_type_error: 'postImage must be a string'}).trim().url({message: 'please provide a valid URL for postImage'}).max(255, {message: 'please provide a valid postImage (max 255 characters)'}).nullable()
 })

@@ -22,7 +22,7 @@ export function Navigation(props: NavigationProps) {
     const [openModal, setOpenModal] = useState(false);
     return (
         <Navbar className="bg-white rounded-lg border border-slate-950">
-              <Navbar.Brand  href="#"><Image className="size-20" src={promptMeLogo} alt="placeholder logo"/></Navbar.Brand>
+              <Navbar.Brand  href="/"><Image className="size-20" src={promptMeLogo} alt="placeholder logo"/></Navbar.Brand>
             <Navbar.Toggle/>
             <Navbar.Collapse>
                 {session && (

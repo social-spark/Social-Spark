@@ -15,6 +15,7 @@ import {signOutRoute} from "./apis/sign-out/sign-out.route";
 
 import {postRoute} from "./apis/post/post.route";
 import {NotificationRoute} from "./apis/notification/notification.route";
+import {ImageRoute} from "./apis/image/image.route";
 
 
 
@@ -63,6 +64,7 @@ export class App {
         this.app.use(likeRoute.basePath, likeRoute.router)
         this.app.use(postRoute.basePath, postRoute.router)
         this.app.use(NotificationRoute.basePath, NotificationRoute.router)
+        this.app.use(ImageRoute.basePath, ImageRoute.router)
     }
 
     // starts the server and tells the terminal to post a message that the server is running and on what port

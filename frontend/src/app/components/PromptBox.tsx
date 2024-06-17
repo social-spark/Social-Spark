@@ -23,7 +23,7 @@ const { openModal, setOpenModal, prompts } = props;
           </Modal.Header>
           <Modal.Body>
             <ul className="mx-auto mt-6 grid max-w-screen-xl border-y border-gray-200 px-4 py-5 sm:grid-cols-2 md:grid-cols-3 md:px-6">
-              {prompts.map((prompt) => <PromptCard key={prompt.promptId} prompt={prompt} setOpenModal={setOpenModal} />)}
+              {prompts.map(prompt => <PromptCard key={prompt.promptId} prompt={prompt} setOpenModal={setOpenModal} />)}
             </ul>
           </Modal.Body>
           <Modal.Footer className="flex justify-end">
