@@ -59,7 +59,7 @@ export default function Page(){
             let type = 'failure'
             if (json.status === 200){
                 resetForm()
-                router.refresh()
+                router.push('/')
                 type = 'success'
             }
             setStatus({type,message: json.message})
