@@ -7,6 +7,7 @@ import React from "react";
 import {fetchLikesByPostId} from "@/utils/models/like.model";
 import {LikePost} from "@/app/components/LikePost";
 import {Session} from "node:inspector";
+import Link from "next/link";
 
 type Props = {
 	post: Post
@@ -30,10 +31,10 @@ export async function PostCard(props: Props) {
 					<img className="w-full" src={post.postImage} alt="Sunset in the mountains"/>
 					)}
 						<div className="pr-4 pl-2 py-4">
-							<p className="inline-flex items-center mr-3 text-sm font-semibold"><img
+							<Link href={`/profile/${profile.profileUsername}`}><p className="inline-flex items-center mr-3 text-sm font-semibold"><img
 								className="mr-2 w-10 h-10 rounded-full"
 								src={profile.profileImage ?? 'https://picsum.photos/seed/picsum/200/300'}
-								alt="profile image"/>{profile.profileUsername}</p>
+								alt="profile image"/>{profile.profileUsername}</p></Link>
 							<p className="text-sm text-gray-600 dark:text-gray-400">
 								<time dateTime="2022-02-08"
 									  title="February 8th, 2022">{post.postDate?.toLocaleString()}
