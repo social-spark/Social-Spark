@@ -1,14 +1,9 @@
 
-
-import {Navigation} from "@/app/components/Navigation";
-import {TextInput} from "flowbite-react";
 import React from "react";
-import {Posts} from "@/app/components/Posts";
 import {LeftNav} from "@/app/components/LeftNav";
 import profileImage from "@/app/images/profile.png";
 import setting from "@/app/images/settingsicon.png"
 import Image from "next/image";
-import {PromptBox} from "@/app/components/PromptBox";
 import {fetchProfileByUsername} from "@/utils/models/profile.model";
 import {redirect} from "next/navigation";
 import {getSession} from "@/utils/fetchSession";
@@ -32,7 +27,6 @@ export default async function ProfileHeader(props: Props)
         <main className="container mx-auto">
 
             <section className="flex flex-row md:flex-row pt-6 space-y-6 md:space-y-0 md:space-x-6">
-                <PromptBox/>
 
                 <div className="hidden  bg-amber-400 lg:inline-block">
                     <LeftNav/>
@@ -66,7 +60,7 @@ export default async function ProfileHeader(props: Props)
                         <p className="col-span-2 md:col-start-2 md:col-span-2 text-l pt-5">{profile.profileBio}</p>
 
                     </section>
-                    {posts.map((post) => <PostCard key={post.postId} post={post}/>)}
+                    {posts.map((post) => <PostCard key={post.postId} post={post} session={session}/>)}
                 </div>
 
             </section>

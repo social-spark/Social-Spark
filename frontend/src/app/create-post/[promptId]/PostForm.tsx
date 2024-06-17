@@ -67,7 +67,10 @@ export function PostForm(props: Props ) {
             if (json.status === 200) {
                 type ='success'
                 resetForm()
-                router.refresh()
+                setTimeout(() => {
+                    console.log("Delayed for 1 second.");
+                }, "1000");
+                router.push('/')
             }
             setStatus({type: type, message: json.message})
         })
