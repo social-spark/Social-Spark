@@ -23,7 +23,7 @@ export async function PostCard(props: Props) {
 							<p className="inline-flex items-center mr-3 text-sm font-semibold"><img
 								className="mr-2 w-6 h-6 rounded-full"
 								src={profile.profileImage ?? 'https://picsum.photos/seed/picsum/200/300'}
-								alt="profile image"/>{profile.profileUsername}</p>
+								alt="profile image"/>{profile.profileUsernameit }</p>
 							<p className="text-sm text-gray-600 dark:text-gray-400">
 								<time dateTime="2022-02-08"
 									  title="February 8th, 2022">{post.postDate?.toLocaleString()}
