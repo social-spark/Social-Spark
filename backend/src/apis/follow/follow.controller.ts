@@ -1,7 +1,6 @@
 import {Request, Response} from 'express'
 import {
     deleteFollow,
-    Follow,
     insertFollow, selectFollowByFollowedId,
     selectFollowsByFollowingProfileId,
     selectFollowsByFollowedProfileId
@@ -140,7 +139,7 @@ export async function deleteFollowController (request: Request, response: Respon
  * @param response object containing the status of the request and the follow that was inserted or deleted
  * @returns status object containing the status of the request and the follow that was inserted or deleted
  */
-export async function toggleFollowController (request: Request, response: Response): Promise<Response> {
+export async function toggleFollowController (request: Request, response: Response): Promise<Response<Status>> {
     try {
         const {followedProfileId} = request.body
         // @ts-ignore

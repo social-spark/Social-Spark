@@ -10,6 +10,8 @@ import {getSession} from "@/utils/fetchSession";
 import {fetchPostsByProfileId} from "@/utils/models/post.model";
 import {PostCard} from "@/app/(index)/PostCard";
 import Link from "next/link";
+import {FollowButton} from "@/app/profile/[profileUsername]/FollowButton";
+import {fetchFollowsByFollowingProfileId} from "@/utils/models/follow.model";
 
 type Props = {
     params:{
@@ -22,7 +24,7 @@ export default async function ProfileHeader(props: Props)
         const {profileUsername} = props.params
         const session = await getSession()
         const {profile, posts}=await getProfileAndPosts(profileUsername)
-
+        const follows = await fetchFollowsByFollowingProfileId(profile.profileId)
     return (
         <main className="container mx-auto">
 
@@ -44,10 +46,7 @@ export default async function ProfileHeader(props: Props)
                         </div>
 
                         <div className="md:col-start-3 flex items-center space-y-2 md:space-y-0 md:space-x-2 space-x-4">
-                            <button type="button"
-                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2 focus:outline-none">
-                                Follow
-                            </button>
+                            {session && <FollowButton follows={follows} session={session} profile = {profile}/>}
                             {session?.profile.profileUsername === profile.profileUsername && (
                                 <Link href="/edit-profile">
                             <button className="flex items-center justify-center">
@@ -78,52 +77,3 @@ export default async function ProfileHeader(props: Props)
         return {profile, posts}
     }
 
-// export default function ProfileHeader () {
-//     return (
-//         <main className="container mx-auto rounded-lg">
-//             <Navigation/>
-//         <PromptBox/>
-//
-//         <section className="grid grid-cols-3 md:grid-cols-3">
-//
-//
-//             <div className="grid grid-cols-subgrid gap-4 col-span-3 pt-6">
-//                 <section className="container border border-slate-950 rounded-lg col-start-1 col-span-3 bg-white">
-//
-//                     <div className="grid md:grid-cols-4 grid-cols-3 ">
-//                         <Image className="object-scale-down h-36 w-36 p-5" src={profile} alt="Sunset in the mountains"/>
-//
-//                         <div className="col-start-2">
-//                             <p className="py-1">@UserName</p>
-//                             <p className="py-1">Full Name</p>
-//                             <TextInput id="Bio" type="Bio" placeholder="Bio" className="py-3"/>
-//                         </div>
-//
-//                         <div
-//                             className="md:col-start-4 col-start-3 md:flex md:flex-row flex flex-col flex-wrap place-content-evenly">
-//                             <button type="button"
-//                                     className="self-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Follow
-//                             </button>
-//                             <button className="w-30 mx-auto">
-//                                 <Image className="" width={30}
-//                                        height={30} src={setting} alt="setting icon"/>
-//                             </button>
-//                         </div>
-//                     </div>
-//                 </section>
-//
-//                 <div className="hidden lg:block">
-//                     <LeftNav/>
-//                 </div>
-//
-//
-//                 <div className="lg:col-start-2 lg:col-span-4 sm:pl-11 col-start-1 col-span-4">
-//                     <Posts/>
-//                 </div>
-//             </div>
-//         </section>
-//
-//
-//         </main>
-//     )
-// }
