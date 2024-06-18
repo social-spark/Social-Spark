@@ -30,6 +30,7 @@ export default async function ProfileHeader(props: Props)
 
             <section className="flex flex-row md:flex-row pt-6 space-y-6 md:space-y-0 md:space-x-6">
 
+
                 <div className="hidden  bg-amber-400 lg:inline-block">
                     <LeftNav/>
                 </div>
@@ -38,7 +39,7 @@ export default async function ProfileHeader(props: Props)
                 <div className="flex-1">
                     <section className="grid grid-cols-2 md:grid md:grid-cols-3 border border-slate-950 bg-gray-300 rounded-lg p-6 md:space-x-6"
                         id="profile-header">
-                        <Image className="object-scale-down h-36 w-36 row-span-2 " src={profile.profileImage ?? profileImage} alt="Profile picture"/>
+                        <Image className="object-scale-down h-36 w-36 row-span-2 " width={36} height={36} src={profile.profileImage ?? profileImage} alt="Profile picture"/>
 
                         <div className="col-start-2  space-y-2 md:space-y-0">
                             <p className="py-1 text-2xl font-bold">@{profile.profileUsername}</p>

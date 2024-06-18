@@ -8,7 +8,7 @@ import {useRouter} from "next/navigation";
 import {toFormikValidationSchema} from "zod-formik-adapter";
 import {FormDebugger} from "@/app/components/FormDebugger";
 import {DisplayError} from "@/app/components/DisplayError";
-import {DisplayStatus} from "@/app/components/navigation/DisplayStatus";
+import {DisplayStatus} from "@/app/components/DisplayStatus";
 import Link from "next/link";
 import {Nav} from "@/app/components/Nav";
 

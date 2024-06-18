@@ -25,3 +25,4 @@ WHERE profile_id = '1c2240b0-13b2-443e-9be7-ab020d41a565';
 
 INSERT INTO post (post_id, post_image, post_body, post_date, post_profile_id, post_prompt_id)
 VALUES (gen_random_uuid(), 'https://example.com/image.jpg', 'How has the music industry changed with the rise of digital platforms?',  now(), 'f3c1b16d-8904-46fd-b9d3-03fb4553eebe', 'dfd2a246-c563-4564-ba51-c62c6c59220c');
+update prompt set prompt_date = now();
