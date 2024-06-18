@@ -1,3 +1,4 @@
+
 'use client'
 
 import {Session} from "@/utils/fetchSession";
@@ -6,7 +7,7 @@ import {Post, PostSchema} from "@/utils/models/post.model";
 import {z} from "zod";
 import {Formik, FormikHelpers, FormikProps} from "formik";
 import {DisplayError} from "@/app/components/DisplayError";
-import {DisplayStatus} from "@/app/components/navigation/DisplayStatus";
+import {DisplayStatus} from "@/app/components/DisplayStatus";
 import {toFormikValidationSchema} from "zod-formik-adapter";
 import {FormDebugger} from "@/app/components/FormDebugger";
 import {Prompt} from "@/utils/models/prompt.model";
