@@ -38,7 +38,7 @@ export async function selectPromptByPromptId(promptId: string): Promise<Prompt |
 }
 
 export async function selectAllPromptsByCategory(promptCategory: string): Promise<Prompt[]> {
-    const result = await sql<Prompt[]>`SELECT prompt_id, prompt_category, prompt_body, promt_date
+    const result = await sql<Prompt[]>`SELECT prompt_id, prompt_category, prompt_body, prompt_date
                                        FROM prompt
                                        WHERE prompt_category = ${promptCategory}`
    return PromptSchema.array().parse(result)
