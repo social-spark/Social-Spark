@@ -31,7 +31,7 @@ export default async function (props: Props)
         const [session, posts, {followers, followerIds}, {following,followingIds}] = await Promise.all([getSession(), fetchPostsByProfileId(profile.profileId), grabFollowers(), grabFollowing()])
 
    async function grabFollowers(){
-       const followerIds = await fetchFollowsByFollowedProfileId(profile.profileId)
+       const followerIds = await fetchFollowsByFollowingProfileId(profile.profileId)
        const profiles = []
        for(let follower of followerIds){
            profiles.push(await fetchProfileByProfileId(follower.followedProfileId))
@@ -39,7 +39,7 @@ export default async function (props: Props)
        return {followers:profiles, followerIds}
    }
     async function grabFollowing() {
-        const followingIds = await fetchFollowsByFollowingProfileId(profile.profileId)
+        const followingIds = await fetchFollowsByFollowedProfileId(profile.profileId)
         const profiles = []
         for(let following of followingIds){
             profiles.push(await fetchProfileByProfileId(following.followingProfileId))
