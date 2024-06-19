@@ -1,9 +1,9 @@
 import {Request, Response} from 'express'
 import {
     deleteFollow,
-    insertFollow, selectFollowByFollowedId,
+    insertFollow, selectFollowByFollowId,
     selectFollowsByFollowingProfileId,
-    selectFollowsByFollowedProfileId
+    selectFollowsByFollowedProfileId, Follow
 } from "./follow.model";
 import {Status} from "../../utils/interfaces/Status";
 import {zodErrorResponse} from "../../utils/response.utils";
@@ -158,7 +158,7 @@ export async function toggleFollowController (request: Request, response: Respon
             data: null
         }
 
-        const selectedFollow = await selectFollowByFollowedId(follow)
+        const selectedFollow = await selectFollowByFollowId(follow)
 
         if(selectedFollow === null) {
             status.message = await insertFollow(follow)

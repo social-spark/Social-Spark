@@ -1,10 +1,21 @@
 "use client";
 import trending from "@/app/images/trending.png"
 import friends from "@/app/images/friends.png"
-import {Navbar, Sidebar} from "flowbite-react";
+import {Sidebar} from "flowbite-react";
 import Image from "next/image";
+import React from "react";
+import {FollowUsername} from "@/app/components/FollowUsername";
+import {Profile} from "@/utils/models/profile.model";
 
-export function LeftNav() {
+
+type Props = {
+    followers: Profile[]
+    followings: Profile[]
+}
+
+
+export function LeftNav(props: Props) {
+    const {followers, followings} = props
     return (
         <Sidebar aria-label="Sidebar with content separator example" className="sticky top-0 h-screen border bg-amber-400">
             <Sidebar.Items className={""}>
@@ -13,14 +24,16 @@ export function LeftNav() {
                         Prompt Friends
                     </Sidebar.Item>
                     <Sidebar.Item href="#">
-                        Following:
-                        <div className="underline decoration-blue-400 text-center">username</div>
-                        <div className="underline decoration-blue-400 text-center">username</div>
+                        Following: {followings.length}
+                        {followings.slice(0, 2).map(profile =>
+                        <div key={`1-${profile.profileId}`} className="underline decoration-blue-400 text-center">{profile.profileUsername}</div>)}
+
+
                     </Sidebar.Item>
                     <Sidebar.Item href="#">
-                        Followers:
-                        <div className="underline decoration-blue-400 text-center">username</div>
-                        <div className="underline decoration-blue-400 text-center">username</div>
+                        Followers: {followers.length}
+                        {followers.slice(0, 2).map(profile =>
+                            <div key={`2-${profile.profileId}`} className="underline decoration-blue-400 text-center">{profile.profileUsername}</div>)}
                     </Sidebar.Item>
                 </Sidebar.ItemGroup>
                 <Sidebar.ItemGroup className="text-center">

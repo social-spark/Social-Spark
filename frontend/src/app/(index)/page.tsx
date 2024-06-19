@@ -9,7 +9,7 @@ import React from "react";
 export default async function () {
 
     const session = await getSession()
-    if(session === undefined) {
+    if(session === null) {
         return redirect('/sign-in')
     }
 

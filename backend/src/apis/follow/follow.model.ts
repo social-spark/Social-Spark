@@ -28,8 +28,8 @@ export async function insertFollow(follow: Follow): Promise<string> {
  * @param follow to be selected by followId
  * @returns the follow that was selected
  */
-export async function selectFollowByFollowedId(follow: Follow): Promise<Follow | null> {
-
+export async function selectFollowByFollowId(follow: Follow): Promise<Follow | null> {
+ console.log("follow model backend line 32", follow)
     // deconstruct the follow object
     const {followingProfileId, followedProfileId} = follow
 
@@ -41,7 +41,7 @@ export async function selectFollowByFollowedId(follow: Follow): Promise<Follow |
 
     // parse the result into an array of follows
     const result = FollowSchema.array().max(1).parse(rowList)
-
+    console.log("follow model backend line 44", result)
     // return the follow that was selected
     return result.length === 0 ? null : result[0]
 }

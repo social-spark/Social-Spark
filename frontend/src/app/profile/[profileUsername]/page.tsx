@@ -4,27 +4,48 @@ import {LeftNav} from "@/app/components/LeftNav";
 import profileImage from "@/app/images/profile.png";
 import setting from "@/app/images/settingsicon.png"
 import Image from "next/image";
-import {fetchProfileByUsername} from "@/utils/models/profile.model";
+import {fetchProfileByProfileId, fetchProfileByUsername, Profile} from "@/utils/models/profile.model";
 import {redirect} from "next/navigation";
 import {getSession} from "@/utils/fetchSession";
 import {fetchPostsByProfileId} from "@/utils/models/post.model";
 import {PostCard} from "@/app/(index)/PostCard";
 import Link from "next/link";
 import {FollowButton} from "@/app/profile/[profileUsername]/FollowButton";
-import {fetchFollowsByFollowingProfileId} from "@/utils/models/follow.model";
+import {fetchFollowsByFollowedProfileId, fetchFollowsByFollowingProfileId} from "@/utils/models/follow.model";
 
 type Props = {
     params:{
         profileUsername: string
     }
 }
-export default async function ProfileHeader(props: Props)
+
+export default async function (props: Props)
 {
 
         const {profileUsername} = props.params
-        const session = await getSession()
-        const {profile, posts}=await getProfileAndPosts(profileUsername)
-        const follows = await fetchFollowsByFollowingProfileId(profile.profileId)
+    const profile = await fetchProfileByUsername (profileUsername) as Profile
+    if (profile === null) {
+        return (redirect('/404'))
+    }
+
+        const [session, posts, {followers, followerIds}, {following,followingIds}] = await Promise.all([getSession(), fetchPostsByProfileId(profile.profileId), grabFollowers(), grabFollowing()])
+
+   async function grabFollowers(){
+       const followerIds = await fetchFollowsByFollowedProfileId(profile.profileId)
+       const profiles = []
+       for(let follower of followerIds){
+           profiles.push(await fetchProfileByProfileId(follower.followedProfileId))
+       }
+       return {followers:profiles, followerIds}
+   }
+    async function grabFollowing() {
+        const followingIds = await fetchFollowsByFollowingProfileId(profile.profileId)
+        const profiles = []
+        for(let following of followingIds){
+            profiles.push(await fetchProfileByProfileId(following.followingProfileId))
+        }
+        return {following:profiles, followingIds}
+    }
     return (
         <main className="container mx-auto">
 
@@ -32,7 +53,7 @@ export default async function ProfileHeader(props: Props)
 
 
                 <div className="hidden  bg-amber-400 lg:inline-block">
-                    <LeftNav/>
+                    <LeftNav followers={followers} followings={following}/>
                 </div>
 
 
@@ -47,7 +68,7 @@ export default async function ProfileHeader(props: Props)
                         </div>
 
                         <div className="md:col-start-3 flex items-center space-y-2 md:space-y-0 md:space-x-2 space-x-4">
-                            {session && <FollowButton follows={follows} session={session} profile = {profile}/>}
+                            {session && <FollowButton follows={followerIds} session={session} profile = {profile}/>}
                             {session?.profile.profileUsername === profile.profileUsername && (
                                 <Link href="/edit-profile">
                             <button className="flex items-center justify-center">
@@ -69,12 +90,4 @@ export default async function ProfileHeader(props: Props)
     );
 }
 
-    export async function getProfileAndPosts(profileUsername: string) {
-        const profile = await fetchProfileByUsername (profileUsername)
-        if (profile === null) {
-            return (redirect('/404'))
-        }
-        const posts = await fetchPostsByProfileId(profile.profileId)
-        return {profile, posts}
-    }
 

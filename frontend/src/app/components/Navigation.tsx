@@ -11,6 +11,7 @@ import Link from "next/link";
 import {useState} from "react";
 import {PromptBox} from "@/app/components/PromptBox";
 import {fetchAllPrompts, Prompt} from "@/utils/models/prompt.model";
+import websiteName from "@/app/images/Prompt-Me-5.jpg"
 
 type NavigationProps = {
     session: any
@@ -22,12 +23,14 @@ export function Navigation(props: NavigationProps) {
     const [openModal, setOpenModal] = useState(false);
     return (
         <Navbar className="bg-white rounded-lg border border-slate-950">
-              <Navbar.Brand  href="/"><Image className="size-20" src={promptMeLogo} alt="placeholder logo"/></Navbar.Brand>
+              <Navbar.Brand  href="/"><Image className="size-20" src={promptMeLogo} alt="placeholder logo"/>
+              <Image className="float-right" src={websiteName} alt="thanks Olivia"/>
+              </Navbar.Brand>
             <Navbar.Toggle/>
             <Navbar.Collapse>
                 {session && (
                     <>
-                    <Navbar.Link href="#"><Image className="size-7" src={notify} alt="notification icon"/></Navbar.Link>
+                    {/*<Navbar.Link href="#"><Image className="size-7" src={notify} alt="notification icon"/></Navbar.Link>*/}
                     {/*<Navbar.Link href="#">*/}
                         <button onClick={() => setOpenModal(true)}>
                         <Image className="size-7" src={addicon} alt="add prompt icon"/>
@@ -36,7 +39,7 @@ export function Navigation(props: NavigationProps) {
                     {/*</Navbar.Link>*/}
                     </>
                 )}
-                <Navbar.Link href="#"><Image className="size-7" src={search} alt="search icon"/></Navbar.Link>
+                {/*<Navbar.Link href="#"><Image className="size-7" src={search} alt="search icon"/></Navbar.Link>*/}
                 {session && (
                     <>
                         <Navbar.Link href={`/profile/${session.profile.profileUsername}`}><Image className="size-7" src={profile} alt="profile icon"/></Navbar.Link>

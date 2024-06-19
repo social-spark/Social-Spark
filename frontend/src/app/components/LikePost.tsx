@@ -8,7 +8,7 @@ import {Post} from "@/utils/models/post.model";
 import {Session} from "@/utils/fetchSession";
 import {useRouter} from "next/navigation";
 type LikeProps = {
-    session: Session
+    session: Session | undefined
     likes: Like[]
     postId: string
 }
@@ -21,9 +21,9 @@ export function LikePost(props: LikeProps) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "authorization": `${session.authorization}`
+                "authorization": `${session?.authorization}`
             },
-            body: JSON.stringify({likePostId: postId, likeProfileId: session.profile.profileId, likeDate: null})
+            body: JSON.stringify({likePostId: postId, likeProfileId: session?.profile.profileId, likeDate: null})
         }).then(response => response.json()).then(json => {
             let type = 'failure'
             if (json.status === 200) {
@@ -34,9 +34,9 @@ export function LikePost(props: LikeProps) {
     }
 
     return (
-        <button className="float-right pr-10">
+        <button disabled={session === undefined} className="float-right pr-10">
             <br/>
-            <Image className={`hover:bg-[#42AEEE] rounded-full size-6 ${likes.filter(like=>like.likeProfileId===session.profile.profileId).length && 'bg-[#42AEEE]'}`} src={liked} alt="liked icon" onClick={toggleLike}/>
+            <Image className={`hover:bg-[#42AEEE] rounded-full size-6 ${likes.filter(like=>like.likeProfileId===session?.profile.profileId).length && 'bg-[#42AEEE]'}`} src={liked} alt="liked icon" onClick={toggleLike}/>
             <p>{likes.length}</p>
         </button>
     );

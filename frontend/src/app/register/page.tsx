@@ -10,7 +10,6 @@ import {FormDebugger} from "@/app/components/FormDebugger";
 import {DisplayError} from "@/app/components/DisplayError";
 import {DisplayStatus} from "@/app/components/DisplayStatus";
 import Link from "next/link";
-import {Nav} from "@/app/components/Nav";
 
 
 
@@ -107,7 +106,6 @@ function SignUpFormContent(props: FormikProps<FormSchema>) {
 
     return (
         <>
-            <Nav/>
             <form onSubmit={handleSubmit} className="flex-col gap-4 flex py-30 items-center">
                 <div>
                     <div className="mb-2 block">

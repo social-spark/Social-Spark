@@ -5,7 +5,7 @@ import {LikeSchema} from "@/utils/models/like.model";
 export const FollowSchema = z.object({
     followingProfileId: z.string({required_error: 'please provide a valid followingProfileId'}).uuid({message: 'please provide a valid uuid for followingProfileId'}),
     followedProfileId: z.string({required_error: 'please provide a valid followedProfileId'}).uuid({message: 'please provide a valid uuid for followedProfileId'}),
-    followDateCreated: z.date({required_error: 'please provide a valid followDateCreated or null'}).nullable(),
+    followDateCreated: z.coerce.date({required_error: 'please provide a valid followDateCreated or null'}).nullable(),
 })
 
 export type Follow = z.infer<typeof FollowSchema>

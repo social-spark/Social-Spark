@@ -6,12 +6,12 @@ import cardTopImage from "@/app/images/card-top.jpg"
 import React from "react";
 import {fetchLikesByPostId} from "@/utils/models/like.model";
 import {LikePost} from "@/app/components/LikePost";
-import {Session} from "node:inspector";
 import Link from "next/link";
+import {Session} from "@/utils/fetchSession";
 
 type Props = {
 	post: Post
-	session: Session
+	session: Session | undefined
 }
 
 export async function PostCard(props: Props) {
@@ -44,7 +44,7 @@ export async function PostCard(props: Props) {
 							<p className="inline-flex items-center mr-3 text-sm font-bold mb-2">{prompt.promptBody}</p>
 							<p className="text-gray-500 dark:text-gray-400">{post.postBody}</p>
 
-							<LikePost likes={likes} postId={post.postId} session={session}/>
+							<LikePost likes={likes} postId={post.postId as string} session={session}/>
 						</div>
 					</div>
 			</div>
