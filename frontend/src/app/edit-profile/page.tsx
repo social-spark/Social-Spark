@@ -20,15 +20,14 @@ export default async function () {
 
 
     return (
-
+<>
             <div className="container border-solid bg-white border-2 border-black grid grid-cols-2 gap-5 mx-auto sm:max-w-4xl max-w-sm rounded shadow-lg p-10 mt-5 mb-10">
             <EditProfileForm session={session}
             profile={profile}
             />
 
-
             </div>
-
+</>
     )
 }
 

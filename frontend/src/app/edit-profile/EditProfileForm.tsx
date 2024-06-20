@@ -34,7 +34,7 @@ export function EditProfileForm(props: Props) {
     const initialValues = {
         profileFullName: profile.profileFullName,
         profileBio: profile.profileBio ?? '',
-        profileImage: profile.profileImage ?? '',
+        profileImage: profile?.profileImage ?? '',
         profileUsername: profile.profileUsername,
         profileEmail: profile.profileEmail
 
@@ -136,6 +136,7 @@ export function EditProfileForm(props: Props) {
     }
 
 
+    // @ts-ignore
     return (
         <Formik
             initialValues={initialValues}
@@ -143,14 +144,15 @@ export function EditProfileForm(props: Props) {
             onSubmit={handleSubmit}
             validationSchema={toFormikValidationSchema(FormSchema)}
         >
-            // @ts-ignore
-            {EditProfileFormContent}
+            {
+                EditProfileFormContent
+            }
         </Formik>
     )
 }
 
 
-export function EditProfileFormContent(props: FormikProps<FormValues>) {
+export function EditProfileFormContent(props: FormikProps<any>) {
     const {status, values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue, setFieldError, setFieldTouched, initialValues} = props
 
     const [selectedImage, setSelectedImage] = React.useState<string|null>(initialValues.profileImage )
