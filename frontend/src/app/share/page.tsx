@@ -1,7 +1,7 @@
 'use client'
 import profile from '@/app/images/profile.png'
 import Image from "next/image";
-import {Post} from "@/app/components/Post";
+
 
 
 
@@ -17,7 +17,6 @@ export default function Share() {
                         <p className=" text-sm text-gray-600">Full Name</p>
                     </div>
                 </div>
-                <Post/>
                 <div className="mt-6 flex items-center justify-end">
                     <button type="submit"
                             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Share

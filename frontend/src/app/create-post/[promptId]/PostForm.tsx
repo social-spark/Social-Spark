@@ -70,7 +70,7 @@ export function PostForm(props: Props ) {
                 resetForm()
                 setTimeout(() => {
                     console.log("Delayed for 1 second.");
-                }, "1000");
+                }, 1000);
                 router.push('/')
             }
             setStatus({type: type, message: json.message})

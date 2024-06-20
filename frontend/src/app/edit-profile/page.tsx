@@ -9,9 +9,9 @@ import {fetchProfileByProfileId, fetchProfileByUsername} from "@/utils/models/pr
 import {redirect} from "next/navigation";
 
 
-export default async function (profileName: string) {
+export default async function () {
     const session = await getSession()
-    if(session === undefined) {
+    if(session === null) {
         return redirect('/sign-in')
     }
     const profile = await fetchProfileByProfileId(session.profile.profileId)

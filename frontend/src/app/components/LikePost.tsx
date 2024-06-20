@@ -8,7 +8,7 @@ import {Post} from "@/utils/models/post.model";
 import {Session} from "@/utils/fetchSession";
 import {useRouter} from "next/navigation";
 type LikeProps = {
-    session: Session | undefined
+    session: Session | null
     likes: Like[]
     postId: string
 }

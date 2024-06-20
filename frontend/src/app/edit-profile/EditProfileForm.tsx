@@ -33,8 +33,8 @@ export function EditProfileForm(props: Props) {
 
     const initialValues = {
         profileFullName: profile.profileFullName,
-        profileBio: profile.profileBio,
-        profileImage: profile.profileImage,
+        profileBio: profile.profileBio ?? '',
+        profileImage: profile.profileImage ?? '',
         profileUsername: profile.profileUsername,
         profileEmail: profile.profileEmail
 
@@ -135,12 +135,15 @@ export function EditProfileForm(props: Props) {
         }
     }
 
+
     return (
         <Formik
             initialValues={initialValues}
+            // @ts-ignore
             onSubmit={handleSubmit}
             validationSchema={toFormikValidationSchema(FormSchema)}
         >
+            // @ts-ignore
             {EditProfileFormContent}
         </Formik>
     )

@@ -10,7 +10,7 @@ export default async function Page(props: Props){
 
     const session = await getSession()
     const prompt = await fetchPromptByPromptId(props.params.promptId)
-    if(session === undefined) {
+    if(session === null) {
         return redirect('/sign-in')
     }
 

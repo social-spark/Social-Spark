@@ -11,7 +11,7 @@ import {Session} from "@/utils/fetchSession";
 
 type Props = {
 	post: Post
-	session: Session | undefined
+	session: Session | null
 }
 
 export async function PostCard(props: Props) {
