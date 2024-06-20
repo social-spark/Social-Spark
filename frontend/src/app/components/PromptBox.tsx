@@ -4,7 +4,7 @@ import { Button, Modal } from "flowbite-react";
 import React, { useState } from "react";
 import {Prompt} from "@/utils/models/prompt.model";
 import {PromptCard} from "@/app/components/PromptCard";
-import {PostCard} from "@/app/(index)/PostCard";
+
 type PromptBoxProps = {
     openModal: boolean;
     setOpenModal: (value: boolean) => void;
